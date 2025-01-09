@@ -1,0 +1,7 @@
+.clang-format
+.clang-tidy
+.idea
+articles
+cmake-build-debug-geant4
+construction_schemes
+build
