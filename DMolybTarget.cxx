@@ -14,7 +14,7 @@ int main(const int argc, char** argv) {
     auto* run_manager = new G4RunManager();
     run_manager->SetUserInitialization(new MolybdenumDetectorConstruction());
     run_manager->SetUserInitialization(new MolybdenumPhysicsList());
-    // run_manager->SetUserInitialization(new MolybdenumActionInitialization());
+    run_manager->SetUserInitialization(new MolybdenumActionInitialization());
     run_manager->Initialize();
 
     auto* ui_executive = new G4UIExecutive(argc, argv);
@@ -24,12 +24,14 @@ int main(const int argc, char** argv) {
 
     G4UImanager* ui_manager = G4UImanager::GetUIpointer();
     ui_manager->ApplyCommand("/vis/open OGL");
-    ui_manager->ApplyCommand("/vis/viewer/set/viewpointVector 1 1 1");
+    // ui_manager->ApplyCommand("/vis/viewer/set/viewpointVector 1 1 1");
     ui_manager->ApplyCommand("/vis/drawVolume");
     ui_manager->ApplyCommand("/vis/viewer/autoRefresh true");
     ui_manager->ApplyCommand("/vis/scene/add/trajectories smooth");
-    ui_manager->ApplyCommand("/vis/scene/endofEventAction accumulate");
-    ui_manager->ApplyCommand("/vis/scene/add/axes");
+    ui_manager->ApplyCommand("/vis/scene/endOfEventAction accumulate");
+    // ui_manager->ApplyCommand("/vis/scene/add/axes");
+    ui_manager->ApplyCommand("/vis/modeling/trajectories/create/drawByParticleID 0");
+
 
     ui_executive->SessionStart();
     return 0;

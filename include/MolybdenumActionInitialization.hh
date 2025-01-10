@@ -2,9 +2,10 @@
 #define MOLYBDENUMPRIMARYACTIONINITIALIZATION_HH
 
 #include "G4VUserActionInitialization.hh"
+#include "MolybdenumPrimaryGeneratorAction.hh"
 
 class MolybdenumActionInitialization final : public G4VUserActionInitialization {
-public:
+    public:
     MolybdenumActionInitialization();
     ~MolybdenumActionInitialization() override;
 
@@ -12,4 +13,4 @@ public:
     void BuildForMaster() const override;
 };
 
-#endif //MOLYBDENUMPRIMARYACTIONINITIALIZATION_HH
+#endif // MOLYBDENUMPRIMARYACTIONINITIALIZATION_HH

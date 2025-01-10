@@ -1,18 +1,16 @@
 #ifndef MOLYBDENUMPHYSICSLIST_HH
 #define MOLYBDENUMPHYSICSLIST_HH
 
-#include "G4VModularPhysicsList.hh"
+#include "G4HadronPhysicsQGSP_BIC_HP.hh"
+#include "G4HadronPhysicsQGSP_BIC_AllHP.hh"
 #include "G4EmStandardPhysics_option3.hh"
-#include "G4HadronInelasticQBBC_ABLA.hh"
-#include "G4HadronPhysicsQGSP_BERT.hh"
-#include "G4RadioactiveDecay.hh"
-#include "G4Radioactivation.hh"
+#include "G4VModularPhysicsList.hh"
+
 
 class MolybdenumPhysicsList final : public G4VModularPhysicsList {
-public:
+    public:
     MolybdenumPhysicsList();
     ~MolybdenumPhysicsList() override;
-
 };
 
-#endif //MOLYBDENUMPHYSICSLIST_HH
+#endif // MOLYBDENUMPHYSICSLIST_HH
