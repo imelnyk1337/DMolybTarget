@@ -214,7 +214,7 @@ void MolybdenumDetectorConstruction::BuildTargetBodyRearPart() {
     // Visual attributes for the logical volume of the target body rear part
     auto* target_body_rear_part_vis_attr = new G4VisAttributes(true);
     const std::vector<G4double> target_body_rear_part_colours =
-        convert_rgba_to_percents(std::vector{165., 169., 180., 0.7});
+        functions::convert_rgba_to_percents(std::vector{165., 169., 180., 0.7});
     target_body_rear_part_vis_attr->SetColour(target_body_rear_part_colours[0], target_body_rear_part_colours[1],
                                               target_body_rear_part_colours[2], target_body_rear_part_colours[3]);
     logical_target_body_rear_part->SetVisAttributes(target_body_rear_part_vis_attr);
@@ -247,7 +247,7 @@ void MolybdenumDetectorConstruction::BuildWaterCooler() {
 
     auto* water_cooler_alum_vis_attr = new G4VisAttributes(true);
     const std::vector<G4double> water_cooler_alum_colours =
-        convert_rgba_to_percents(std::vector{165., 169., 180., 0.7});
+        functions::convert_rgba_to_percents(std::vector{165., 169., 180., 0.7});
     water_cooler_alum_vis_attr->SetColour(water_cooler_alum_colours[0], water_cooler_alum_colours[1],
                                           water_cooler_alum_colours[2], water_cooler_alum_colours[3]);
     logical_water_cooler_alum->SetVisAttributes(water_cooler_alum_vis_attr);
@@ -259,11 +259,12 @@ void MolybdenumDetectorConstruction::BuildWaterCooler() {
     // Now I have to create the water itself
     G4RotationMatrix* solid_water_flow_rotation = new G4RotationMatrix();
     solid_water_flow_rotation->rotateX(std::numbers::pi / 2 * rad);
-    solid_water_flow = new G4DisplacedSolid("solid_water_flow", solid_water_cooler_hollow, solid_water_flow_rotation, G4ThreeVector());
+    solid_water_flow =
+        new G4DisplacedSolid("solid_water_flow", solid_water_cooler_hollow, solid_water_flow_rotation, G4ThreeVector());
 
     logical_water_flow        = new G4LogicalVolume(solid_water_flow, water_material, "logical_water_flow");
     auto* water_flow_vis_attr = new G4VisAttributes(true);
-    const std::vector<G4double> water_flow_colours = convert_rgba_to_percents(std::vector{0., 0., 255., .5});
+    const std::vector<G4double> water_flow_colours = functions::convert_rgba_to_percents(std::vector{0., 0., 255., .5});
     water_flow_vis_attr->SetColour(water_flow_colours[0], water_flow_colours[1], water_flow_colours[2],
                                    water_flow_colours[3]);
     logical_water_flow->SetVisAttributes(water_flow_vis_attr);
@@ -300,7 +301,7 @@ void MolybdenumDetectorConstruction::BuildTargetBodyFrontPart() {
     // Visual attributes for the logical target body front part
     auto* target_body_front_part_vis_attr = new G4VisAttributes(true);
     const std::vector<G4double> target_body_front_part_colours =
-        convert_rgba_to_percents(std::vector{165., 169., 180., 0.7});
+        functions::convert_rgba_to_percents(std::vector{165., 169., 180., 0.7});
     target_body_front_part_vis_attr->SetColour(target_body_front_part_colours[0], target_body_front_part_colours[1],
                                                target_body_front_part_colours[2], target_body_front_part_colours[3]);
     logical_target_body_front_part->SetVisAttributes(target_body_front_part_vis_attr);
@@ -329,8 +330,9 @@ void MolybdenumDetectorConstruction::BuildCopperHolder() {
 
     logical_copper_holder = new G4LogicalVolume(solid_copper_holder, copper_material, "logical_copper_holder");
 
-    auto* copper_holder_vis_attr                     = new G4VisAttributes(true);
-    const std::vector<G4double> copper_holder_colors = convert_rgba_to_percents(std::vector{184., 115., 51., 0.8});
+    auto* copper_holder_vis_attr = new G4VisAttributes(true);
+    const std::vector<G4double> copper_holder_colors =
+        functions::convert_rgba_to_percents(std::vector{184., 115., 51., 0.8});
     copper_holder_vis_attr->SetColour(copper_holder_colors[0], copper_holder_colors[1], copper_holder_colors[2],
                                       copper_holder_colors[3]);
 
@@ -348,8 +350,9 @@ void MolybdenumDetectorConstruction::BuildMolybdenumTablet() {
     logical_molybdenum100_tablet =
         new G4LogicalVolume(solid_molybdenum100_tablet, molybdenum100_material, "logical_molybdenum100_tablet");
 
-    auto* molybdenum100_vis_attr                      = new G4VisAttributes(true);
-    const std::vector<G4double> molybdenum100_colours = convert_rgba_to_percents(std::vector{187., 187., 187., 1.});
+    auto* molybdenum100_vis_attr = new G4VisAttributes(true);
+    const std::vector<G4double> molybdenum100_colours =
+        functions::convert_rgba_to_percents(std::vector{187., 187., 187., 1.});
     molybdenum100_vis_attr->SetColour(molybdenum100_colours[0], molybdenum100_colours[1], molybdenum100_colours[2],
                                       molybdenum100_colours[3]);
 
@@ -375,7 +378,8 @@ void MolybdenumDetectorConstruction::BuildHeliumSpace() {
 
     logical_helium_space        = new G4LogicalVolume(solid_helium_space, helium_material, "logical_helium_space");
     auto* helium_space_vis_attr = new G4VisAttributes(true);
-    const std::vector<G4double> helium_space_colors = convert_rgba_to_percents(std::vector{163., 197., 226., 0.3});
+    const std::vector<G4double> helium_space_colors =
+        functions::convert_rgba_to_percents(std::vector{163., 197., 226., 0.3});
     helium_space_vis_attr->SetColour(helium_space_colors[0], helium_space_colors[1], helium_space_colors[2],
                                      helium_space_colors[3]);
     logical_helium_space->SetVisAttributes(helium_space_vis_attr);
@@ -389,8 +393,9 @@ void MolybdenumDetectorConstruction::BuildVacuumWindow() {
                                      vacuum_window_half_length, vacuum_window_phi_start, vacuum_window_phi_delta);
 
     logical_vacuum_window = new G4LogicalVolume(solid_vacuum_window, aluminium_material, "logical_vacuum_window");
-    auto* vacuum_window_vis_attr                      = new G4VisAttributes(true);
-    const std::vector<G4double> vacuum_window_colours = convert_rgba_to_percents(std::vector{165., 169., 180., .6});
+    auto* vacuum_window_vis_attr = new G4VisAttributes(true);
+    const std::vector<G4double> vacuum_window_colours =
+        functions::convert_rgba_to_percents(std::vector{165., 169., 180., .6});
     vacuum_window_vis_attr->SetColour(vacuum_window_colours[0], vacuum_window_colours[1], vacuum_window_colours[2],
                                       vacuum_window_colours[3]);
     logical_vacuum_window->SetVisAttributes(vacuum_window_vis_attr);
@@ -405,7 +410,8 @@ void MolybdenumDetectorConstruction::BuildVacuumSpace() {
 
     logical_vacuum_space        = new G4LogicalVolume(solid_vacuum_space, vacuum_material, "logical_vacuum_space");
     auto* vacuum_space_vis_attr = new G4VisAttributes(true);
-    const std::vector<G4double> vacuum_space_colours = convert_rgba_to_percents(std::vector{171., 176., 224., .1});
+    const std::vector<G4double> vacuum_space_colours =
+        functions::convert_rgba_to_percents(std::vector{171., 176., 224., .1});
     vacuum_space_vis_attr->SetColour(vacuum_space_colours[0], vacuum_space_colours[1], vacuum_space_colours[2],
                                      vacuum_space_colours[3]);
     logical_vacuum_space->SetVisAttributes(vacuum_space_vis_attr);

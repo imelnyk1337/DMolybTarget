@@ -25,6 +25,8 @@
 #include "G4VisAttributes.hh"
 
 class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction {
+    friend class MolybdenumPrimaryGeneratorAction;
+
     public:
     MolybdenumDetectorConstruction();
     ~MolybdenumDetectorConstruction() override;
@@ -142,13 +144,13 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
     static constexpr G4double copper_atomic_mass = 63.55 * g / mole;
 
     // helium
-    static constexpr G4double helium_pressure    = 27579.0292 * pascal; // about 4 psi
-    static constexpr G4double helium_density     = 4.7 * std::pow(10, -2) * g / cm3;
-    static constexpr G4double helium_temperature = (273.15 + 10.) * kelvin; // about 10 deg C
+    static constexpr G4double helium_pressure    = 0.275790292 * bar; // about 4 psi
+    static constexpr G4double helium_density     = 17.E-7 * g / cm3; // 0.00001727 g / cm3
+    static constexpr G4double helium_temperature = (273.15 + 4.) * kelvin; // about 4 deg C
     // water
     static constexpr G4double water_density     = 1. * g / cm3;
     static constexpr G4double water_temperature = (273.15 + 16.) * kelvin;
-    static constexpr G4double water_pressure    = 725. * std::pow(10, 3) * pascal; // 725 kPa
+    static constexpr G4double water_pressure    = 7.25 * bar; // 725 kPa
 
     // molybdenum-100 isotope (100Mo)
     static constexpr G4double molybdenum100_enriched_density = 10.22 * g / cm3;

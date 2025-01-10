@@ -1,4 +1,5 @@
 #include "MolybdenumPrimaryGeneratorAction.hh"
+#include "MolybdenumDetectorConstruction.hh"
 
 MolybdenumPrimaryGeneratorAction::MolybdenumPrimaryGeneratorAction() :
     particle_energy_(0), beam_radius_(0), beam_current_(0), beam_max_theta_(0) {
@@ -14,13 +15,17 @@ MolybdenumPrimaryGeneratorAction::MolybdenumPrimaryGeneratorAction() :
     // set proton energy
     G4SPSEneDistribution* current_source_energy_distribution = current_source->GetEneDist();
     current_source_energy_distribution->SetEnergyDisType("Mono");
-    current_source_energy_distribution->SetMonoEnergy(30. * MeV);
+    current_source_energy_distribution->SetMonoEnergy(11. * MeV);
     current_source_energy_distribution->SetVerbosity(1);
     // set beam position
     G4SPSPosDistribution* current_source_position_distribution = current_source->GetPosDist();
     current_source_position_distribution->SetPosDisType("Beam");
     current_source_position_distribution->SetPosDisShape("Circle");
-    current_source_position_distribution->SetCentreCoords(G4ThreeVector(0., 0., 500. * mm));
+    constexpr G4double beam_position_z = MolybdenumDetectorConstruction::vacuum_window_position_z -
+        MolybdenumDetectorConstruction::vacuum_window_half_length;
+    SetBeamStartPositionZ(beam_position_z);
+    G4cout << "Beam starting z position: " << GetBeamStartPositionZ() << G4endl;
+    current_source_position_distribution->SetCentreCoords(G4ThreeVector(0., 0., GetBeamStartPositionZ()));
     // current_source_position_distribution->SetRadius0(0. * mm);
     current_source_position_distribution->SetRadius(10. * mm);
     current_source_position_distribution->SetVerbosity(1);
@@ -36,6 +41,13 @@ MolybdenumPrimaryGeneratorAction::~MolybdenumPrimaryGeneratorAction() {
     delete particle_table_;
     delete particle_definition_;
 }
+
+void MolybdenumPrimaryGeneratorAction::SetBeamStartPositionZ(const G4double& position) {
+    beam_start_position_z_ = position;
+}
+
+G4double MolybdenumPrimaryGeneratorAction::GetBeamStartPositionZ() const { return beam_start_position_z_; }
+
 
 void MolybdenumPrimaryGeneratorAction::GeneratePrimaries(G4Event* event) {
     constexpr G4double beam_current_amperes = 5.E-6; // 5 uA

@@ -7,13 +7,13 @@
 
 #include "MolybdenumDetectorConstruction.hh"
 #include "MolybdenumActionInitialization.hh"
-#include "MolybdenumPhysicsList.hh"
+#include "MolybdenumPhysicsListGeneral.hh"
 
 int main(const int argc, char** argv) {
 
     auto* run_manager = new G4RunManager();
     run_manager->SetUserInitialization(new MolybdenumDetectorConstruction());
-    run_manager->SetUserInitialization(new MolybdenumPhysicsList());
+    run_manager->SetUserInitialization(new MolybdenumPhysicsListGeneral());
     run_manager->SetUserInitialization(new MolybdenumActionInitialization());
     run_manager->Initialize();
 
@@ -31,6 +31,8 @@ int main(const int argc, char** argv) {
     ui_manager->ApplyCommand("/vis/scene/endOfEventAction accumulate");
     // ui_manager->ApplyCommand("/vis/scene/add/axes");
     ui_manager->ApplyCommand("/vis/modeling/trajectories/create/drawByParticleID 0");
+    ui_manager->ApplyCommand("/vis/scene/add/eventID");
+    // ui_manager->ApplyCommand("/vis/scene/add/scale 10 cm");
 
 
     ui_executive->SessionStart();

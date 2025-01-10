@@ -4,6 +4,8 @@
 #include <vector>
 #include "G4Types.hh"
 
-std::vector<G4double> convert_rgba_to_percents(const std::vector<G4double>&);
+namespace functions {
+    std::vector<G4double> convert_rgba_to_percents(const std::vector<G4double>&);
+} // namespace functions
 
-#endif //AUXILARYUTILITIES_HH
+#endif // AUXILARYUTILITIES_HH
