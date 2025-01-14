@@ -328,7 +328,7 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
     static constexpr G4double helium_space_rear_part_half_length   = helium_space_rear_part_full_length / 2.;
     static constexpr G4double helium_space_front_part_radius_inner = helium_space_rear_part_radius_inner;
     static constexpr G4double helium_space_front_part_radius_outer = target_body_front_part_hollow_radius_outer;
-    static constexpr G4double helium_space_front_part_half_length  = 5 * mm;
+    static constexpr G4double helium_space_front_part_half_length  = 2.5 * mm;
 
     static constexpr G4double helium_space_phi_start = 0. * rad;
     static constexpr G4double helium_space_phi_delta = 2. * std::numbers::pi * rad;
