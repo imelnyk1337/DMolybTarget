@@ -146,7 +146,8 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
 
     // helium
     static constexpr G4double helium_pressure    = 0.275790292 * bar; // about 4 psi
-    static constexpr G4double helium_density     = 17.E-7 * g / cm3; // 0.00001727 g / cm3
+    static constexpr G4double helium_density     = 4.7E-2 * g / cm3; // 0.00001727 g / cm3
+    // static constexpr G4double helium_density     = 17.E-7 * g / cm3; // 0.00001727 g / cm3
     static constexpr G4double helium_temperature = (273.15 + 4.) * kelvin; // about 4 deg C
     // water
     static constexpr G4double water_density     = 1. * g / cm3;
