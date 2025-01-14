@@ -140,15 +140,20 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
 
     // Materials' parameters
 
+    // aluminium
+    static constexpr G4double aluminium_density = 2.7 * g / cm3;
+    static constexpr G4double aluminium_atomic_mass = 26.9815384 * g / mole;
+
     // copper
     static constexpr G4double copper_density     = 8.960 * g / cm3;
-    static constexpr G4double copper_atomic_mass = 63.55 * g / mole;
+    static constexpr G4double copper_atomic_mass = 63.546 * g / mole;
 
     // helium
+    static constexpr G4double helium_atomic_mass = 4.002602 * g / mole;
     static constexpr G4double helium_pressure    = 0.275790292 * bar; // about 4 psi
-    static constexpr G4double helium_density     = 4.7E-2 * g / cm3; // 0.00001727 g / cm3
+    static constexpr G4double helium_density     = 4.7E-5 * g / cm3; // 0.00001727 g / cm3
     // static constexpr G4double helium_density     = 17.E-7 * g / cm3; // 0.00001727 g / cm3
-    static constexpr G4double helium_temperature = (273.15 + 4.) * kelvin; // about 4 deg C
+    static constexpr G4double helium_temperature = (273.15 + 10.) * kelvin; // about 10 deg C
     // water
     static constexpr G4double water_density     = 1. * g / cm3;
     static constexpr G4double water_temperature = (273.15 + 16.) * kelvin;

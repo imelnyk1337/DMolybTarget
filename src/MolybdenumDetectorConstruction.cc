@@ -156,14 +156,16 @@ void MolybdenumDetectorConstruction::DefineMaterials() {
     air_material = nist_manager->FindOrBuildMaterial("G4_AIR");
 
     // ---- aluminium for target body ----
-    aluminium_material = nist_manager->FindOrBuildMaterial("G4_Al");
-
+    // aluminium_material = nist_manager->FindOrBuildMaterial("G4_Al");
+    aluminium_material = new G4Material("aluminium_metal", 13, aluminium_atomic_mass, aluminium_density, kStateSolid);
+    // aluminium_material->AddElement(nist_manager->FindOrBuildElement("Al"), 1);
     // ---- copper for target holder ----
     copper_material = new G4Material("copper_metal", 29, copper_atomic_mass, copper_density, kStateSolid);
 
     // ---- helium gas ----
-    helium_material = new G4Material("helium_gas", helium_density, 1, kStateGas);
-    helium_material->AddElement(nist_manager->FindOrBuildElement("He"), 1);
+    helium_material = new G4Material("helium_gas", 4, helium_atomic_mass, helium_density, kStateGas, helium_temperature, helium_pressure);
+
+    // helium_material->AddElement(nist_manager->FindOrBuildElement("He"), 1);
 
     // ---- cooling water ----
     water_material = new G4Material("water", water_density, 2, kStateLiquid, water_temperature, water_pressure);
