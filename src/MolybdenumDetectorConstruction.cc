@@ -162,7 +162,7 @@ void MolybdenumDetectorConstruction::DefineMaterials() {
     copper_material = new G4Material("copper_metal", 29, copper_atomic_mass, copper_density, kStateSolid);
 
     // ---- helium gas ----
-    helium_material = new G4Material("helium_gas", helium_density, 1, kStateGas, helium_temperature, helium_pressure);
+    helium_material = new G4Material("helium_gas", helium_density, 1, kStateGas);
     helium_material->AddElement(nist_manager->FindOrBuildElement("He"), 1);
 
     // ---- cooling water ----
