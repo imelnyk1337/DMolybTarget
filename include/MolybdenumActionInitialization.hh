@@ -2,7 +2,10 @@
 #define MOLYBDENUMPRIMARYACTIONINITIALIZATION_HH
 
 #include "G4VUserActionInitialization.hh"
+#include "MolybdenumEventAction.hh"
 #include "MolybdenumPrimaryGeneratorAction.hh"
+#include "MolybdenumRunAction.hh"
+#include "MolybdenumStackingAction.hh"
 
 class MolybdenumActionInitialization final : public G4VUserActionInitialization {
     public:

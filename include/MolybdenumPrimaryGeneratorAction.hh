@@ -29,7 +29,7 @@ class MolybdenumPrimaryGeneratorAction final : public G4VUserPrimaryGeneratorAct
     std::string beam_position_distribution_type_; // Beam
     std::string beam_position_distribution_shape_; // Circle
     G4double beam_radius_;
-    G4double beam_start_position_z_;
+    G4double beam_start_position_z_{};
     G4double beam_current_; // 5 uA
     std::string beam_energy_distribution_type_; // Mono
     std::string beam_angular_distribution_type_; // iso
