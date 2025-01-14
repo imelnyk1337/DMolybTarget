@@ -22,7 +22,7 @@ MolybdenumPrimaryGeneratorAction::MolybdenumPrimaryGeneratorAction() :
     current_source_position_distribution->SetPosDisType("Beam");
     current_source_position_distribution->SetPosDisShape("Circle");
     constexpr G4double beam_position_z = MolybdenumDetectorConstruction::vacuum_window_position_z -
-        MolybdenumDetectorConstruction::vacuum_window_half_length;
+        MolybdenumDetectorConstruction::vacuum_window_half_length + 10. * mm;
     SetBeamStartPositionZ(beam_position_z);
     // G4cout << "Beam starting z position: " << GetBeamStartPositionZ() << G4endl;
     current_source_position_distribution->SetCentreCoords(G4ThreeVector(0., 0., GetBeamStartPositionZ()));
@@ -32,7 +32,7 @@ MolybdenumPrimaryGeneratorAction::MolybdenumPrimaryGeneratorAction() :
     G4SPSAngDistribution* current_source_angular_distribution = current_source->GetAngDist();
     current_source_angular_distribution->SetAngDistType("beam2d");
     current_source_angular_distribution->SetMaxTheta(0. * deg);
-    current_source_angular_distribution->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
+    current_source_angular_distribution->SetParticleMomentumDirection(G4ThreeVector(0., 0., -1.));
 }
 
 MolybdenumPrimaryGeneratorAction::~MolybdenumPrimaryGeneratorAction() { // I = q/ t ->

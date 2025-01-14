@@ -7,6 +7,8 @@ find_package(Geant4 REQUIRED ui_all vis_all)
 include(${Geant4_USE_FILE})
 include_directories(${Geant4_INCLUDE_DIR} include)
 
+file(GLOB macros ${PROJECT_SOURCE_DIR}/macros/*.mac)
+file(COPY macros DESTINATION ${PROJECT_BINARY_DIR})
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
