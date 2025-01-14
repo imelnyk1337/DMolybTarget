@@ -143,6 +143,11 @@ MolybdenumDetectorConstruction::MolybdenumDetectorConstruction() {
 }
 MolybdenumDetectorConstruction::~MolybdenumDetectorConstruction() = default;
 
+G4LogicalVolume* MolybdenumDetectorConstruction::GetMolybdenumLogicalVolume() const {
+    return logical_molybdenum100_tablet;
+}
+
+
 void MolybdenumDetectorConstruction::DefineMaterials() {
 
     G4NistManager* nist_manager = G4NistManager::Instance();
@@ -191,9 +196,9 @@ void MolybdenumDetectorConstruction::DefineMaterials() {
 }
 
 void MolybdenumDetectorConstruction::BuildWorld() {
-    solid_world          = new G4Box("solid_world", world_px, world_py, world_pz);
-    logical_world        = new G4LogicalVolume(solid_world, air_material, "solid_world");
-    auto* world_vis_attr = new G4VisAttributes(false);
+    solid_world                = new G4Box("solid_world", world_px, world_py, world_pz);
+    logical_world              = new G4LogicalVolume(solid_world, air_material, "solid_world");
+    const auto* world_vis_attr = new G4VisAttributes(false);
     logical_world->SetVisAttributes(world_vis_attr);
     physical_world =
         new G4PVPlacement(nullptr, world_position, logical_world, "physical_world", nullptr, false, 0, check_overlaps);

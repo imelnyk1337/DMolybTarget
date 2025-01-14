@@ -31,6 +31,7 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
     MolybdenumDetectorConstruction();
     ~MolybdenumDetectorConstruction() override;
     G4VPhysicalVolume* Construct() override;
+    [[nodiscard]] G4LogicalVolume* GetMolybdenumLogicalVolume() const;
     void DefineMaterials();
     void BuildWorld();
     void BuildTargetBodyRearPart();
@@ -189,7 +190,7 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
     // Solid world
     static constexpr G4bool check_overlaps = true;
 
-    static constexpr G4double world_px = 150. * mm, world_py = 150. * mm, world_pz = 500. * mm;
+    static constexpr G4double world_px = 1000. * mm, world_py = 1000. * mm, world_pz = 1000. * mm;
 
     static constexpr G4double world_position_x = 0. * mm;
     static constexpr G4double world_position_y = 0. * mm;
