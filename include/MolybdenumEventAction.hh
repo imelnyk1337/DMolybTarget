@@ -3,15 +3,15 @@
 
 #include "G4UserEventAction.hh"
 #include "G4AnalysisManager.hh"
-#include "MolybdenumStackingAction.hh"
+#include "MolybdenumRunAction.hh"
 
 class MolybdenumEventAction final : public G4UserEventAction {
     public:
-    explicit MolybdenumEventAction(MolybdenumStackingAction*);
+    explicit MolybdenumEventAction(MolybdenumRunAction*);
     ~MolybdenumEventAction() override;
     void EndOfEventAction(const G4Event*) override;
     private:
-    MolybdenumStackingAction* stacking_action_;
+    MolybdenumRunAction* run_action_;
 
 };
 #endif // MOLYBDENUMEVENTACTION_HH

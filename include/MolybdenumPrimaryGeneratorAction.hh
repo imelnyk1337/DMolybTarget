@@ -1,6 +1,7 @@
 #ifndef MOLYBDENUMPRIMARYGENERATORACTION_HH
 #define MOLYBDENUMPRIMARYGENERATORACTION_HH
 
+#include "G4AnalysisManager.hh"
 #include "G4GeneralParticleSource.hh"
 #include "G4ParticleDefinition.hh"
 #include "G4ParticleTable.hh"

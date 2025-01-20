@@ -1,13 +1,14 @@
 #include <iostream>
 #include "G4MTRunManager.hh"
+#include "G4ParallelWorldPhysics.hh"
 #include "G4RunManager.hh"
 #include "G4RunManagerFactory.hh"
 #include "G4UIExecutive.hh"
 #include "G4UImanager.hh"
+#include "G4VModularPhysicsList.hh"
+#include "G4VUserActionInitialization.hh"
 #include "G4VisExecutive.hh"
 #include "G4VisManager.hh"
-#include "MolybdenumActionInitialization.hh"
-
 #include "MolybdenumActionInitialization.hh"
 #include "MolybdenumDetectorConstruction.hh"
 #include "MolybdenumPhysicsListGeneral.hh"
@@ -16,11 +17,22 @@ int main(const int argc, char** argv) {
 #ifdef G4MULTITHREADED
     auto* run_manager = new G4MTRunManager();
 #endif
-        constexpr G4int n_threads = 10;
+    constexpr G4int n_threads = 10;
     run_manager->SetNumberOfThreads(n_threads);
-    run_manager->SetUserInitialization(new MolybdenumDetectorConstruction());
-    run_manager->SetUserInitialization(new MolybdenumPhysicsListGeneral());
-    run_manager->SetUserInitialization(new MolybdenumActionInitialization());
+
+    G4VUserDetectorConstruction* world_construction = new MolybdenumDetectorConstruction();
+    const std::string parallel_world_name           = "NeutronScoringWorld";
+    G4VUserParallelWorld* parallel_world            = new MolybdenumParallelWorld(parallel_world_name);
+    world_construction->RegisterParallelWorld(parallel_world);
+    run_manager->SetUserInitialization(world_construction);
+
+    G4VModularPhysicsList* physics_list = new MolybdenumPhysicsListGeneral();
+    physics_list->RegisterPhysics(new G4ParallelWorldPhysics("NeutronScoringWorld"));
+    run_manager->SetUserInitialization(physics_list);
+
+    G4VUserActionInitialization* action_initialization = new MolybdenumActionInitialization();
+    run_manager->SetUserInitialization(action_initialization);
+
     // run_manager->Initialize();
 
     G4UIExecutive* ui_executive = nullptr;
@@ -53,6 +65,8 @@ int main(const int argc, char** argv) {
     // // ui_manager->ApplyCommand("/vis/scene/add/scale 10 cm");
     // ui_manager->ApplyCommand("/process/had/neutron/timeLimit 100.0 microsecond");
     // ui_manager->ApplyCommand("/process/had/neutron/energyLimit 100.0 MeV");
+
+    // delete run_manager;
 
     return 0;
 }

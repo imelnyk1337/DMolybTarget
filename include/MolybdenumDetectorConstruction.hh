@@ -23,6 +23,7 @@
 #include "G4VSolid.hh"
 #include "G4VUserDetectorConstruction.hh"
 #include "G4VisAttributes.hh"
+#include "MolybdenumParallelWorld.hh"
 
 class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction {
     friend class MolybdenumPrimaryGeneratorAction;
@@ -141,7 +142,7 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
     // Materials' parameters
 
     // aluminium
-    static constexpr G4double aluminium_density = 2.7 * g / cm3;
+    static constexpr G4double aluminium_density     = 2.7 * g / cm3;
     static constexpr G4double aluminium_atomic_mass = 26.9815384 * g / mole;
 
     // copper

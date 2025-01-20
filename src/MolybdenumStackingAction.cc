@@ -1,7 +1,9 @@
 #include "MolybdenumStackingAction.hh"
 #include "MolybdenumDetectorConstruction.hh"
 
-MolybdenumStackingAction::MolybdenumStackingAction()= default;
+MolybdenumStackingAction::MolybdenumStackingAction(MolybdenumEventAction* event_action) {
+    event_action_ = event_action;
+};
 MolybdenumStackingAction::~MolybdenumStackingAction() = default;
 
 G4ClassificationOfNewTrack MolybdenumStackingAction::ClassifyNewTrack(const G4Track* track) {
@@ -25,7 +27,12 @@ G4ClassificationOfNewTrack MolybdenumStackingAction::ClassifyNewTrack(const G4Tr
             // neutron_momentum_x_.push_back(neutron_momentum.x());
             // neutron_momentum_y_.push_back(neutron_momentum.y());
             // neutron_momentum_z_.push_back(neutron_momentum.z());
-            auto* analysis_manager = G4AnalysisManager::Instance();
+            auto* analysis_manager       = G4AnalysisManager::Instance();
+            const auto* run_manager      = G4RunManager::GetRunManager();
+            const G4int current_run_id   = run_manager->GetCurrentRun()->GetRunID();
+            const G4int current_event_id = run_manager->GetCurrentEvent()->GetEventID();
+            analysis_manager->FillNtupleIColumn(0, 0, current_run_id);
+            analysis_manager->FillNtupleIColumn(0, 1, current_event_id);
             analysis_manager->FillNtupleDColumn(0, 2, kinetic_energy);
             analysis_manager->FillNtupleDColumn(0, 3, neutron_position.x());
             analysis_manager->FillNtupleDColumn(0, 4, neutron_position.y());
