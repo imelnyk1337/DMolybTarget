@@ -438,5 +438,6 @@ G4VPhysicalVolume* MolybdenumDetectorConstruction::Construct() {
     BuildHeliumSpace();
     BuildVacuumWindow();
     BuildVacuumSpace();
+
     return physical_world;
 }

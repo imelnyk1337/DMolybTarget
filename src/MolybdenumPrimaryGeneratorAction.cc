@@ -15,7 +15,7 @@ MolybdenumPrimaryGeneratorAction::MolybdenumPrimaryGeneratorAction() :
     // set proton energy
     G4SPSEneDistribution* current_source_energy_distribution = current_source->GetEneDist();
     current_source_energy_distribution->SetEnergyDisType("Mono");
-    current_source_energy_distribution->SetMonoEnergy(11. * MeV);
+    current_source_energy_distribution->SetMonoEnergy(10. * MeV);
     current_source_energy_distribution->SetVerbosity(0);
     // set beam position
     G4SPSPosDistribution* current_source_position_distribution = current_source->GetPosDist();
@@ -50,12 +50,13 @@ G4double MolybdenumPrimaryGeneratorAction::GetBeamStartPositionZ() const { retur
 
 void MolybdenumPrimaryGeneratorAction::GeneratePrimaries(G4Event* event) {
     constexpr G4double beam_current_amperes = 5.E-6; // 5 uA
-    constexpr G4double event_time           = 1.E-9; // s;
+    constexpr G4double event_time           = 1.E-6; // s;
     const G4double particle_charge          = particle_source_->GetParticleDefinition()->GetPDGCharge() * 1.6E-19;
-    const auto number_of_particles = static_cast<int>(std::abs(beam_current_amperes * event_time / particle_charge));
-    // G4cout << "=========== Number of protons per event: " << number_of_particles << G4endl;
+    // const auto number_of_protons = static_cast<int>(std::abs(beam_current_amperes * event_time / particle_charge));
+    constexpr auto number_of_protons = 100'000;
+    // G4cout << "=========== Number of protons per event: " << number_of_protons << G4endl;
 
     particle_source_->SetCurrentSourceIntensity(1);
-    particle_source_->SetNumberOfParticles(number_of_particles);
+    particle_source_->SetNumberOfParticles(number_of_protons);
     particle_source_->GeneratePrimaryVertex(event);
 }

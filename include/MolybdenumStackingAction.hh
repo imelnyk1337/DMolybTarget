@@ -10,10 +10,11 @@
 #include "G4UserStackingAction.hh"
 #include "G4VProcess.hh"
 #include "G4AnalysisManager.hh"
+#include "MolybdenumEventAction.hh"
 
 class MolybdenumStackingAction final : public G4UserStackingAction {
     public:
-    MolybdenumStackingAction();
+    explicit MolybdenumStackingAction(MolybdenumEventAction*);
     ~MolybdenumStackingAction() override;
     G4ClassificationOfNewTrack ClassifyNewTrack(const G4Track*) override;
     // void Reset();
@@ -33,6 +34,8 @@ class MolybdenumStackingAction final : public G4UserStackingAction {
     // std::vector<G4double> neutron_momentum_x_;
     // std::vector<G4double> neutron_momentum_y_;
     // std::vector<G4double> neutron_momentum_z_;
+    private:
+    MolybdenumEventAction* event_action_;
 };
 
 #endif // MOLYBDENUMSTACKINGACTION_HH
