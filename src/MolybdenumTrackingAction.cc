@@ -13,7 +13,7 @@ void MolybdenumTrackingAction::PreUserTrackingAction(const G4Track* track) {
 }
 
 void MolybdenumTrackingAction::PostUserTrackingAction(const G4Track* track) {
-    G4int parent_id = track->GetParentID();
+    const G4int parent_id = track->GetParentID();
 
     if (track->GetParticleDefinition() == G4Neutron::NeutronDefinition()) {
 
