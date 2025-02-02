@@ -15,7 +15,7 @@ MolybdenumPrimaryGeneratorAction::MolybdenumPrimaryGeneratorAction() :
     // set proton energy
     G4SPSEneDistribution* current_source_energy_distribution = current_source->GetEneDist();
     current_source_energy_distribution->SetEnergyDisType("Mono");
-    current_source_energy_distribution->SetMonoEnergy(10. * MeV);
+    current_source_energy_distribution->SetMonoEnergy(11. * MeV);
     current_source_energy_distribution->SetVerbosity(0);
     // set beam position
     G4SPSPosDistribution* current_source_position_distribution = current_source->GetPosDist();
@@ -27,7 +27,7 @@ MolybdenumPrimaryGeneratorAction::MolybdenumPrimaryGeneratorAction() :
     // G4cout << "Beam starting z position: " << GetBeamStartPositionZ() << G4endl;
     current_source_position_distribution->SetCentreCoords(G4ThreeVector(0., 0., GetBeamStartPositionZ()));
     current_source_position_distribution->SetRadius0(0. * mm);
-    current_source_position_distribution->SetRadius(10. * mm); // 3. mm
+    current_source_position_distribution->SetRadius(4. * mm); // 3. mm
     // set angular distribution to create a parallel beam
     G4SPSAngDistribution* current_source_angular_distribution = current_source->GetAngDist();
     current_source_angular_distribution->SetAngDistType("beam2d");

@@ -24,15 +24,21 @@
 #include "G4VUserDetectorConstruction.hh"
 #include "G4VisAttributes.hh"
 #include "MolybdenumParallelWorld.hh"
+#include "MolybdenumTargetTabletSD.hh"
+#include "MolybdenumVacuumWindowSD.hh"
 
 class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction {
     friend class MolybdenumPrimaryGeneratorAction;
+    friend class MolybdenumParallelWorld;
 
     public:
     MolybdenumDetectorConstruction();
     ~MolybdenumDetectorConstruction() override;
     G4VPhysicalVolume* Construct() override;
+    void ConstructSDandField() override;
     [[nodiscard]] G4LogicalVolume* GetMolybdenumLogicalVolume() const;
+    [[nodiscard]] G4LogicalVolume* GetVacuumSpaceLogicalVolume() const;
+    [[nodiscard]] G4LogicalVolume* GetAluminiumVacuumWindow() const;
     void DefineMaterials();
     void BuildWorld();
     void BuildTargetBodyRearPart();

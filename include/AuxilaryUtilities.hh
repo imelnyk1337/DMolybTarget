@@ -2,10 +2,23 @@
 #define AUXILARYUTILITIES_HH
 
 #include <vector>
+#include "G4AnalysisManager.hh"
+#include "G4Run.hh"
+#include "G4RunManager.hh"
+#include "G4Step.hh"
 #include "G4Types.hh"
 
 namespace functions {
     std::vector<G4double> convert_rgba_to_percents(const std::vector<G4double>&);
+    void fill_ntuple(const G4int, const G4StepPoint*);
 } // namespace functions
+
+namespace isotopes {
+    struct Isotope {
+        G4int count;
+        G4double production_time;
+        G4double half_life;
+    };
+} // namespace isotopes
 
 #endif // AUXILARYUTILITIES_HH

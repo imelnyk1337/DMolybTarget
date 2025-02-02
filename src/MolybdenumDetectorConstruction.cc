@@ -147,6 +147,9 @@ G4LogicalVolume* MolybdenumDetectorConstruction::GetMolybdenumLogicalVolume() co
     return logical_molybdenum100_tablet;
 }
 
+G4LogicalVolume* MolybdenumDetectorConstruction::GetVacuumSpaceLogicalVolume() const { return logical_vacuum_space; }
+
+G4LogicalVolume* MolybdenumDetectorConstruction::GetAluminiumVacuumWindow() const { return logical_vacuum_window; }
 
 void MolybdenumDetectorConstruction::DefineMaterials() {
 
@@ -163,7 +166,8 @@ void MolybdenumDetectorConstruction::DefineMaterials() {
     copper_material = new G4Material("copper_metal", 29, copper_atomic_mass, copper_density, kStateSolid);
 
     // ---- helium gas ----
-    helium_material = new G4Material("helium_gas", 4, helium_atomic_mass, helium_density, kStateGas, helium_temperature, helium_pressure);
+    helium_material = new G4Material("helium_gas", 4, helium_atomic_mass, helium_density, kStateGas, helium_temperature,
+                                     helium_pressure);
 
     // helium_material->AddElement(nist_manager->FindOrBuildElement("He"), 1);
 
@@ -440,4 +444,19 @@ G4VPhysicalVolume* MolybdenumDetectorConstruction::Construct() {
     BuildVacuumSpace();
 
     return physical_world;
+}
+
+void MolybdenumDetectorConstruction::ConstructSDandField() {
+    G4SDManager* sensitive_detectors_manager = G4SDManager::GetSDMpointer();
+
+    const std::string proton_sd_vw_name = "proton_sd_vw";
+    auto* sensitive_vacuum_window       = new MolybdenumVacuumWindowSD(proton_sd_vw_name);
+    sensitive_detectors_manager->AddNewDetector(sensitive_vacuum_window);
+    // logical_vacuum_window->SetSensitiveDetector(sensitive_vacuum_window);
+    SetSensitiveDetector("logical_vacuum_window", sensitive_vacuum_window);
+
+    const std::string sd_tt_name = "sd_tt";
+    auto* sensitive_target_table = new MolybdenumTargetTabletSD(sd_tt_name);
+    sensitive_detectors_manager->AddNewDetector(sensitive_target_table);
+    SetSensitiveDetector("logical_molybdenum100_tablet", sensitive_target_table);
 }

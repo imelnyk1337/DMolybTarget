@@ -6,6 +6,8 @@
 #include "MolybdenumPrimaryGeneratorAction.hh"
 #include "MolybdenumRunAction.hh"
 #include "MolybdenumStackingAction.hh"
+#include "MolybdenumSteppingAction.hh"
+#include "MolybdenumTrackingAction.hh"
 
 class MolybdenumActionInitialization final : public G4VUserActionInitialization {
     public:

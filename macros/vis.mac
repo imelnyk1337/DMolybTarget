@@ -1,6 +1,6 @@
 /run/initialize
 /vis/open OGL
-/vis/drawVolume
+/vis/drawVolume worlds
 /vis/viewer/set/autoRefresh true
 /vis/scene/add/trajectories smooth
 /vis/scene/endOfEventAction accumulate

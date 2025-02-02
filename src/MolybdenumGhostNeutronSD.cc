@@ -1,17 +1,13 @@
-#include "MolybdenumGhostSensitiveDetector.hh"
+#include "MolybdenumGhostNeutronSD.hh"
 
-#include <G4AnalysisManager.hh>
-#include <G4Run.hh>
-#include <G4RunManager.hh>
-
-MolybdenumGhostSensitiveDetector::MolybdenumGhostSensitiveDetector(const std::string& detector_name) :
+MolybdenumGhostNeutronSD::MolybdenumGhostNeutronSD(const std::string& detector_name) :
     G4VSensitiveDetector(detector_name) {
     detector_name_ = detector_name;
 }
 
-MolybdenumGhostSensitiveDetector::~MolybdenumGhostSensitiveDetector() = default;
+MolybdenumGhostNeutronSD::~MolybdenumGhostNeutronSD() = default;
 
-G4bool MolybdenumGhostSensitiveDetector::ProcessHits(G4Step* step, G4TouchableHistory* history) {
+G4bool MolybdenumGhostNeutronSD::ProcessHits(G4Step* step, G4TouchableHistory* history) {
     const auto* run_manager = G4RunManager::GetRunManager();
     const G4int run_id      = run_manager->GetCurrentRun()->GetRunID();
     const G4int event_id    = run_manager->GetCurrentEvent()->GetEventID();
@@ -19,14 +15,14 @@ G4bool MolybdenumGhostSensitiveDetector::ProcessHits(G4Step* step, G4TouchableHi
     //        << step->GetTrack()->GetParticleDefinition()->GetParticleName() << G4endl;
     const G4ParticleDefinition* particle   = step->GetTrack()->GetParticleDefinition();
     const G4Track* track                   = step->GetTrack();
-    const G4StepPoint* pre_step_point      = step->GetPreStepPoint();
-    const G4double kinetic_energy          = track->GetKineticEnergy();
-    const G4ThreeVector momentum           = track->GetMomentum();
-    const G4ThreeVector momentum_direction = track->GetMomentumDirection();
-    const G4ThreeVector position           = track->GetPosition();
+    const G4StepPoint* post_step_point     = step->GetPostStepPoint();
+    const G4double kinetic_energy          = post_step_point->GetKineticEnergy();
+    const G4ThreeVector momentum           = post_step_point->GetMomentum();
+    const G4ThreeVector momentum_direction = post_step_point->GetMomentumDirection();
+    const G4ThreeVector position           = post_step_point->GetPosition();
 
     auto* analysis_manager = G4AnalysisManager::Instance();
-    if (particle == G4Neutron::NeutronDefinition()) {
+    if (particle == G4Neutron::NeutronDefinition() && post_step_point->GetStepStatus() == fGeomBoundary) {
         // G4cout << "Neutron detected in ghost volume with kinetic energy: " << kinetic_energy << " MeV" << G4endl;
         analysis_manager->FillNtupleIColumn(1, 0, run_id);
         analysis_manager->FillNtupleIColumn(1, 1, event_id);
@@ -42,8 +38,11 @@ G4bool MolybdenumGhostSensitiveDetector::ProcessHits(G4Step* step, G4TouchableHi
         analysis_manager->FillNtupleDColumn(1, 11, momentum_direction.z());
         analysis_manager->AddNtupleRow(1);
     }
-    else if (particle == G4Gamma::GammaDefinition()) {
+    else if (particle == G4Gamma::GammaDefinition() && post_step_point->GetStepStatus() == fGeomBoundary) {
         // G4cout << "Gamma detected in ghost volume with kinetic energy: " << kinetic_energy << " MeV" << G4endl;
+        // G4cout << "Gamma creator model: " << track->GetCreatorModelName() << "; " << G4endl; //
+        // model_G4ParticleHPNXInelasticFS_F02 G4cout << "Gamma creator process: " <<
+        // track->GetCreatorProcess()->GetProcessName() << "; " << G4endl; // protonInelastic
         analysis_manager->FillNtupleIColumn(2, 0, run_id);
         analysis_manager->FillNtupleIColumn(2, 1, event_id);
         analysis_manager->FillNtupleDColumn(2, 2, kinetic_energy);

@@ -14,11 +14,14 @@ void MolybdenumActionInitialization::Build() const {
     auto* event_action = new MolybdenumEventAction(run_action);
     SetUserAction(event_action);
 
-    // auto* stepping_action = new MolybdenumSteppingAction(event_action);
-    // SetUserAction(stepping_action);
+    auto* stepping_action = new MolybdenumSteppingAction(event_action);
+    SetUserAction(stepping_action);
 
     auto* stacking_action = new MolybdenumStackingAction(event_action);
     SetUserAction(stacking_action);
+
+    // auto* tracking_action = new MolybdenumTrackingAction(event_action);
+    // SetUserAction(tracking_action);
 }
 
 void MolybdenumActionInitialization::BuildForMaster() const {}
