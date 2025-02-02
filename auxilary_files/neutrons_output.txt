@@ -1,8 +1,8 @@
-/home/ihor/CLionProjects/DMolybTarget/build/DMolybTarget run.mac
+/home/ihor/CLionProjects/DMolybTarget/build/DMolybTarget
 
 **************************************************************
  Geant4 version Name: geant4-11-02-patch-02 [MT]   (21-June-2024)
-  << in Multi-threaded mode >> 
+  << in Multi-threaded mode >>
                        Copyright : Geant4 Collaboration
                       References : NIM A 506 (2003), 250-303
                                  : IEEE-TNS 53 (2006), 270-278
@@ -10,6 +10,7 @@
                              WWW : http://geant4.org/
 **************************************************************
 
+Available UI session types: [ Qt, tcsh, csh ]
 Visualization Manager instantiating with verbosity "warnings (3)"...
 Visualization Manager initialising...
 Registering graphics systems...
@@ -33,7 +34,7 @@ Registered graphics systems are:
   TOOLSSG_X11_GLES (TSG_X11_GLES, TSGX11, TSG_QT_GLES_FALLBACK)
   TOOLSSG_QT_GLES (TSG_QT_GLES, TSGQt, TSG)
   TOOLSSG_QT_ZB (TSG_QT_ZB, TSGQtZB)
-Default graphics system is: TSG_OFFSCREEN (based on batch session).
+Default graphics system is: OGL (based on build flags).
 Default window size hint is: 600x600-0+0 (based on G4VisManager initialisation).
 Note: Parameters specified on the command line will override these defaults.
       Use "vis/open" without parameters to get these defaults.
@@ -69,17 +70,17 @@ End of Run User Vis Actions: none
 
 Some /vis commands (optionally) take a string to specify colour.
 "/vis/list" to see available colours.
-Checking overlaps for volume physical_target_body_rear_part:0 (G4Tubs) ... OK! 
-Checking overlaps for volume physical_water_cooler_alum:0 (G4SubtractionSolid) ... OK! 
-Checking overlaps for volume physical_water_flow:0 (G4DisplacedSolid) ... OK! 
-Checking overlaps for volume physical_target_body_front_part:0 (G4UnionSolid) ... OK! 
-Checking overlaps for volume physical_copper_holder:0 (G4UnionSolid) ... OK! 
-Checking overlaps for volume physical_molybdenum100_tablet:0 (G4Tubs) ... OK! 
-Checking overlaps for volume physical_helium_space:0 (G4UnionSolid) ... OK! 
-Checking overlaps for volume physical_vacuum_window:0 (G4Tubs) ... OK! 
-Checking overlaps for volume physical_vacuum_space:0 (G4Tubs) ... OK! 
+Checking overlaps for volume physical_target_body_rear_part:0 (G4Tubs) ... OK!
+Checking overlaps for volume physical_water_cooler_alum:0 (G4SubtractionSolid) ... OK!
+Checking overlaps for volume physical_water_flow:0 (G4DisplacedSolid) ... OK!
+Checking overlaps for volume physical_target_body_front_part:0 (G4UnionSolid) ... OK!
+Checking overlaps for volume physical_copper_holder:0 (G4UnionSolid) ... OK!
+Checking overlaps for volume physical_molybdenum100_tablet:0 (G4Tubs) ... OK!
+Checking overlaps for volume physical_helium_space:0 (G4UnionSolid) ... OK!
+Checking overlaps for volume physical_vacuum_window:0 (G4Tubs) ... OK!
+Checking overlaps for volume physical_vacuum_space:0 (G4Tubs) ... OK!
 Sensitive detector is attached!
---- G4CoupledTransportation is used 
+--- G4CoupledTransportation is used
 @@@ G4ParticleHPInelasticData instantiated for particle neutron data directory variable is G4NEUTRONHPDATA pointing to /home/ihor/GEANT4/geant4-v11.2.2-install/share/Geant4/data/G4NDL4.7.1
 NeutronHP: /Capture file for Z = 18, A = 36 is not found and NeutronHP will use /home/ihor/GEANT4/geant4-v11.2.2-install/share/Geant4/data/G4NDL4.7.1/Capture/CrossSection/18_37_Argon
 NeutronHP: /Elastic file for Z = 18, A = 36 is not found and NeutronHP will use /home/ihor/GEANT4/geant4-v11.2.2-install/share/Geant4/data/G4NDL4.7.1/Elastic/CrossSection/18_37_Argon
@@ -100,12 +101,12 @@ Enable linear polarisation for gamma               0
 Enable photoeffect sampling below K-shell          1
 Enable sampling of quantum entanglement            0
 X-section factor for integral approach             0.8
-Min kinetic energy for tables                      10 eV 
+Min kinetic energy for tables                      10 eV
 Max kinetic energy for tables                      100 TeV
 Number of bins per decade of a table               20
 Verbose level                                      1
 Verbose level for worker thread                    0
-Bremsstrahlung energy threshold above which 
+Bremsstrahlung energy threshold above which
   primary e+- is added to the list of secondary    100 TeV
 Bremsstrahlung energy threshold above which primary
   muon/hadron is added to the list of secondary    100 TeV
@@ -121,7 +122,7 @@ Step function for e+-                              (0.2, 0.1 mm)
 Step function for muons/hadrons                    (0.2, 0.05 mm)
 Step function for light ions                       (0.1, 0.02 mm)
 Step function for general ions                     (0.1, 0.001 mm)
-Lowest e+e- kinetic energy                         100 eV 
+Lowest e+e- kinetic energy                         100 eV
 Lowest muon/hadron kinetic energy                  1 keV
 Use ICRU90 data                                    1
 Fluctuations of dE/dx are enabled                  1
@@ -149,9 +150,9 @@ Safety factor for msc step limit for e+-           0.6
 Skin parameter for msc step limitation of e+-      1
 Lambda limit for msc step limit for e+-            1 mm
 Use Mott correction for e- scattering              1
-Factor used for dynamic computation of angular 
+Factor used for dynamic computation of angular
   limit between single and multiple scattering     1
-Fixed angular limit between single 
+Fixed angular limit between single
   and multiple scattering                          3.1416 rad
 Upper energy limit for e+- multiple scattering     100 MeV
 Type of electron single scattering model           0
@@ -174,13 +175,13 @@ Type of PIXE cross section for e+-                 Livermore
 ### ===  Ignore cuts flag:   0
 
 phot:  for gamma SubType=12 BuildTable=0
-      LambdaPrime table from 200 keV to 100 TeV in 174 bins 
+      LambdaPrime table from 200 keV to 100 TeV in 174 bins
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
  LivermorePhElectric : Emin=    0 eV  Emax=  100 TeV  SauterGavrila Fluo
 
 compt:  for gamma SubType=13 BuildTable=1
       Lambda table from 10 eV  to 1 MeV, 20 bins/decade, spline: 1
-      LambdaPrime table from 1 MeV to 100 TeV in 160 bins 
+      LambdaPrime table from 1 MeV to 100 TeV in 160 bins
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
         KleinNishina : Emin=    0 eV  Emax=  100 TeV Fluo
 
@@ -191,7 +192,7 @@ conv:  for gamma SubType=14 BuildTable=1
 
 Rayl:  for gamma SubType=11 BuildTable=1
       Lambda table from 10 eV  to 150 keV, 20 bins/decade, spline: 0
-      LambdaPrime table from 150 keV to 100 TeV in 176 bins 
+      LambdaPrime table from 150 keV to 100 TeV in 176 bins
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
    LivermoreRayleigh : Emin=    0 eV  Emax=  100 TeV  CullenGenerator
 
@@ -218,7 +219,7 @@ eBrem:  for e-  XStype:4  SubType=3
 ePairProd:  for e-  XStype:1  SubType=4
       dE/dx and range tables from 10 eV  to 100 TeV in 260 bins
       Lambda tables from threshold to 100 TeV, 20 bins/decade, spline: 0
-      Sampling table 25x1001; from 0.1 GeV to 100 TeV 
+      Sampling table 25x1001; from 0.1 GeV to 100 TeV
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            ePairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
@@ -245,7 +246,7 @@ eBrem:  for e+  XStype:4  SubType=3
 ePairProd:  for e+  XStype:1  SubType=4
       dE/dx and range tables from 10 eV  to 100 TeV in 260 bins
       Lambda tables from threshold to 100 TeV, 20 bins/decade, spline: 0
-      Sampling table 25x1001; from 0.1 GeV to 100 TeV 
+      Sampling table 25x1001; from 0.1 GeV to 100 TeV
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            ePairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
@@ -275,7 +276,7 @@ hBrems:  for proton  XStype:1  SubType=3
 hPairProd:  for proton  XStype:1  SubType=4
       dE/dx and range tables from 10 eV  to 100 TeV in 260 bins
       Lambda tables from threshold to 100 TeV, 20 bins/decade, spline: 1
-      Sampling table 17x1001; from 7.50618 GeV to 100 TeV 
+      Sampling table 17x1001; from 7.50618 GeV to 100 TeV
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
@@ -357,7 +358,7 @@ hBrems:  for anti_proton  XStype:1  SubType=3
 hPairProd:  for anti_proton  XStype:1  SubType=4
       dE/dx and range tables from 10 eV  to 100 TeV in 260 bins
       Lambda tables from threshold to 100 TeV, 20 bins/decade, spline: 1
-      Sampling table 17x1001; from 7.50618 GeV to 100 TeV 
+      Sampling table 17x1001; from 7.50618 GeV to 100 TeV
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
@@ -383,7 +384,7 @@ hBrems:  for kaon+  XStype:1  SubType=3
 hPairProd:  for kaon+  XStype:1  SubType=4
       dE/dx and range tables from 10 eV  to 100 TeV in 260 bins
       Lambda tables from threshold to 100 TeV, 20 bins/decade, spline: 1
-      Sampling table 18x1001; from 3.94942 GeV to 100 TeV 
+      Sampling table 18x1001; from 3.94942 GeV to 100 TeV
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
@@ -409,7 +410,7 @@ hBrems:  for kaon-  XStype:1  SubType=3
 hPairProd:  for kaon-  XStype:1  SubType=4
       dE/dx and range tables from 10 eV  to 100 TeV in 260 bins
       Lambda tables from threshold to 100 TeV, 20 bins/decade, spline: 1
-      Sampling table 18x1001; from 3.94942 GeV to 100 TeV 
+      Sampling table 18x1001; from 3.94942 GeV to 100 TeV
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
@@ -435,7 +436,7 @@ muBrems:  for mu+  XStype:1  SubType=3
 muPairProd:  for mu+  XStype:1  SubType=4
       dE/dx and range tables from 10 eV  to 100 TeV in 260 bins
       Lambda tables from threshold to 100 TeV, 20 bins/decade, spline: 1
-      Sampling table 21x1001; from 0.85 GeV to 100 TeV 
+      Sampling table 21x1001; from 0.85 GeV to 100 TeV
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
           muPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
@@ -461,7 +462,7 @@ muBrems:  for mu-  XStype:1  SubType=3
 muPairProd:  for mu-  XStype:1  SubType=4
       dE/dx and range tables from 10 eV  to 100 TeV in 260 bins
       Lambda tables from threshold to 100 TeV, 20 bins/decade, spline: 1
-      Sampling table 21x1001; from 0.85 GeV to 100 TeV 
+      Sampling table 21x1001; from 0.85 GeV to 100 TeV
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
           muPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 @@@ G4ParticleHPInelastic instantiated for particle neutron/n    data directory is /home/ihor/GEANT4/geant4-v11.2.2-install/share/Geant4/data/G4NDL4.7.1/Inelastic
@@ -496,7 +497,7 @@ hBrems:  for pi+  XStype:1  SubType=3
 hPairProd:  for pi+  XStype:1  SubType=4
       dE/dx and range tables from 10 eV  to 100 TeV in 260 bins
       Lambda tables from threshold to 100 TeV, 20 bins/decade, spline: 1
-      Sampling table 20x1001; from 1.11656 GeV to 100 TeV 
+      Sampling table 20x1001; from 1.11656 GeV to 100 TeV
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
@@ -522,7 +523,7 @@ hBrems:  for pi-  XStype:1  SubType=3
 hPairProd:  for pi-  XStype:1  SubType=4
       dE/dx and range tables from 10 eV  to 100 TeV in 260 bins
       Lambda tables from threshold to 100 TeV, 20 bins/decade, spline: 1
-      Sampling table 20x1001; from 1.11656 GeV to 100 TeV 
+      Sampling table 20x1001; from 1.11656 GeV to 100 TeV
       ===== EM models for the G4Region  DefaultRegionForTheWorld ======
            hPairProd : Emin=    0 eV  Emax=  100 TeV  ModifiedMephi
 
@@ -653,92 +654,41 @@ Use HETC submodel for pre-compound model            0
 Type of de-excitation inverse x-section             3
 Type of de-excitation factory                       Evaporation+GEM
 Number of de-excitation channels                    68
-Min excitation energy                               10 eV 
+Min excitation energy                               10 eV
 Min energy per nucleon for multifragmentation       200 GeV
 Limit excitation energy for Fermi BreakUp           20 MeV
 Level density (1/MeV)                               0.075
 Use simple level density model                      1
 Use discrete excitation energy of the residual      1
-Time limit for long lived isomeres                  1 ns 
+Time limit for long lived isomeres                  1 ns
 Isomer production flag                              1
 Internal e- conversion flag                         1
 Store e- internal conversion data                   0
 Correlated gamma emission flag                      0
 Max 2J for sampling of angular correlations         10
 =======================================================================
-G4VisManager: Using G4TrajectoryDrawByCharge as fallback trajectory model.
-See commands in /vis/modeling/trajectories/ for other options.
-G4WT3 >      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
-... set ntuple merging row mode : row-wise - done
-G4WT1 >      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
-... set ntuple merging row mode : row-wise - done
-G4WT8 >      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
-... set ntuple merging row mode : row-wise - done
-G4WT6 >      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
-... set ntuple merging row mode : row-wise - done
-G4WT5 >      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
-... set ntuple merging row mode : row-wise - done
-G4WT7 >      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
-... set ntuple merging row mode : row-wise - done
-G4WT4 >      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
-... set ntuple merging row mode : row-wise - done
-G4WT2 >      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
-... set ntuple merging row mode : row-wise - done
-G4WT0 >      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
-... set ntuple merging row mode : row-wise - done
-G4WT9 >      Cr_sctns:            Glauber-Gribov: 0 eV  ---> 100 TeV
-... set ntuple merging row mode : row-wise - done
-G4WT5 > ... create file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t5.root - done
-G4WT5 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0.root - done
-G4WT6 > ... create file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t6.root - done
-G4WT2 > ... create file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t2.root - done
-G4WT2 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0.root - done
-G4WT1 > ... create file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t1.root - done
-G4WT6 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0.root - done
-G4WT8 > ... create file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t8.root - done
-G4WT1 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0.root - done
-G4WT8 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0.root - done
-G4WT5 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t5.root - done
-G4WT2 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t2.root - done
-G4WT1 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t1.root - done
-G4WT6 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t6.root - done
-G4WT8 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t8.root - done
-G4WT5 > =========== Number of protons per event: 100000
-G4WT1 > =========== Number of protons per event: 100000
-G4WT8 > =========== Number of protons per event: 100000
-G4WT6 > =========== Number of protons per event: 100000
-G4WT2 > =========== Number of protons per event: 100000
-G4WT9 > ... create file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t9.root - done
-G4WT3 > ... create file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t3.root - done
-G4WT4 > ... create file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t4.root - done
-G4WT0 > ... create file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t0.root - done
-G4WT4 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0.root - done
-G4WT3 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0.root - done
-G4WT0 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0.root - done
-G4WT7 > ... create file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t7.root - done
-G4WT9 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0.root - done
-G4WT7 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0.root - done
-G4WT4 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t4.root - done
-G4WT3 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t3.root - done
-G4WT9 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t9.root - done
-G4WT0 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t0.root - done
-G4WT7 > ... open analysis file : /home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun0_t7.root - done
-G4WT4 > =========== Number of protons per event: 100000
-G4WT3 > =========== Number of protons per event: 100000
-G4WT7 > =========== Number of protons per event: 100000
-G4WT9 > =========== Number of protons per event: 100000
-G4WT0 > =========== Number of protons per event: 100000
-G4WT8 > =========== Number of protons per event: 100000
-G4WT0 > =========== Number of protons per event: 100000
-G4WT3 > =========== Number of protons per event: 100000
-G4WT2 > =========== Number of protons per event: 100000
-G4WT1 > =========== Number of protons per event: 100000
-G4WT5 > =========== Number of protons per event: 100000
-G4WT4 > =========== Number of protons per event: 100000
-G4WT7 > =========== Number of protons per event: 100000
-G4WT6 > =========== Number of protons per event: 100000
-G4WT9 > =========== Number of protons per event: 100000
-G4WT8 > =========== Number of protons per event: 100000
-G4WT3 > =========== Number of protons per event: 100000
-
-Process finished with exit code 143 (interrupted by signal 15:SIGTERM)
+Attributes available for modeling and filtering with
+  "/vis/modeling/trajectories/create/drawByAttribute" and
+  "/vis/filtering/trajectories/create/attributeFilter" commands:
+G4TrajectoriesModel:
+  Event ID (EventID): G4int
+  Run ID (RunID): G4int
+G4SmoothTrajectory:
+  Charge (Ch): unit: e+ (G4double)
+  Track ID (ID): G4int
+  Initial kinetic energy (IKE): G4BestUnit (G4double)
+  Initial momentum magnitude (IMag): G4BestUnit (G4double)
+  Initial momentum (IMom): G4BestUnit (G4ThreeVector)
+  No. of points (NTP): G4int
+  PDG Encoding (PDG): G4int
+  Parent ID (PID): G4int
+  Particle Name (PN): G4String
+G4SmoothTrajectoryPoint:
+  Auxiliary Point Position (Aux): G4BestUnit (G4ThreeVector)
+  Step Position (Pos): G4BestUnit (G4ThreeVector)
+WARNING: Trajectory storing has been requested.  This action may be
+  reversed with "/tracking/storeTrajectory 0".
+WARNING: The vis manager will keep up to 100 events.
+  This may use a lot of memory.
+  It may be changed with, e.g., "/vis/scene/endOfEventAction accumulate 10".
+ Changing export format to "jpg"
