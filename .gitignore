@@ -5,7 +5,9 @@ articles
 cmake-build-debug-geant4
 construction_schemes
 build
+root_files
 root_files/*
 analysis/venv
 analysis/.ipynb_checkpoints
 analysis/.idea
+analysis
