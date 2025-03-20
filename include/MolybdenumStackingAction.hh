@@ -15,12 +15,9 @@
 
 class MolybdenumStackingAction final : public G4UserStackingAction {
     public:
-    explicit MolybdenumStackingAction(MolybdenumEventAction*);
+    explicit MolybdenumStackingAction();
     ~MolybdenumStackingAction() override;
     G4ClassificationOfNewTrack ClassifyNewTrack(const G4Track*) override;
-
-    private:
-    MolybdenumEventAction* event_action_;
 };
 
 #endif // MOLYBDENUMSTACKINGACTION_HH

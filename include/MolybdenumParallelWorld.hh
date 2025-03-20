@@ -26,7 +26,7 @@ class MolybdenumParallelWorld final : public G4VUserParallelWorld {
     ~MolybdenumParallelWorld() override;
     void Construct() override;
     void ConstructSD() override;
-    void BuildNeutronDetectionVolume();
+    void BuildNeutronDetectionVolume(const G4bool);
     void BuildProtonLayeredDetectionVolume(const std::string&, G4double, G4bool);
 
     private:

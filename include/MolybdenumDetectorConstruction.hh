@@ -1,7 +1,6 @@
 #ifndef MOLYBDENUMDETECTORCONSTRUCTION_HH
 #define MOLYBDENUMDETECTORCONSTRUCTION_HH
 
-#include "AuxilaryUtilities.hh"
 #include "G4Box.hh"
 #include "G4DisplacedSolid.hh"
 #include "G4Element.hh"
@@ -23,6 +22,7 @@
 #include "G4VSolid.hh"
 #include "G4VUserDetectorConstruction.hh"
 #include "G4VisAttributes.hh"
+#include "MolybdenumAuxilaryUtilities.hh"
 #include "MolybdenumParallelWorld.hh"
 #include "MolybdenumTargetTabletSD.hh"
 #include "MolybdenumVacuumWindowSD.hh"
@@ -45,14 +45,17 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
     void BuildWaterCooler();
     void BuildTargetBodyFrontPart();
     void BuildCopperHolder();
-    void BuildMolybdenumTablet();
+    void BuildMolybdenum98Tablet();
+    void BuildMolybdenum100Tablet();
     void BuildHeliumSpace();
     // void BuildDegrader();
     // void BuildTabletLocker();
     // void BuildThreadedClamp();
     void BuildVacuumWindow();
     void BuildVacuumSpace();
-    // void BuildMolybdenumTablet(G4bool is_double=false);
+    // void BuildMolybdenum100Tablet(G4bool is_double=false);
+
+    void PrintCrossSection(G4Element*, G4double, const G4Material* material);
 
     private:
     // Solids
@@ -81,6 +84,7 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
     G4VSolid* solid_copper_holder_hollow;
     G4VSolid* solid_copper_holder;
 
+    G4VSolid* solid_molybdenum98_tablet;
     G4VSolid* solid_molybdenum100_tablet;
     G4VSolid* solid_tablet_locker_solid;
     G4VSolid* solid_tablet_locker_padding;
@@ -109,6 +113,7 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
     G4LogicalVolume* logical_water_flow;
     G4LogicalVolume* logical_copper_holder;
 
+    G4LogicalVolume* logical_molybdenum98_tablet;
     G4LogicalVolume* logical_molybdenum100_tablet;
     G4LogicalVolume* logical_tablet_locker;
     G4LogicalVolume* logical_threaded_clamp;
@@ -128,8 +133,8 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
     G4VPhysicalVolume* physical_water_cooler_alum;
     G4VPhysicalVolume* physical_water_flow;
     G4VPhysicalVolume* physical_copper_holder;
-    G4VPhysicalVolume* physical_molybdenum100_tablet;
     G4VPhysicalVolume* physical_molybdenum98_tablet;
+    G4VPhysicalVolume* physical_molybdenum100_tablet;
     G4VPhysicalVolume* physical_tablet_locker;
     G4VPhysicalVolume* physical_threaded_clamp;
     G4VPhysicalVolume* physical_helium_space;
@@ -142,6 +147,7 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
     G4Material* copper_material;
     G4Material* helium_material;
     G4Material* water_material;
+    G4Material* molybdenum98_material;
     G4Material* molybdenum100_material;
     G4Material* vacuum_material;
 
@@ -316,12 +322,29 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
 
     G4ThreeVector copper_holder_position;
 
-    // Molybdenum target tablet
+    // Molybdenum98 tablet
+    static constexpr G4double molybdenum98_tablet_radius_inner = 0. * mm;
+    static constexpr G4double molybdenum98_tablet_radius_outer = copper_holder_hollow_radius_inner;
+    static constexpr G4double molybdenum98_tablet_half_length  = 0.5 * mm;
+    static constexpr G4double molybdenum98_tablet_phi_start    = 0. * rad;
+    static constexpr G4double molybdenum98_tablet_phi_delta    = 2. * std::numbers::pi * rad;
+    // -------------------------------------------------------------------------------------------
+    static constexpr G4double molybdenum98_tablet_position_x = 0. * mm;
+    static constexpr G4double molybdenum98_tablet_position_y = 0. * mm;
+    static constexpr G4double molybdenum98_tablet_position_z = 2 *
+            (target_body_rear_part_half_length + water_cooler_half_length + target_body_front_part_baffle_half_length +
+             copper_holder_baffle_half_length) +
+        molybdenum98_tablet_half_length;
+
+    G4ThreeVector molybdenum98_tablet_position;
+    // -------------------------------------------------------------------------------------------
+    // Molybdenum100 enriched target tablet
     static constexpr G4double molybdenum100_tablet_radius_inner = 0. * mm;
     static constexpr G4double molybdenum100_tablet_radius_outer = copper_holder_hollow_radius_inner;
-    static constexpr G4double molybdenum100_tablet_half_length  = copper_holder_hollow_half_length;
-    static constexpr G4double molybdenum100_tablet_phi_start    = 0. * rad;
-    static constexpr G4double molybdenum100_tablet_phi_delta    = 2. * std::numbers::pi * rad;
+    static constexpr G4double molybdenum100_tablet_half_length =
+        copper_holder_hollow_half_length; // - molybdenum98_tablet_half_length;
+    static constexpr G4double molybdenum100_tablet_phi_start = 0. * rad;
+    static constexpr G4double molybdenum100_tablet_phi_delta = 2. * std::numbers::pi * rad;
     // -------------------------------------------------------------------------------------------
     static constexpr G4double molybdenum100_tablet_position_x = 0. * mm;
     static constexpr G4double molybdenum100_tablet_position_y = 0. * mm;
@@ -329,6 +352,12 @@ class MolybdenumDetectorConstruction final : public G4VUserDetectorConstruction 
             (target_body_rear_part_half_length + water_cooler_half_length + target_body_front_part_baffle_half_length +
              copper_holder_baffle_half_length) +
         molybdenum100_tablet_half_length;
+
+    // static constexpr G4double molybdenum100_tablet_position_z = 2 *
+    //         (target_body_rear_part_half_length + water_cooler_half_length + target_body_front_part_baffle_half_length
+    //         +
+    //          copper_holder_baffle_half_length + molybdenum98_tablet_half_length) +
+    //     molybdenum100_tablet_half_length;
 
     G4ThreeVector molybdenum100_tablet_position;
     // -------------------------------------------------------------------------------------------

@@ -15,9 +15,12 @@ namespace functions {
 
 namespace isotopes {
     struct Isotope {
+        std::string name;
+        G4int Z;
+        G4int A;
         G4int count;
-        G4double production_time;
         G4double half_life;
+        std::string volume;
     };
 } // namespace isotopes
 

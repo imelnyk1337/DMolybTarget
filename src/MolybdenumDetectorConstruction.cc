@@ -1,4 +1,6 @@
 #include "MolybdenumDetectorConstruction.hh"
+#include "G4HadronInelasticProcess.hh"
+#include "G4HadronicProcessStore.hh"
 
 MolybdenumDetectorConstruction::MolybdenumDetectorConstruction() {
     // Solids
@@ -120,7 +122,11 @@ MolybdenumDetectorConstruction::MolybdenumDetectorConstruction() {
     copper_holder_position =
         G4ThreeVector(copper_holder_position_x, copper_holder_position_y, copper_holder_position_z);
 
-    // Molybdenum target tablet
+    // Molybdenum98 tablet
+    molybdenum98_tablet_position =
+        G4ThreeVector(molybdenum98_tablet_position_x, molybdenum98_tablet_position_y, molybdenum98_tablet_position_z);
+
+    // Molybdenum100 target tablet
     molybdenum100_tablet_position = G4ThreeVector(molybdenum100_tablet_position_x, molybdenum100_tablet_position_y,
                                                   molybdenum100_tablet_position_z);
 
@@ -194,8 +200,17 @@ void MolybdenumDetectorConstruction::DefineMaterials() {
     molybdenum100_enriched->AddIsotope(molybdenum94, molybdenum94_abundance);
     molybdenum100_enriched->AddIsotope(molybdenum92, molybdenum92_abundance);
 
+    auto* molybdenum100_element = new G4Element("100Mo", "100Mo", 1);
+    molybdenum100_element->AddIsotope(molybdenum100, 100. * perCent);
+
+    auto* molybdenum98_element = new G4Element("98Mo", "98Mo", 1);
+    molybdenum98_element->AddIsotope(molybdenum98, 100. * perCent);
+
     molybdenum100_material = new G4Material("100Mo2C", molybdenum100_enriched_density, 1, kStateSolid);
     molybdenum100_material->AddElement(molybdenum100_enriched, 1);
+
+    molybdenum98_material = new G4Material("98Mo", 10.28 * g / cm3, 1, kStateSolid);
+    molybdenum98_material->AddElement(molybdenum98_element, 1);
 
     vacuum_material = new G4Material("vacuum", vacuum_atomic_number, vacuum_atomic_mass, vacuum_density, kStateGas,
                                      vacuum_temperature, vacuum_pressure);
@@ -353,7 +368,7 @@ void MolybdenumDetectorConstruction::BuildCopperHolder() {
                                                "physical_copper_holder", logical_world, false, 0, check_overlaps);
 }
 
-void MolybdenumDetectorConstruction::BuildMolybdenumTablet() {
+void MolybdenumDetectorConstruction::BuildMolybdenum100Tablet() {
     solid_molybdenum100_tablet =
         new G4Tubs("solid_molybdenum100_tablet", molybdenum100_tablet_radius_inner, molybdenum100_tablet_radius_outer,
                    molybdenum100_tablet_half_length, molybdenum100_tablet_phi_start, molybdenum100_tablet_phi_delta);
@@ -373,6 +388,22 @@ void MolybdenumDetectorConstruction::BuildMolybdenumTablet() {
         new G4PVPlacement(nullptr, molybdenum100_tablet_position, logical_molybdenum100_tablet,
                           "physical_molybdenum100_tablet", logical_world, false, 0, check_overlaps);
 }
+
+void MolybdenumDetectorConstruction::BuildMolybdenum98Tablet() {
+    solid_molybdenum98_tablet =
+        new G4Tubs("solid_molybdenum98_tablet", molybdenum98_tablet_radius_inner, molybdenum98_tablet_radius_outer,
+                   molybdenum98_tablet_half_length, molybdenum98_tablet_phi_start, molybdenum98_tablet_phi_delta);
+
+    logical_molybdenum98_tablet =
+        new G4LogicalVolume(solid_molybdenum98_tablet, molybdenum98_material, "logical_molybdenum98_tablet");
+    const G4VisAttributes molybdenum98_vis_attr(true, G4Color::Green());
+    logical_molybdenum98_tablet->SetVisAttributes(molybdenum98_vis_attr);
+
+    physical_molybdenum98_tablet =
+        new G4PVPlacement(nullptr, molybdenum98_tablet_position, logical_molybdenum98_tablet,
+                          "physical_molybdenum98_tablet", logical_world, false, 0, check_overlaps);
+}
+
 
 void MolybdenumDetectorConstruction::BuildHeliumSpace() {
     solid_helium_space_rear_part  = new G4Tubs("solid_helium_space_rear_part", helium_space_rear_part_radius_inner,
@@ -431,6 +462,21 @@ void MolybdenumDetectorConstruction::BuildVacuumSpace() {
                                               "physical_vacuum_space", logical_world, false, 0, check_overlaps);
 }
 
+void MolybdenumDetectorConstruction::PrintCrossSection(G4Element* element, const G4double energy,
+                                                       const G4Material* material = nullptr) {
+    const G4ParticleDefinition* proton      = G4Proton::ProtonDefinition();
+    const G4HadronInelasticProcess* process = new G4HadronInelasticProcess("protonInelastic");
+    G4HadronicProcessStore* store           = G4HadronicProcessStore::Instance();
+
+    if (process) {
+        const G4double xs = store->GetCrossSectionPerVolume(proton, energy, process, material);
+        G4cout << "# ================================ CROSS-SECTION ================================" << G4endl;
+        G4cout << "Cross-section for " << element->GetName() << " at " << energy << " MeV" << " is " << xs << G4endl;
+        G4cout << "# ===============================================================================" << G4endl;
+    }
+}
+
+
 G4VPhysicalVolume* MolybdenumDetectorConstruction::Construct() {
     DefineMaterials();
     BuildWorld();
@@ -438,7 +484,8 @@ G4VPhysicalVolume* MolybdenumDetectorConstruction::Construct() {
     BuildWaterCooler();
     BuildTargetBodyFrontPart();
     BuildCopperHolder();
-    BuildMolybdenumTablet();
+    // BuildMolybdenum98Tablet();
+    BuildMolybdenum100Tablet();
     BuildHeliumSpace();
     BuildVacuumWindow();
     BuildVacuumSpace();

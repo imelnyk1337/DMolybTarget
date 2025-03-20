@@ -27,15 +27,15 @@ G4bool MolybdenumGhostNeutronSD::ProcessHits(G4Step* step, G4TouchableHistory* h
         analysis_manager->FillNtupleIColumn(1, 0, run_id);
         analysis_manager->FillNtupleIColumn(1, 1, event_id);
         analysis_manager->FillNtupleDColumn(1, 2, kinetic_energy);
-        analysis_manager->FillNtupleDColumn(1, 3, position.x());
-        analysis_manager->FillNtupleDColumn(1, 4, position.y());
-        analysis_manager->FillNtupleDColumn(1, 5, position.z());
-        analysis_manager->FillNtupleDColumn(1, 6, momentum.x());
-        analysis_manager->FillNtupleDColumn(1, 7, momentum.y());
-        analysis_manager->FillNtupleDColumn(1, 8, momentum.z());
-        analysis_manager->FillNtupleDColumn(1, 9, momentum_direction.x());
-        analysis_manager->FillNtupleDColumn(1, 10, momentum_direction.y());
-        analysis_manager->FillNtupleDColumn(1, 11, momentum_direction.z());
+        // analysis_manager->FillNtupleDColumn(1, 3, position.x());
+        // analysis_manager->FillNtupleDColumn(1, 4, position.y());
+        // analysis_manager->FillNtupleDColumn(1, 5, position.z());
+        // analysis_manager->FillNtupleDColumn(1, 6, momentum.x());
+        // analysis_manager->FillNtupleDColumn(1, 7, momentum.y());
+        // analysis_manager->FillNtupleDColumn(1, 8, momentum.z());
+        // analysis_manager->FillNtupleDColumn(1, 9, momentum_direction.x());
+        // analysis_manager->FillNtupleDColumn(1, 10, momentum_direction.y());
+        // analysis_manager->FillNtupleDColumn(1, 11, momentum_direction.z());
         analysis_manager->AddNtupleRow(1);
     }
     else if (particle == G4Gamma::GammaDefinition() && post_step_point->GetStepStatus() == fGeomBoundary) {
@@ -46,15 +46,15 @@ G4bool MolybdenumGhostNeutronSD::ProcessHits(G4Step* step, G4TouchableHistory* h
         analysis_manager->FillNtupleIColumn(2, 0, run_id);
         analysis_manager->FillNtupleIColumn(2, 1, event_id);
         analysis_manager->FillNtupleDColumn(2, 2, kinetic_energy);
-        analysis_manager->FillNtupleDColumn(2, 3, position.x());
-        analysis_manager->FillNtupleDColumn(2, 4, position.y());
-        analysis_manager->FillNtupleDColumn(2, 5, position.z());
-        analysis_manager->FillNtupleDColumn(2, 6, momentum.x());
-        analysis_manager->FillNtupleDColumn(2, 7, momentum.y());
-        analysis_manager->FillNtupleDColumn(2, 8, momentum.z());
-        analysis_manager->FillNtupleDColumn(2, 9, momentum_direction.x());
-        analysis_manager->FillNtupleDColumn(2, 10, momentum_direction.y());
-        analysis_manager->FillNtupleDColumn(2, 11, momentum_direction.z());
+        // analysis_manager->FillNtupleDColumn(2, 3, position.x());
+        // analysis_manager->FillNtupleDColumn(2, 4, position.y());
+        // analysis_manager->FillNtupleDColumn(2, 5, position.z());
+        // analysis_manager->FillNtupleDColumn(2, 6, momentum.x());
+        // analysis_manager->FillNtupleDColumn(2, 7, momentum.y());
+        // analysis_manager->FillNtupleDColumn(2, 8, momentum.z());
+        // analysis_manager->FillNtupleDColumn(2, 9, momentum_direction.x());
+        // analysis_manager->FillNtupleDColumn(2, 10, momentum_direction.y());
+        // analysis_manager->FillNtupleDColumn(2, 11, momentum_direction.z());
         analysis_manager->AddNtupleRow(2);
     }
     return true;

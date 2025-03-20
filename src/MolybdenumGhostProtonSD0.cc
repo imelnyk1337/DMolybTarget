@@ -8,9 +8,9 @@ MolybdenumGhostProtonSD0::MolybdenumGhostProtonSD0(const std::string& detector_n
 MolybdenumGhostProtonSD0::~MolybdenumGhostProtonSD0() = default;
 
 G4bool MolybdenumGhostProtonSD0::ProcessHits(G4Step* step, G4TouchableHistory*) {
-    const auto* run_manager = G4RunManager::GetRunManager();
-    const G4int run_id      = run_manager->GetCurrentRun()->GetRunID();
-    const G4int event_id    = run_manager->GetCurrentEvent()->GetEventID();
+    const auto* run_manager              = G4RunManager::GetRunManager();
+    const G4int run_id                   = run_manager->GetCurrentRun()->GetRunID();
+    const G4int event_id                 = run_manager->GetCurrentEvent()->GetEventID();
     const G4ParticleDefinition* particle = step->GetTrack()->GetParticleDefinition();
 
 
@@ -22,19 +22,13 @@ G4bool MolybdenumGhostProtonSD0::ProcessHits(G4Step* step, G4TouchableHistory*) 
             const G4ThreeVector momentum           = post_step_point->GetMomentum();
             const G4ThreeVector momentum_direction = post_step_point->GetMomentumDirection();
             const G4ThreeVector position           = post_step_point->GetPosition();
-            analysis_manager->FillNtupleIColumn(9, 0, run_id);
-            analysis_manager->FillNtupleIColumn(9, 1, event_id);
-            analysis_manager->FillNtupleDColumn(9, 2, kinetic_energy);
-            analysis_manager->FillNtupleDColumn(9, 3, momentum.x());
-            analysis_manager->FillNtupleDColumn(9, 4, momentum.y());
-            analysis_manager->FillNtupleDColumn(9, 5, momentum.z());
-            analysis_manager->FillNtupleDColumn(9, 6, momentum_direction.x());
-            analysis_manager->FillNtupleDColumn(9, 7, momentum_direction.y());
-            analysis_manager->FillNtupleDColumn(9, 8, momentum_direction.z());
-            analysis_manager->FillNtupleDColumn(9, 9, position.x());
-            analysis_manager->FillNtupleDColumn(9, 10, position.y());
-            analysis_manager->FillNtupleDColumn(9, 11, position.z());
-            analysis_manager->AddNtupleRow(9);
+            analysis_manager->FillNtupleIColumn(4, 0, run_id);
+            analysis_manager->FillNtupleIColumn(4, 1, event_id);
+            analysis_manager->FillNtupleDColumn(4, 2, kinetic_energy);
+
+            analysis_manager->AddNtupleRow(4);
+
+            // G4cout << "Proton (trackID: " << step->GetTrack()->GetTrackID() << ") with K.E. : " << kinetic_energy << G4endl;
         }
     }
     return true;

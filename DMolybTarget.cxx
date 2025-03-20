@@ -1,6 +1,7 @@
 #include <iostream>
 #include "G4MTRunManager.hh"
 #include "G4ParallelWorldPhysics.hh"
+#include "G4ParticleHPManager.hh"
 #include "G4RunManager.hh"
 #include "G4RunManagerFactory.hh"
 #include "G4UIExecutive.hh"
@@ -33,6 +34,15 @@ int main(const int argc, char** argv) {
     G4VUserActionInitialization* action_initialization = new MolybdenumActionInitialization();
     run_manager->SetUserInitialization(action_initialization);
 
+
+    G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes(false);
+    G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState(true);
+    G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation(true);
+    G4ParticleHPManager::GetInstance()->SetNeglectDoppler(false);
+    G4ParticleHPManager::GetInstance()->SetProduceFissionFragments(true);
+    G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel(false);
+    G4ParticleHPManager::GetInstance()->SetUseNRESP71Model(false);
+
     // run_manager->Initialize();
 
     G4UIExecutive* ui_executive = nullptr;
@@ -53,16 +63,6 @@ int main(const int argc, char** argv) {
         const std::string filename = argv[1];
         ui_manager->ApplyCommand(command + filename);
     }
-    // ui_manager->ApplyCommand("/vis/open OGL");
-    // // ui_manager->ApplyCommand("/vis/viewer/set/viewpointVector 1 1 1");
-    // ui_manager->ApplyCommand("/vis/drawVolume");
-    // ui_manager->ApplyCommand("/vis/viewer/autoRefresh true");
-    // ui_manager->ApplyCommand("/vis/scene/add/trajectories smooth");
-    // ui_manager->ApplyCommand("/vis/scene/endOfEventAction accumulate");
-    // // ui_manager->ApplyCommand("/vis/scene/add/axes");
-    // ui_manager->ApplyCommand("/vis/modeling/trajectories/create/drawByParticleID 0");
-    // ui_manager->ApplyCommand("/vis/scene/add/eventID");
-    // // ui_manager->ApplyCommand("/vis/scene/add/scale 10 cm");
     // ui_manager->ApplyCommand("/process/had/neutron/timeLimit 100.0 microsecond");
     // ui_manager->ApplyCommand("/process/had/neutron/energyLimit 100.0 MeV");
 

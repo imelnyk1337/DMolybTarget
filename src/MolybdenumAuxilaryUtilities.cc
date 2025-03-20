@@ -1,4 +1,4 @@
-#include "AuxilaryUtilities.hh"
+#include "MolybdenumAuxilaryUtilities.hh"
 
 std::vector<G4double> functions::convert_rgba_to_percents(const std::vector<G4double>& rgba) {
     constexpr G4double max = 255.;

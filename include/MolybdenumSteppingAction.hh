@@ -6,15 +6,13 @@
 #include "G4Track.hh"
 #include "G4UserSteppingAction.hh"
 #include "MolybdenumEventAction.hh"
+#include "MolybdenumRun.hh"
 
 class MolybdenumSteppingAction final : public G4UserSteppingAction {
     public:
-    explicit MolybdenumSteppingAction(MolybdenumEventAction*);
+    MolybdenumSteppingAction();
     ~MolybdenumSteppingAction() override;
     void UserSteppingAction(const G4Step*) override;
-
-    private:
-    MolybdenumEventAction* event_action_;
 };
 
 

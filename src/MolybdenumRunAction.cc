@@ -1,5 +1,7 @@
 #include "MolybdenumRunAction.hh"
 
+#include "MolybdenumRun.hh"
+
 MolybdenumRunAction::MolybdenumRunAction() {
     // create an analysis manager singleton instance
     auto* analysis_manager = G4AnalysisManager::Instance();
@@ -13,188 +15,149 @@ MolybdenumRunAction::MolybdenumRunAction() {
     analysis_manager->CreateNtupleIColumn("run_id");
     analysis_manager->CreateNtupleIColumn("event_id");
     analysis_manager->CreateNtupleDColumn("kinetic_energy");
-    analysis_manager->CreateNtupleDColumn("position_x");
-    analysis_manager->CreateNtupleDColumn("position_y");
-    analysis_manager->CreateNtupleDColumn("position_z");
-    analysis_manager->CreateNtupleDColumn("momentum_x");
-    analysis_manager->CreateNtupleDColumn("momentum_y");
-    analysis_manager->CreateNtupleDColumn("momentum_z");
+    // analysis_manager->CreateNtupleDColumn("position_x");
+    // analysis_manager->CreateNtupleDColumn("position_y");
+    // analysis_manager->CreateNtupleDColumn("position_z");
+    // analysis_manager->CreateNtupleDColumn("momentum_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_z");
     analysis_manager->FinishNtuple(0);
 
-    // ============= NEUTRONS SCORING AFTER LEAVING MOLYBDENUM TABLET ================
-    analysis_manager->CreateNtuple("neutrons_1", "neutrons_1");
+    // ============= NEUTRONS AT THE MIDDLE OF THE MOLYBDENUM100 TABLET ================
+    analysis_manager->CreateNtuple("neutrons", "neutrons");
     analysis_manager->CreateNtupleIColumn("run_id");
     analysis_manager->CreateNtupleIColumn("event_id");
     analysis_manager->CreateNtupleDColumn("kinetic_energy");
-    analysis_manager->CreateNtupleDColumn("position_x");
-    analysis_manager->CreateNtupleDColumn("position_y");
-    analysis_manager->CreateNtupleDColumn("position_z");
-    analysis_manager->CreateNtupleDColumn("momentum_x");
-    analysis_manager->CreateNtupleDColumn("momentum_y");
-    analysis_manager->CreateNtupleDColumn("momentum_z");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_x");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_y");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_z");
+    // analysis_manager->CreateNtupleDColumn("position_x");
+    // analysis_manager->CreateNtupleDColumn("position_y");
+    // analysis_manager->CreateNtupleDColumn("position_z");
+    // analysis_manager->CreateNtupleDColumn("momentum_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_z");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_z");
     analysis_manager->FinishNtuple(1);
 
-    // ===================== GAMMAS FROM (p, gamma) REACTIONS =========================
-    analysis_manager->CreateNtuple("gamma_1", "gamma_1");
+    // ===================== GAMMAS =========================
+    analysis_manager->CreateNtuple("gamma", "gamma");
     analysis_manager->CreateNtupleIColumn("run_id");
     analysis_manager->CreateNtupleIColumn("event_id");
     analysis_manager->CreateNtupleDColumn("kinetic_energy");
-    analysis_manager->CreateNtupleDColumn("position_x");
-    analysis_manager->CreateNtupleDColumn("position_y");
-    analysis_manager->CreateNtupleDColumn("position_z");
-    analysis_manager->CreateNtupleDColumn("momentum_x");
-    analysis_manager->CreateNtupleDColumn("momentum_y");
-    analysis_manager->CreateNtupleDColumn("momentum_z");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_x");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_y");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_z");
+    // analysis_manager->CreateNtupleDColumn("position_x");
+    // analysis_manager->CreateNtupleDColumn("position_y");
+    // analysis_manager->CreateNtupleDColumn("position_z");
+    // analysis_manager->CreateNtupleDColumn("momentum_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_z");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_z");
     analysis_manager->FinishNtuple(2);
-
-    // ====================== PROTONS AT THE ALUMINIUM VACUUM WINDOW =====================
-    analysis_manager->CreateNtuple("protons_vw_0", "protons_vw_0");
-    analysis_manager->CreateNtupleIColumn("run_id");
-    analysis_manager->CreateNtupleIColumn("event_id");
-    analysis_manager->CreateNtupleDColumn("kinetic_energy");
-    analysis_manager->CreateNtupleDColumn("momentum_x");
-    analysis_manager->CreateNtupleDColumn("momentum_y");
-    analysis_manager->CreateNtupleDColumn("momentum_z");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_x");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_y");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_z");
-    analysis_manager->CreateNtupleDColumn("position_x");
-    analysis_manager->CreateNtupleDColumn("position_y");
-    analysis_manager->CreateNtupleDColumn("position_z");
-    analysis_manager->FinishNtuple(3);
 
     // ========================= BORN PROTONS ======================================
     analysis_manager->CreateNtuple("protons_born", "protons_born");
     analysis_manager->CreateNtupleIColumn("run_id");
     analysis_manager->CreateNtupleIColumn("event_id");
     analysis_manager->CreateNtupleDColumn("kinetic_energy");
-    analysis_manager->CreateNtupleDColumn("position_x");
-    analysis_manager->CreateNtupleDColumn("position_y");
-    analysis_manager->CreateNtupleDColumn("position_z");
-    analysis_manager->CreateNtupleDColumn("momentum_x");
-    analysis_manager->CreateNtupleDColumn("momentum_y");
-    analysis_manager->CreateNtupleDColumn("momentum_z");
-    analysis_manager->FinishNtuple(4);
+    // analysis_manager->CreateNtupleDColumn("position_x");
+    // analysis_manager->CreateNtupleDColumn("position_y");
+    // analysis_manager->CreateNtupleDColumn("position_z");
+    // analysis_manager->CreateNtupleDColumn("momentum_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_z");
+    analysis_manager->FinishNtuple(3);
 
-    // =================== PROTONS AT THE TARGET TABLET =======================
-    // Enter target tablet
-    analysis_manager->CreateNtuple("protons_tt_enter", "protons_tt_enter");
-    analysis_manager->CreateNtupleIColumn("run_id");
-    analysis_manager->CreateNtupleIColumn("event_id");
-    analysis_manager->CreateNtupleDColumn("kinetic_energy");
-    analysis_manager->CreateNtupleDColumn("momentum_x");
-    analysis_manager->CreateNtupleDColumn("momentum_y");
-    analysis_manager->CreateNtupleDColumn("momentum_z");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_x");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_y");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_z");
-    analysis_manager->CreateNtupleDColumn("position_x");
-    analysis_manager->CreateNtupleDColumn("position_y");
-    analysis_manager->CreateNtupleDColumn("position_z");
-    analysis_manager->FinishNtuple(5);
-    // Exit from target table
-    analysis_manager->CreateNtuple("protons_tt_exit", "protons_tt_exit");
-    analysis_manager->CreateNtupleIColumn("run_id");
-    analysis_manager->CreateNtupleIColumn("event_id");
-    analysis_manager->CreateNtupleDColumn("kinetic_energy");
-    analysis_manager->CreateNtupleDColumn("momentum_x");
-    analysis_manager->CreateNtupleDColumn("momentum_y");
-    analysis_manager->CreateNtupleDColumn("momentum_z");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_x");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_y");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_z");
-    analysis_manager->CreateNtupleDColumn("position_x");
-    analysis_manager->CreateNtupleDColumn("position_y");
-    analysis_manager->CreateNtupleDColumn("position_z");
-    analysis_manager->FinishNtuple(6);
 
-    // =============== NEUTRONS AT THE TARGET TABLET =======================
-    // Start (born) at the target tablet
-    analysis_manager->CreateNtuple("neutrons_tt_start", "neutrons_tt_start");
-    analysis_manager->CreateNtupleIColumn("run_id");
-    analysis_manager->CreateNtupleIColumn("event_id");
-    analysis_manager->CreateNtupleDColumn("kinetic_energy");
-    analysis_manager->CreateNtupleDColumn("momentum_x");
-    analysis_manager->CreateNtupleDColumn("momentum_y");
-    analysis_manager->CreateNtupleDColumn("momentum_z");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_x");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_y");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_z");
-    analysis_manager->CreateNtupleDColumn("position_x");
-    analysis_manager->CreateNtupleDColumn("position_y");
-    analysis_manager->CreateNtupleDColumn("position_z");
-    analysis_manager->FinishNtuple(7);
-
-    analysis_manager->CreateNtuple("neutrons_tt_end", "neutrons_tt_end");
-    analysis_manager->CreateNtupleIColumn("run_id");
-    analysis_manager->CreateNtupleIColumn("event_id");
-    analysis_manager->CreateNtupleDColumn("kinetic_energy");
-    analysis_manager->CreateNtupleDColumn("momentum_x");
-    analysis_manager->CreateNtupleDColumn("momentum_y");
-    analysis_manager->CreateNtupleDColumn("momentum_z");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_x");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_y");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_z");
-    analysis_manager->CreateNtupleDColumn("position_x");
-    analysis_manager->CreateNtupleDColumn("position_y");
-    analysis_manager->CreateNtupleDColumn("position_z");
-    analysis_manager->FinishNtuple(8);
-
+    // ========================= PROTONS SD0 ======================================
     analysis_manager->CreateNtuple("protons_sd0", "protons_sd0");
     analysis_manager->CreateNtupleIColumn("run_id");
     analysis_manager->CreateNtupleIColumn("event_id");
     analysis_manager->CreateNtupleDColumn("kinetic_energy");
-    analysis_manager->CreateNtupleDColumn("momentum_x");
-    analysis_manager->CreateNtupleDColumn("momentum_y");
-    analysis_manager->CreateNtupleDColumn("momentum_z");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_x");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_y");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_z");
-    analysis_manager->CreateNtupleDColumn("position_x");
-    analysis_manager->CreateNtupleDColumn("position_y");
-    analysis_manager->CreateNtupleDColumn("position_z");
-    analysis_manager->FinishNtuple(9);
+    // analysis_manager->CreateNtupleDColumn("momentum_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_z");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_z");
+    // analysis_manager->CreateNtupleDColumn("position_x");
+    // analysis_manager->CreateNtupleDColumn("position_y");
+    // analysis_manager->CreateNtupleDColumn("position_z");
+    analysis_manager->FinishNtuple(4);
 
+    // ========================= PROTONS SD1 ======================================
     analysis_manager->CreateNtuple("protons_sd1", "protons_sd1");
     analysis_manager->CreateNtupleIColumn("run_id");
     analysis_manager->CreateNtupleIColumn("event_id");
     analysis_manager->CreateNtupleDColumn("kinetic_energy");
-    analysis_manager->CreateNtupleDColumn("momentum_x");
-    analysis_manager->CreateNtupleDColumn("momentum_y");
-    analysis_manager->CreateNtupleDColumn("momentum_z");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_x");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_y");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_z");
-    analysis_manager->CreateNtupleDColumn("position_x");
-    analysis_manager->CreateNtupleDColumn("position_y");
-    analysis_manager->CreateNtupleDColumn("position_z");
-    analysis_manager->FinishNtuple(10);
+    // analysis_manager->CreateNtupleDColumn("momentum_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_z");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_z");
+    // analysis_manager->CreateNtupleDColumn("position_x");
+    // analysis_manager->CreateNtupleDColumn("position_y");
+    // analysis_manager->CreateNtupleDColumn("position_z");
+    analysis_manager->FinishNtuple(5);
 
-    analysis_manager->CreateNtuple("protons_vw_1", "protons_vw_1");
+    // ========================= PROTONS ENTERING MO100 TABLET ======================================
+    analysis_manager->CreateNtuple("protons_t", "protons_t");
     analysis_manager->CreateNtupleIColumn("run_id");
     analysis_manager->CreateNtupleIColumn("event_id");
     analysis_manager->CreateNtupleDColumn("kinetic_energy");
-    analysis_manager->CreateNtupleDColumn("momentum_x");
-    analysis_manager->CreateNtupleDColumn("momentum_y");
-    analysis_manager->CreateNtupleDColumn("momentum_z");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_x");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_y");
-    analysis_manager->CreateNtupleDColumn("momentum_direction_z");
-    analysis_manager->CreateNtupleDColumn("position_x");
-    analysis_manager->CreateNtupleDColumn("position_y");
-    analysis_manager->CreateNtupleDColumn("position_z");
-    analysis_manager->FinishNtuple(11);
+    // analysis_manager->CreateNtupleDColumn("momentum_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_z");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_z");
+    // analysis_manager->CreateNtupleDColumn("position_x");
+    // analysis_manager->CreateNtupleDColumn("position_y");
+    // analysis_manager->CreateNtupleDColumn("position_z");
+    analysis_manager->FinishNtuple(6);
+
+    // ========================= PROTONS ENTERING VACUUM WINDOW ======================================
+    analysis_manager->CreateNtuple("protons_vwe", "protons_vwe");
+    analysis_manager->CreateNtupleIColumn("run_id");
+    analysis_manager->CreateNtupleIColumn("event_id");
+    analysis_manager->CreateNtupleDColumn("kinetic_energy");
+    // analysis_manager->CreateNtupleDColumn("momentum_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_z");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_z");
+    // analysis_manager->CreateNtupleDColumn("position_x");
+    // analysis_manager->CreateNtupleDColumn("position_y");
+    // analysis_manager->CreateNtupleDColumn("position_z");
+    analysis_manager->FinishNtuple(7);
+
+    // ========================= PROTONS ENTERING VACUUM WINDOW ======================================
+    analysis_manager->CreateNtuple("protons_vwl", "protons_vwl");
+    analysis_manager->CreateNtupleIColumn("run_id");
+    analysis_manager->CreateNtupleIColumn("event_id");
+    analysis_manager->CreateNtupleDColumn("kinetic_energy");
+    // analysis_manager->CreateNtupleDColumn("momentum_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_z");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_x");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_y");
+    // analysis_manager->CreateNtupleDColumn("momentum_direction_z");
+    // analysis_manager->CreateNtupleDColumn("position_x");
+    // analysis_manager->CreateNtupleDColumn("position_y");
+    // analysis_manager->CreateNtupleDColumn("position_z");
+    analysis_manager->FinishNtuple(8);
 }
 MolybdenumRunAction::~MolybdenumRunAction() = default;
 
-void MolybdenumRunAction::BeginOfRunAction(const G4Run* run) {
-    const G4int run_id     = run->GetRunID();
+G4Run* MolybdenumRunAction::GenerateRun() {
+    run_ = new MolybdenumRun();
+    return run_;
+}
+
+void MolybdenumRunAction::BeginOfRunAction(const G4Run*) {
+    const G4int run_id     = run_->GetRunID();
     auto* analysis_manager = G4AnalysisManager::Instance();
     const std::string prefix_file_name =
         "/home/ihor/CLionProjects/DMolybTarget/root_files/MolybdenumProtonBombardmentRun";
@@ -204,6 +167,10 @@ void MolybdenumRunAction::BeginOfRunAction(const G4Run* run) {
     analysis_manager->FillNtupleIColumn(0, 0, run_id);
 }
 void MolybdenumRunAction::EndOfRunAction(const G4Run*) {
+    G4int run_number = run_->GetRunID();
+    if (isMaster) {
+        run_->EndOfRun(run_number);
+    }
     auto* analysis_manager = G4AnalysisManager::Instance();
     analysis_manager->CloseFile();
 }

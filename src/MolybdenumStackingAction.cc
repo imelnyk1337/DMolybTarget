@@ -1,9 +1,7 @@
 #include "MolybdenumStackingAction.hh"
 #include "MolybdenumDetectorConstruction.hh"
 
-MolybdenumStackingAction::MolybdenumStackingAction(MolybdenumEventAction* event_action) {
-    event_action_ = event_action;
-};
+MolybdenumStackingAction::MolybdenumStackingAction()  = default;
 MolybdenumStackingAction::~MolybdenumStackingAction() = default;
 
 G4ClassificationOfNewTrack MolybdenumStackingAction::ClassifyNewTrack(const G4Track* track) {
@@ -14,7 +12,8 @@ G4ClassificationOfNewTrack MolybdenumStackingAction::ClassifyNewTrack(const G4Tr
         if (const G4LogicalVolume* logical_molybdenum_tablet = detector_construction->GetMolybdenumLogicalVolume();
             track->GetVolume()->GetLogicalVolume() == logical_molybdenum_tablet) {
             // G4cout << "%%%%%%% Neutron creator model: " << track->GetCreatorModelName() << "; " << G4endl;
-            // G4cout << "&&&&&&& Neutron creator process: " << track->GetCreatorProcess()->GetProcessName() << "; " << G4endl;
+            // G4cout << "&&&&&&& Neutron creator process: " << track->GetCreatorProcess()->GetProcessName() << "; " <<
+            // G4endl;
             const G4double kinetic_energy         = track->GetKineticEnergy();
             const G4ThreeVector& neutron_position = track->GetPosition();
             const G4ThreeVector& neutron_momentum = track->GetMomentum();
@@ -26,12 +25,12 @@ G4ClassificationOfNewTrack MolybdenumStackingAction::ClassifyNewTrack(const G4Tr
             analysis_manager->FillNtupleIColumn(0, 0, current_run_id);
             analysis_manager->FillNtupleIColumn(0, 1, current_event_id);
             analysis_manager->FillNtupleDColumn(0, 2, kinetic_energy);
-            analysis_manager->FillNtupleDColumn(0, 3, neutron_position.x());
-            analysis_manager->FillNtupleDColumn(0, 4, neutron_position.y());
-            analysis_manager->FillNtupleDColumn(0, 5, neutron_position.z());
-            analysis_manager->FillNtupleDColumn(0, 6, neutron_momentum.x());
-            analysis_manager->FillNtupleDColumn(0, 7, neutron_momentum.y());
-            analysis_manager->FillNtupleDColumn(0, 8, neutron_momentum.z());
+            // analysis_manager->FillNtupleDColumn(0, 3, neutron_position.x());
+            // analysis_manager->FillNtupleDColumn(0, 4, neutron_position.y());
+            // analysis_manager->FillNtupleDColumn(0, 5, neutron_position.z());
+            // analysis_manager->FillNtupleDColumn(0, 6, neutron_momentum.x());
+            // analysis_manager->FillNtupleDColumn(0, 7, neutron_momentum.y());
+            // analysis_manager->FillNtupleDColumn(0, 8, neutron_momentum.z());
             analysis_manager->AddNtupleRow(0);
         }
     }
@@ -52,16 +51,16 @@ G4ClassificationOfNewTrack MolybdenumStackingAction::ClassifyNewTrack(const G4Tr
         const auto* run_manager      = G4RunManager::GetRunManager();
         const G4int current_run_id   = run_manager->GetCurrentRun()->GetRunID();
         const G4int current_event_id = run_manager->GetCurrentEvent()->GetEventID();
-        analysis_manager->FillNtupleIColumn(4, 0, current_run_id);
-        analysis_manager->FillNtupleIColumn(4, 1, current_event_id);
-        analysis_manager->FillNtupleDColumn(4, 2, kinetic_energy);
-        analysis_manager->FillNtupleDColumn(4, 3, proton_position.x());
-        analysis_manager->FillNtupleDColumn(4, 4, proton_position.y());
-        analysis_manager->FillNtupleDColumn(4, 5, proton_position.z());
-        analysis_manager->FillNtupleDColumn(4, 6, proton_momentum.x());
-        analysis_manager->FillNtupleDColumn(4, 7, proton_momentum.y());
-        analysis_manager->FillNtupleDColumn(4, 8, proton_momentum.z());
-        analysis_manager->AddNtupleRow(4);
+        analysis_manager->FillNtupleIColumn(3, 0, current_run_id);
+        analysis_manager->FillNtupleIColumn(3, 1, current_event_id);
+        analysis_manager->FillNtupleDColumn(3, 2, kinetic_energy);
+        // analysis_manager->FillNtupleDColumn(4, 3, proton_position.x());
+        // analysis_manager->FillNtupleDColumn(4, 4, proton_position.y());
+        // analysis_manager->FillNtupleDColumn(4, 5, proton_position.z());
+        // analysis_manager->FillNtupleDColumn(4, 6, proton_momentum.x());
+        // analysis_manager->FillNtupleDColumn(4, 7, proton_momentum.y());
+        // analysis_manager->FillNtupleDColumn(4, 8, proton_momentum.z());
+        analysis_manager->AddNtupleRow(3);
     }
     return fUrgent;
 }

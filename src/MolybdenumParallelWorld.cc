@@ -11,17 +11,19 @@ MolybdenumParallelWorld::MolybdenumParallelWorld(const G4String& parallel_world_
 
 MolybdenumParallelWorld::~MolybdenumParallelWorld() = default;
 //
-void MolybdenumParallelWorld::BuildNeutronDetectionVolume() {
+void MolybdenumParallelWorld::BuildNeutronDetectionVolume(const G4bool visibility = true) {
 
-    solid_surface_ghost_world   = new G4Box("ghost_box", 500. * mm, 500 * mm, 1. * nm);
+    // solid_surface_ghost_world = new G4Box("ghost_box", 500. * mm, 500 * mm, 1. * nm);
+    solid_surface_ghost_world =
+        new G4Tubs("solid_neutron_detector", 0. * mm, 15. * mm, 1. * nm, 0. * rad, 2. * std::numbers::pi * rad);
     logical_surface_ghost_world = new G4LogicalVolume(solid_surface_ghost_world, nullptr, "ghost_surface");
-    auto* logical_surface_ghost_world_vis_attr =
-        new G4VisAttributes(neutron_detection_volume_visibility_, G4Colour(0.0, .5, .5, 0.3));
+    auto* logical_surface_ghost_world_vis_attr = new G4VisAttributes(visibility, G4Colour(0.0, .5, .5, 0.3));
     logical_surface_ghost_world_vis_attr->SetForceSolid(true);
     logical_surface_ghost_world->SetVisAttributes(logical_surface_ghost_world_vis_attr);
 
+    constexpr G4double z_position = MolybdenumDetectorConstruction::molybdenum100_tablet_position_z;
     physical_surface_ghost_world =
-        new G4PVPlacement(nullptr, G4ThreeVector(0., 0., 80. * mm), logical_surface_ghost_world,
+        new G4PVPlacement(nullptr, G4ThreeVector(0., 0., z_position), logical_surface_ghost_world,
                           "physical_ghost_surface", logical_ghost_world, false, 0, false);
 }
 
@@ -65,7 +67,7 @@ void MolybdenumParallelWorld::Construct() {
     const auto* logical_ghost_world_vis_attr      = new G4VisAttributes(false);
     logical_ghost_world->SetVisAttributes(logical_ghost_world_vis_attr);
 
-    BuildNeutronDetectionVolume();
+    BuildNeutronDetectionVolume(false);
     constexpr G4double proton_sd0_position = MolybdenumDetectorConstruction::molybdenum100_tablet_position_z +
         MolybdenumDetectorConstruction::molybdenum100_tablet_half_length;
     constexpr G4double proton_sd1_position = MolybdenumDetectorConstruction::vacuum_window_position_z -
