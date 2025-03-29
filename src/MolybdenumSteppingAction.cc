@@ -31,8 +31,11 @@ void MolybdenumSteppingAction::UserSteppingAction(const G4Step* step) {
         const std::string name    = track->GetParticleDefinition()->GetParticleName();
         const G4VProcess* process = track->GetCreatorProcess();
 
-        // if (name == "Tc99[142.683]")
-        //     G4cout << track->GetParticleDefinition()->GetPDGSpin() << G4endl;
+        isotope_id_name_[track->GetTrackID()] = name;
+
+        if (true && name == "Tc99[142.683]") {
+            G4cout << "Metastable Tc99 is found: parent is " << isotope_id_name_[track->GetParentID()] << G4endl;
+        }
 
 
         // const G4VPhysicalVolume* volume     = track->GetVolume();

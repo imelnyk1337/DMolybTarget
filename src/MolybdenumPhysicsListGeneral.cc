@@ -10,10 +10,9 @@
 // #include "G4HadronInelasticQBBC.hh"
 // #include "G4HadronPhysicsFTFP_BERT_HP.hh"
 // #include "G4HadronPhysicsFTF_BIC.hh"
-// #include "G4HadronPhysicsINCLXX.hh"
-// #include "G4HadronPhysicsQGSP_BIC.hh"
-// #include "G4HadronPhysicsQGSP_BIC_AllHP.hh"
-// #include "G4HadronPhysicsQGSP_BIC_HP.hh"
+#include "G4HadronPhysicsINCLXX.hh"
+#include "G4HadronPhysicsQGSP_BIC_AllHP.hh"
+#include "G4HadronPhysicsQGSP_BIC_HP.hh"
 // #include "G4HadronPhysicsQGSP_FTFP_BERT.hh"
 #include "G4IonConstructor.hh"
 #include "G4LeptonConstructor.hh"
@@ -26,35 +25,55 @@
 // #include "G4HadronPhysicsQGSP"
 // #include "G4HadronPhysicsShieldingLEND.hh"
 // #include "G4HadronicParameters.hh"
-// #include "G4DeexPrecoParameters.hh"
-// #include "G4NuclearLevelData.hh"
-// #include "G4DecayPhysics.hh"
+#include "G4DecayPhysics.hh"
+#include "G4DeexPrecoParameters.hh"
 #include "G4HadronElasticPhysicsHP.hh"
+#include "G4NuclearLevelData.hh"
 // #include "G4IonQMDPhysics.hh"
+#include "G4EmParameters.hh"
+#include "G4HadronInelasticQBBC.hh"
+#include "G4HadronInelasticQBBC_ABLA.hh"
+#include "G4IonTable.hh"
+#include "G4NuclideTable.hh"
+#include "G4PhysListUtil.hh"
 #include "G4RadioactiveDecayPhysics.hh"
 #include "MolybdenumHadronInelasticPhysics.hh"
+#include "MolybdenumRadioactiveDecayPhysics.hh"
 
 
 MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysicsList() {
 
-    // G4PhysListUtil::InitialiseParameters();
+    // G4ParticleTable* particle_table = G4ParticleTable::GetParticleTable();
+    // particle_table->SetReadiness();
+    // particle_table->SetVerboseLevel(2);
+    // G4IonTable* ion_table = particle_table->GetIonTable();
+    // ion_table->CreateAllIon();
+    // ion_table->CreateAllIsomer();
+
+    G4PhysListUtil::InitialiseParameters();
     // G4LossTableManager::Instance();
 
-    // G4NuclideTable::GetInstance()->SetMeanLifeThreshold(5. * 3600. * CLHEP::second);
-    // G4NuclideTable::GetInstance()->SetLevelTolerance(.1 * CLHEP::eV);
-    // G4DeexPrecoParameters* deex = G4NuclearLevelData::GetInstance()->GetParameters();
-    // deex->SetCorrelatedGamma(false);
-    // deex->SetStoreAllLevels(true);
-    // deex->SetIsomerProduction(true);
-    // deex->SetInternalConversionFlag(true);
-    // deex->SetDiscreteExcitationFlag(true);
-    // deex->SetLevelDensityFlag(true);
-    // G4cout << "Level density flag: " << deex->GetLevelDensityFlag() << G4endl;
-    // G4cout << "Isomer production: " << deex->IsomerProduction() << G4endl;
+    constexpr G4double mean_life = 1. * CLHEP::second;
+    G4NuclideTable::GetInstance()->SetMeanLifeThreshold(mean_life);
+    G4NuclideTable::GetInstance()->SetLevelTolerance(.1 * CLHEP::eV);
 
-    // deex->SetMaxLifeTime(1. * CLHEP::second);
-    // deex->SetLevelDensity(10.); // 0.075
-    // deex->SetDeexModelType(3);
+    G4EmParameters::Instance()->SetDefaults();
+    G4EmParameters::Instance()->SetAugerCascade(true);
+    G4EmParameters::Instance()->SetDeexcitationIgnoreCut(true);
+
+    G4DeexPrecoParameters* deex = G4NuclearLevelData::GetInstance()->GetParameters();
+    deex->SetCorrelatedGamma(false);
+    deex->SetStoreAllLevels(true);
+    deex->SetStoreICLevelData(true);
+    deex->SetIsomerProduction(true);
+    deex->SetInternalConversionFlag(true);
+    deex->SetDiscreteExcitationFlag(true);
+    deex->SetMaxLifeTime(mean_life);
+    deex->SetDeexChannelsType(fGEM);
+    deex->SetVerbose(1);
+    // deex->SetUseCEM(true);
+    // deex->SetUseGNASH(false);
+    // deex->SetNeverGoBack(false);
 
 
     // electromagnetic physics
@@ -65,15 +84,18 @@ MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysics
     // RegisterPhysics(new G4HadronElasticPhysicsXS(2));
     //
     // hadron inelastic physics
-    // RegisterPhysics(new G4HadronPhysicsINCLXX(1));  // 2
-    // RegisterPhysics(new G4HadronPhysicsQGSP_BIC_HP(1)); // 2
+    // auto* hadron_inelastic_inclxx = new G4HadronPhysicsINCLXX(1); // also needed to try on 1E8 events
+    // RegisterPhysics(hadron_inelastic_inclxx); // 24
+    // RegisterPhysics(new G4HadronPhysicsQGSP_BIC_HP(1)); // 9
     // RegisterPhysics(new G4HadronPhysicsQGSP_BERT(1)); // 0
-    // RegisterPhysics(new G4HadronPhysicsQGSP_BIC_AllHP(1));
-    // RegisterPhysics(new G4HadronInelasticQBBC(1)); // 7
-    // RegisterPhysics(new G4HadronPhysicsShieldingLEND(1));
-    G4VPhysicsConstructor* custom_hadronic_physics = new MolybdenumHadronInelasticPhysics("hadronInelastic");
-    custom_hadronic_physics->SetVerboseLevel(2);
-    RegisterPhysics(custom_hadronic_physics);
+    // RegisterPhysics(new G4HadronPhysicsQGSP_BIC_AllHP(1)); // 0
+    auto* hadron_inelastic_qbbc = new G4HadronInelasticQBBC(1); // the best solution
+    RegisterPhysics(hadron_inelastic_qbbc); // 28
+    // RegisterPhysics(new G4HadronInelasticQBBC_ABLA(1)); // 0
+    // RegisterPhysics(new G4HadronPhysicsShieldingLEND(1)); // haven't tried yet
+    // G4VPhysicsConstructor* custom_hadronic_physics = new MolybdenumHadronInelasticPhysics("hadronInelastic");
+    // custom_hadronic_physics->SetVerboseLevel(2);
+    // RegisterPhysics(custom_hadronic_physics);
     //
     //
     // // ion elastic physics
@@ -93,11 +115,12 @@ MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysics
     //
     //
     // decay physics
-    // RegisterPhysics(new G4DecayPhysics(1));
+    RegisterPhysics(new G4DecayPhysics(1));
     //
     //
     // radioactive decay physics
-    G4RadioactiveDecayPhysics* radioactive_decay_physics = new G4RadioactiveDecayPhysics(2);
+    auto* radioactive_decay_physics = new G4RadioactiveDecayPhysics(2);
+    // auto* radioactive_decay_physics = new MolybdenumRadioactiveDecayPhysics("radioactiveDecay");
     RegisterPhysics(radioactive_decay_physics);
 }
 
@@ -109,7 +132,8 @@ MolybdenumPhysicsListGeneral::~MolybdenumPhysicsListGeneral() = default;
 // }
 //
 void MolybdenumPhysicsListGeneral::ConstructParticle() {
-    G4VModularPhysicsList::ConstructParticle();
+    // G4VModularPhysicsList::ConstructParticle();
+
     G4BosonConstructor pBosonConstructor;
     G4BosonConstructor::ConstructParticle();
 

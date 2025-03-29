@@ -4,11 +4,13 @@
 
 using nlohmann::json;
 
-MolybdenumRun::MolybdenumRun()  = default;
+MolybdenumRun::MolybdenumRun() { n_protons_ = 0; };
 MolybdenumRun::~MolybdenumRun() = default;
 
 void MolybdenumRun::Merge(const G4Run* run) {
     auto* local_run = dynamic_cast<const MolybdenumRun*>(run);
+
+    n_protons_ += local_run->n_protons_;
 
     std::map<G4String, G4int> local_isotope_count_map = local_run->isotopes_count_map_;
     for (std::map<G4String, G4int>::iterator it = local_isotope_count_map.begin(); it != local_isotope_count_map.end();
@@ -27,6 +29,8 @@ void MolybdenumRun::Merge(const G4Run* run) {
 
     G4Run::Merge(run);
 }
+
+void MolybdenumRun::CountProtonsReachedTarget() { n_protons_++; }
 
 void MolybdenumRun::CountIsotope(const std::string& name) {
     if (isotopes_count_map_.contains(name)) {
@@ -56,6 +60,11 @@ void MolybdenumRun::RegisterIsotopeID(const G4int id, const G4String& particle_n
     isotopes_id_[id] = particle_name;
 }
 
+void MolybdenumRun::RegisterIsotopeParentID(const G4int isotope_id, const G4int parent_id) {
+    isotope_parent_ids_[isotope_id] = parent_id;
+}
+
+
 G4String MolybdenumRun::GetIsotopeByID(const G4int id) { return isotopes_id_[id]; }
 
 
@@ -77,6 +86,18 @@ void MolybdenumRun::EndOfRun(G4int run_number) {
                    << isotopes_production_processes_[process_name][isotope_name] << G4endl;
         }
     }
+
+    constexpr G4double real_exp_n_protons = 6.3 * 10E-6 * 280. / (1.6 * 10E-19);
+    G4cout << "****** PROTONS INFO ****** " << '\n'
+           << "Totally, " << n_protons_ << " protons reached the molybdenum target" << G4endl;
+    G4cout << "Number of protons delivered during 280 sec of proton bombardment with current of 6.3 uA in a real experiment: "
+           << real_exp_n_protons << G4endl;
+    G4double scaling_factor = real_exp_n_protons / n_protons_;
+    G4double decay_constant = 3.21E-5;
+    G4cout << "Scaling factor = real / sim = " << scaling_factor << G4endl;
+    G4double activity = scaling_factor * decay_constant * isotopes_count_map_["Tc99[142.683]"];
+    G4cout << "Tc99m activity = " << activity / 1.E6 << " MBq" << G4endl;
+
     counts_file_output << counts_json;
     processes_file_output << processes_json;
     counts_file_output.close();

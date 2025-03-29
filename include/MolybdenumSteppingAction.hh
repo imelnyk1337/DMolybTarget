@@ -13,6 +13,8 @@ class MolybdenumSteppingAction final : public G4UserSteppingAction {
     MolybdenumSteppingAction();
     ~MolybdenumSteppingAction() override;
     void UserSteppingAction(const G4Step*) override;
+
+    std::map<G4int, G4String> isotope_id_name_;
 };
 
 
