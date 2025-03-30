@@ -43,12 +43,12 @@
 
 MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysicsList() {
 
-    // G4ParticleTable* particle_table = G4ParticleTable::GetParticleTable();
-    // particle_table->SetReadiness();
+    G4ParticleTable* particle_table = G4ParticleTable::GetParticleTable();
+    particle_table->SetReadiness();
     // particle_table->SetVerboseLevel(2);
-    // G4IonTable* ion_table = particle_table->GetIonTable();
-    // ion_table->CreateAllIon();
-    // ion_table->CreateAllIsomer();
+    G4IonTable* ion_table = particle_table->GetIonTable();
+    ion_table->CreateAllIon();
+    ion_table->CreateAllIsomer();
 
     G4PhysListUtil::InitialiseParameters();
     // G4LossTableManager::Instance();
@@ -69,11 +69,10 @@ MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysics
     deex->SetInternalConversionFlag(true);
     deex->SetDiscreteExcitationFlag(true);
     deex->SetMaxLifeTime(mean_life);
-    deex->SetDeexChannelsType(fGEM);
+    deex->SetDeexChannelsType(fGEM); // Hauser-Feshbach model
     deex->SetVerbose(1);
-    // deex->SetUseCEM(true);
-    // deex->SetUseGNASH(false);
-    // deex->SetNeverGoBack(false);
+    deex->SetLevelDensity(0.085);
+
 
 
     // electromagnetic physics
