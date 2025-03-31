@@ -37,11 +37,11 @@ int main(const int argc, char** argv) {
 
     G4ParticleHPManager::GetInstance()->SetSkipMissingIsotopes(false);
     G4ParticleHPManager::GetInstance()->SetDoNotAdjustFinalState(true);
-    G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation(true);
-    G4ParticleHPManager::GetInstance()->SetNeglectDoppler(false);
-    G4ParticleHPManager::GetInstance()->SetProduceFissionFragments(true);
-    G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel(false);
-    G4ParticleHPManager::GetInstance()->SetUseNRESP71Model(false);
+    G4ParticleHPManager::GetInstance()->SetUseOnlyPhotoEvaporation(false);
+    // G4ParticleHPManager::GetInstance()->SetNeglectDoppler(false);
+    // G4ParticleHPManager::GetInstance()->SetProduceFissionFragments(true);
+    // G4ParticleHPManager::GetInstance()->SetUseWendtFissionModel(false);
+    // G4ParticleHPManager::GetInstance()->SetUseNRESP71Model(false);
 
     // run_manager->Initialize();
 

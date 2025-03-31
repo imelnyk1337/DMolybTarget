@@ -16,8 +16,6 @@ class MolybdenumVacuumWindowSD final : public G4VSensitiveDetector {
     private:
     G4bool ProcessHits(G4Step*, G4TouchableHistory*) override;
     std::string detector_name_;
-    G4int temp_track1_id_;
-    G4int temp_track2_id_;
 };
 
 #endif // MOLYBDENUMVACUUMWINDOWSD_HH
