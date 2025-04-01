@@ -31,18 +31,18 @@ void MolybdenumSteppingAction::UserSteppingAction(const G4Step* step) {
         const std::string name    = track->GetParticleDefinition()->GetParticleName();
         const G4VProcess* process = track->GetCreatorProcess();
 
-        isotope_id_name_[track->GetTrackID()] = name;
-        if (true && name == "Tc99[142.683]") {
-            auto* process_constless      = const_cast<G4VProcess*>(process);
-            auto* hadronic_process       = dynamic_cast<G4HadronicProcess*>(process_constless);
-            G4String target_isotope_name = "";
-            if (hadronic_process) {
-                const G4Isotope* target_isotope = hadronic_process->GetTargetIsotope();
-                target_isotope_name             = target_isotope->GetName();
-            }
-            G4cout << "Metastable Tc99 is found: parent is " << isotope_id_name_[track->GetParentID()]
-                   << ", target isotope is " << target_isotope_name << G4endl;
-        }
+        // isotope_id_name_[track->GetTrackID()] = name;
+        // if (true && name == "Tc99[142.683]") {
+        //     auto* process_constless      = const_cast<G4VProcess*>(process);
+        //     auto* hadronic_process       = dynamic_cast<G4HadronicProcess*>(process_constless);
+        //     G4String target_isotope_name = "";
+        //     if (hadronic_process) {
+        //         const G4Isotope* target_isotope = hadronic_process->GetTargetIsotope();
+        //         target_isotope_name             = target_isotope->GetName();
+        //     }
+        //     G4cout << "Metastable Tc99 is found: parent is " << isotope_id_name_[track->GetParentID()]
+        //            << ", target isotope is " << target_isotope_name << G4endl;
+        // }
 
 
         // const G4VPhysicalVolume* volume     = track->GetVolume();

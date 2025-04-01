@@ -18,7 +18,7 @@ int main(const int argc, char** argv) {
 #ifdef G4MULTITHREADED
     auto* run_manager = new G4MTRunManager();
 #endif
-    constexpr G4int n_threads = 10;
+    constexpr G4int n_threads = 8;
     run_manager->SetNumberOfThreads(n_threads);
 
     G4VUserDetectorConstruction* world_construction = new MolybdenumDetectorConstruction();

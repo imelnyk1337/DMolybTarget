@@ -1,54 +1,38 @@
 #include "MolybdenumPhysicsListGeneral.hh"
-
-// #include <G4ProcessManager.hh>
-
 #include "G4BaryonConstructor.hh"
 #include "G4BosonConstructor.hh"
-// #include "G4ChipsProtonInelasticXS.hh"
-#include "G4EmStandardPhysics_option4.hh"
-#include "G4HadronElasticPhysicsXS.hh"
-// #include "G4HadronInelasticQBBC.hh"
-// #include "G4HadronPhysicsFTFP_BERT_HP.hh"
-// #include "G4HadronPhysicsFTF_BIC.hh"
-#include "G4HadronPhysicsINCLXX.hh"
-#include "G4HadronPhysicsQGSP_BIC_AllHP.hh"
-#include "G4HadronPhysicsQGSP_BIC_HP.hh"
-// #include "G4HadronPhysicsQGSP_FTFP_BERT.hh"
-#include "G4IonConstructor.hh"
-#include "G4LeptonConstructor.hh"
-#include "G4MesonConstructor.hh"
-// #include "G4NeutronCaptureProcess.hh"
-// #include "G4NeutronHPCapture.hh"
-// #include "G4NuclideTable.hh"
-#include "G4ShortLivedConstructor.hh"
-// #include "MolybdenumGammaNuclearPhysics.hh"
-// #include "G4HadronPhysicsQGSP"
-// #include "G4HadronPhysicsShieldingLEND.hh"
-// #include "G4HadronicParameters.hh"
 #include "G4DecayPhysics.hh"
 #include "G4DeexPrecoParameters.hh"
-#include "G4HadronElasticPhysicsHP.hh"
-#include "G4NuclearLevelData.hh"
-// #include "G4IonQMDPhysics.hh"
 #include "G4EmParameters.hh"
+#include "G4EmStandardPhysics_option4.hh"
+#include "G4HadronElasticPhysicsHP.hh"
 #include "G4HadronInelasticQBBC.hh"
-#include "G4HadronInelasticQBBC_ABLA.hh"
-#include "G4IonTable.hh"
+#include "G4IonConstructor.hh"
+// #include "G4IonElasticPhysics.hh"
+// #include "G4IonPhysicsPHP.hh"
+// #include "G4IonPhysicsXS.hh"
+#include "G4LeptonConstructor.hh"
+#include "G4MesonConstructor.hh"
+#include "G4NuclearLevelData.hh"
 #include "G4NuclideTable.hh"
 #include "G4PhysListUtil.hh"
 #include "G4RadioactiveDecayPhysics.hh"
-#include "MolybdenumHadronInelasticPhysics.hh"
-#include "MolybdenumRadioactiveDecayPhysics.hh"
+#include "G4ShortLivedConstructor.hh"
+// #include "G4StoppingPhysics.hh"
+// #include "MolybdenumGammaNuclearPhysics.hh"
+#include "G4NeutronCaptureProcess.hh"
+#include "G4NeutronHPCapture.hh"
+#include "G4ProcessManager.hh"
 
 
 MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysicsList() {
 
-    G4ParticleTable* particle_table = G4ParticleTable::GetParticleTable();
-    particle_table->SetReadiness();
-    // particle_table->SetVerboseLevel(2);
-    G4IonTable* ion_table = particle_table->GetIonTable();
-    ion_table->CreateAllIon();
-    ion_table->CreateAllIsomer();
+    // G4ParticleTable* particle_table = G4ParticleTable::GetParticleTable();
+    // // particle_table->SetReadiness();
+    // // particle_table->SetVerboseLevel(2);
+    // G4IonTable* ion_table = particle_table->GetIonTable();
+    // ion_table->CreateAllIon();
+    // ion_table->CreateAllIsomer();
 
     G4PhysListUtil::InitialiseParameters();
     // G4LossTableManager::Instance();
@@ -69,10 +53,9 @@ MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysics
     deex->SetInternalConversionFlag(true);
     deex->SetDiscreteExcitationFlag(true);
     deex->SetMaxLifeTime(mean_life);
-    deex->SetDeexChannelsType(fGEM); // Hauser-Feshbach model
+    deex->SetDeexChannelsType(fGEM); // not the Hauser-Feshbach model, extended Weisskopf-Ewing model
     deex->SetVerbose(1);
-    deex->SetLevelDensity(0.085);
-
+    // deex->SetLevelDensity(0.075);
 
 
     // electromagnetic physics
@@ -103,6 +86,7 @@ MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysics
     //
     // // ion inelastic physics
     // RegisterPhysics(new G4IonPhysicsXS(1));
+    // RegisterPhysics(new G4IonPhysicsPHP(1));
     //
     //
     // // stopping physics
@@ -118,7 +102,7 @@ MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysics
     //
     //
     // radioactive decay physics
-    auto* radioactive_decay_physics = new G4RadioactiveDecayPhysics(2);
+    auto* radioactive_decay_physics = new G4RadioactiveDecayPhysics(1);
     // auto* radioactive_decay_physics = new MolybdenumRadioactiveDecayPhysics("radioactiveDecay");
     RegisterPhysics(radioactive_decay_physics);
 }
@@ -152,11 +136,11 @@ void MolybdenumPhysicsListGeneral::ConstructParticle() {
     G4ShortLivedConstructor::ConstructParticle();
 }
 
-// void MolybdenumPhysicsListGeneral::ConstructProcess() {
-//     G4VModularPhysicsList::ConstructProcess();
-//     // AddTransportation();
-//     G4ProcessManager* process_manager = G4Neutron::Neutron()->GetProcessManager();
-//     auto* neutron_capture_process     = new G4NeutronCaptureProcess();
-//     neutron_capture_process->RegisterMe(new G4NeutronHPCapture());
-//     process_manager->AddDiscreteProcess(neutron_capture_process);
-// }
+void MolybdenumPhysicsListGeneral::ConstructProcess() {
+    G4VModularPhysicsList::ConstructProcess();
+    // AddTransportation();
+    G4ProcessManager* process_manager = G4Neutron::Neutron()->GetProcessManager();
+    auto* neutron_capture_process     = new G4NeutronCaptureProcess();
+    neutron_capture_process->RegisterMe(new G4NeutronHPCapture());
+    process_manager->AddDiscreteProcess(neutron_capture_process);
+}

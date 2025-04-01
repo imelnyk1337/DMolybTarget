@@ -67,7 +67,7 @@ void MolybdenumParallelWorld::Construct() {
     const auto* logical_ghost_world_vis_attr      = new G4VisAttributes(false);
     logical_ghost_world->SetVisAttributes(logical_ghost_world_vis_attr);
 
-    BuildNeutronDetectionVolume(false);
+    BuildNeutronDetectionVolume(true);
     constexpr G4double proton_sd0_position = MolybdenumDetectorConstruction::molybdenum100_tablet_position_z +
         MolybdenumDetectorConstruction::molybdenum100_tablet_half_length;
     constexpr G4double proton_sd1_position = MolybdenumDetectorConstruction::vacuum_window_position_z -
