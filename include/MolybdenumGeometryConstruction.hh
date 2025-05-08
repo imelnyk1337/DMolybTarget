@@ -47,15 +47,13 @@ class MolybdenumGeometryConstruction final : public G4VUserDetectorConstruction 
     void BuildCopperHolder();
     void BuildMolybdenum98Pellet();
     void BuildMolybdenum100Pellet();
-    void BuildHeliumSpace();
-    // void BuildDegrader();
-    // void BuildTabletLocker();
-    // void BuildThreadedClamp();
+    void BuildHeliumRearSpace();
+    void BuildDegrader();
+    void BuildHeliumFrontSpace();
     void BuildVacuumWindow();
-    void BuildVacuumSpace();
-    // void BuildMolybdenum100Pellet(G4bool is_double=false);
+    void BuildVacuumTube();
 
-    void PrintCrossSection(G4Element*, G4double, const G4Material* material);
+    void PrintCrossSection(const G4Element*, G4double, const G4Material* material);
 
     private:
     // Solids
@@ -71,35 +69,26 @@ class MolybdenumGeometryConstruction final : public G4VUserDetectorConstruction 
     G4VSolid* solid_target_body_front_part_hollow;
     // A union of the baffle and hollow
     G4VSolid* solid_target_body_front_part;
-
+    // Water cooling assembly
     G4VSolid* solid_water_cooler_alum;
     G4VSolid* solid_water_cooler_hollow;
     G4VSolid* solid_water_holder;
     G4VSolid* solid_water_flow;
-
-    // solid_rear_part & solid_front_part should be united to solid_target_body
-    // G4VSolid* solid_target_body = nullptr;
-
+    // Copper holder
     G4VSolid* solid_copper_holder_baffle;
     G4VSolid* solid_copper_holder_hollow;
     G4VSolid* solid_copper_holder;
-
+    // Molybdenum pellets
     G4VSolid* solid_molybdenum98_pellet;
     G4VSolid* solid_molybdenum100_pellet;
-    G4VSolid* solid_tablet_locker_solid;
-    G4VSolid* solid_tablet_locker_padding;
-    // solid_tablet_locker_solid & solid_tablet_locker_padding should be united
-    // to solid_tablet_locker
-    G4VSolid* solid_tablet_locker;
-    G4VSolid* solid_threaded_clamp;
     // Helium space
     G4VSolid* solid_helium_space_rear_part;
+    G4VSolid* solid_degrader;
     G4VSolid* solid_helium_space_front_part;
-    G4VSolid* solid_helium_space;
     // Aluminium vacuum window
     G4VSolid* solid_vacuum_window;
     // Vacuum space
-    G4VSolid* solid_vacuum_space;
+    G4VSolid* solid_vacuum_tube;
 
     // Logical volumes
 
@@ -115,11 +104,11 @@ class MolybdenumGeometryConstruction final : public G4VUserDetectorConstruction 
 
     G4LogicalVolume* logical_molybdenum98_pellet;
     G4LogicalVolume* logical_molybdenum100_pellet;
-    G4LogicalVolume* logical_pellet_locker;
-    G4LogicalVolume* logical_threaded_clamp;
-    G4LogicalVolume* logical_helium_space;
+    G4LogicalVolume* logical_helium_space_rear_part;
+    G4LogicalVolume* logical_degrader;
+    G4LogicalVolume* logical_helium_space_front_part;
     G4LogicalVolume* logical_vacuum_window;
-    G4LogicalVolume* logical_vacuum_space;
+    G4LogicalVolume* logical_vacuum_tube;
 
     // Physical volumes
 
@@ -135,11 +124,11 @@ class MolybdenumGeometryConstruction final : public G4VUserDetectorConstruction 
     G4VPhysicalVolume* physical_copper_holder;
     G4VPhysicalVolume* physical_molybdenum98_pellet;
     G4VPhysicalVolume* physical_molybdenum100_pellet;
-    G4VPhysicalVolume* physical_pellet_locker;
-    G4VPhysicalVolume* physical_threaded_clamp;
-    G4VPhysicalVolume* physical_helium_space;
+    G4VPhysicalVolume* physical_helium_space_rear_part;
+    G4VPhysicalVolume* physical_degrader;
+    G4VPhysicalVolume* physical_helium_space_front_part;
     G4VPhysicalVolume* physical_vacuum_window;
-    G4VPhysicalVolume* physical_vacuum_space;
+    G4VPhysicalVolume* physical_vacuum_tube;
 
     // Materials
     G4Material* air_material;
@@ -147,7 +136,7 @@ class MolybdenumGeometryConstruction final : public G4VUserDetectorConstruction 
     G4Material* copper_material;
     G4Material* helium_material;
     G4Material* water_material;
-    G4Material* molybdenum98_material;
+    G4Material* molybdenum98_material{};
     G4Material* molybdenum100_material;
     G4Material* vacuum_material;
 
@@ -164,13 +153,13 @@ class MolybdenumGeometryConstruction final : public G4VUserDetectorConstruction 
     // helium
     static constexpr G4double helium_atomic_mass = 4.002602 * g / mole;
     static constexpr G4double helium_pressure    = 0.275790292 * bar; // about 4 psi
-    static constexpr G4double helium_density     = 4.7E-5 * g / cm3; // 0.00001727 g / cm3
+    static constexpr G4double helium_density     = 4.7E-5 * g / cm3;
     // static constexpr G4double helium_density     = 17.E-7 * g / cm3; // 0.00001727 g / cm3
     static constexpr G4double helium_temperature = (273.15 + 10.) * kelvin; // about 10 deg C
     // water
-    static constexpr G4double water_density     = 1. * g / cm3;
-    static constexpr G4double water_temperature = (273.15 + 15.) * kelvin;
-    static constexpr G4double water_pressure    = 7.25 * bar; // 725 kPa
+    static constexpr G4double water_density      = 1. * g / cm3;
+    static constexpr G4double water_temperature  = (273.15 + 15.) * kelvin;
+    static constexpr G4double water_pressure     = 7.25 * bar; // 725 kPa
 
     // molybdenum-100 isotope (100Mo)
     static constexpr G4double molybdenum100_enriched_density = 10.22 * g / cm3;
@@ -222,8 +211,8 @@ class MolybdenumGeometryConstruction final : public G4VUserDetectorConstruction 
     static constexpr G4double target_body_rear_part_half_length =
         (99.10 - 20.09 - 3.00 - 5.00) * mm; // fixed in the scheme: 3 mm for water part & 5 for copper holder
                                             // baffle
-    static constexpr G4double target_body_rear_part_phi_start = 0. * rad;
-    static constexpr G4double target_body_rear_part_phi_delta = 2. * std::numbers::pi * rad;
+    static constexpr G4double target_body_rear_part_phi_start  = 0. * rad;
+    static constexpr G4double target_body_rear_part_phi_delta  = 2. * std::numbers::pi * rad;
 
     static constexpr G4double target_body_rear_part_position_x = 0. * mm;
     static constexpr G4double target_body_rear_part_position_y = 0. * mm;
@@ -329,9 +318,9 @@ class MolybdenumGeometryConstruction final : public G4VUserDetectorConstruction 
     static constexpr G4double molybdenum98_pellet_phi_start    = 0. * rad;
     static constexpr G4double molybdenum98_pellet_phi_delta    = 2. * std::numbers::pi * rad;
     // -------------------------------------------------------------------------------------------
-    static constexpr G4double molybdenum98_pellet_position_x = 0. * mm;
-    static constexpr G4double molybdenum98_pellet_position_y = 0. * mm;
-    static constexpr G4double molybdenum98_pellet_position_z = 2 *
+    static constexpr G4double molybdenum98_pellet_position_x   = 0. * mm;
+    static constexpr G4double molybdenum98_pellet_position_y   = 0. * mm;
+    static constexpr G4double molybdenum98_pellet_position_z   = 2 *
             (target_body_rear_part_half_length + water_cooler_half_length + target_body_front_part_baffle_half_length +
              copper_holder_baffle_half_length) +
         molybdenum98_pellet_half_length;
@@ -341,13 +330,13 @@ class MolybdenumGeometryConstruction final : public G4VUserDetectorConstruction 
     // Molybdenum100 enriched target tablet
     static constexpr G4double molybdenum100_pellet_radius_inner = 0. * mm;
     static constexpr G4double molybdenum100_pellet_radius_outer = copper_holder_hollow_radius_inner;
-    static constexpr G4double molybdenum100_pellet_half_length =
+    static constexpr G4double molybdenum100_pellet_half_length  =
         copper_holder_hollow_half_length - molybdenum98_pellet_half_length;
-    static constexpr G4double molybdenum100_pellet_phi_start = 0. * rad;
-    static constexpr G4double molybdenum100_pellet_phi_delta = 2. * std::numbers::pi * rad;
+    static constexpr G4double molybdenum100_pellet_phi_start    = 0. * rad;
+    static constexpr G4double molybdenum100_pellet_phi_delta    = 2. * std::numbers::pi * rad;
     // -------------------------------------------------------------------------------------------
-    static constexpr G4double molybdenum100_pellet_position_x = 0. * mm;
-    static constexpr G4double molybdenum100_pellet_position_y = 0. * mm;
+    static constexpr G4double molybdenum100_pellet_position_x   = 0. * mm;
+    static constexpr G4double molybdenum100_pellet_position_y   = 0. * mm;
     // static constexpr G4double molybdenum100_pellet_position_z = 2 *
     //         (target_body_rear_part_half_length + water_cooler_half_length + target_body_front_part_baffle_half_length
     //         +
@@ -361,37 +350,56 @@ class MolybdenumGeometryConstruction final : public G4VUserDetectorConstruction 
 
     G4ThreeVector molybdenum100_pellet_position;
     // -------------------------------------------------------------------------------------------
-    // Helium space
+    // Aluminium degrader
+    static constexpr G4double degrader_half_length = 25. * um;
+    // Helium space rear part
     static constexpr G4double helium_space_rear_part_radius_inner = 0. * mm;
     static constexpr G4double helium_space_rear_part_radius_outer = target_body_front_part_hollow_radius_inner;
     static constexpr G4double helium_space_rear_part_full_length  = 2 *
         (target_body_front_part_hollow_half_length - copper_holder_baffle_half_length -
-         copper_holder_hollow_half_length);
-    static constexpr G4double helium_space_rear_part_half_length   = helium_space_rear_part_full_length / 2.;
+         copper_holder_hollow_half_length - degrader_half_length);
+
+    static constexpr G4double helium_space_rear_part_half_length = helium_space_rear_part_full_length / 2.;
+    static constexpr G4double helium_space_rear_part_phi_start   = 0. * rad;
+    static constexpr G4double helium_space_rear_part_phi_delta   = 2. * std::numbers::pi * rad;
+
+    static constexpr G4double helium_space_rear_part_position_x = 0. * mm;
+    static constexpr G4double helium_space_rear_part_position_y = 0. * mm;
+    static constexpr G4double helium_space_rear_part_position_z = 2 *
+            (target_body_rear_part_half_length + water_cooler_half_length + target_body_front_part_baffle_half_length +
+             copper_holder_baffle_half_length + copper_holder_hollow_half_length) + helium_space_rear_part_half_length;
+
+    G4ThreeVector helium_space_rear_part_position;
+    // Aluminium degrader (continues)
+    static constexpr G4double degrader_radius_inner = 0. * mm;
+    static constexpr G4double degrader_radius_outer = target_body_front_part_hollow_radius_inner;
+    static constexpr G4double degrader_phi_start    = 0. * rad;
+    static constexpr G4double degrader_phi_delta    = 2. * std::numbers::pi * rad;
+
+    static constexpr G4double degrader_position_x   = 0. * mm;
+    static constexpr G4double degrader_position_y   = 0. * mm;
+    static constexpr G4double degrader_position_z   =  2 *
+            (target_body_rear_part_half_length + water_cooler_half_length + target_body_front_part_baffle_half_length +
+             copper_holder_baffle_half_length + copper_holder_hollow_half_length + helium_space_rear_part_half_length) +
+                 degrader_half_length;
+
+    G4ThreeVector degrader_position;
+    // Helium space front part
     static constexpr G4double helium_space_front_part_radius_inner = helium_space_rear_part_radius_inner;
     static constexpr G4double helium_space_front_part_radius_outer = target_body_front_part_hollow_radius_outer;
-    static constexpr G4double helium_space_front_part_half_length  = 2.5 * mm;
+    static constexpr G4double helium_space_front_part_half_length  = 2.5 * mm; // measured during target carousel maintenance
 
-    static constexpr G4double helium_space_phi_start = 0. * rad;
-    static constexpr G4double helium_space_phi_delta = 2. * std::numbers::pi * rad;
+    static constexpr G4double helium_space_front_part_phi_start = 0. * rad;
+    static constexpr G4double helium_space_front_part_phi_delta = 2. * std::numbers::pi * rad;
 
-    static constexpr G4double helium_space_front_part_translation_x = 0. * mm;
-    static constexpr G4double helium_space_front_part_translation_y = 0. * mm;
-    static constexpr G4double helium_space_front_part_translation_z =
-        helium_space_rear_part_half_length + helium_space_front_part_half_length;
-
-    G4ThreeVector helium_space_front_part_translation;
-    G4RotationMatrix* helium_space_front_part_rotation;
-    G4Transform3D* helium_space_front_part_transform;
-
-    static constexpr G4double helium_space_position_x = 0. * mm;
-    static constexpr G4double helium_space_position_y = 0. * mm;
-    static constexpr G4double helium_space_position_z = 2 *
+    static constexpr G4double helium_space_front_part_position_x = 0. * mm;
+    static constexpr G4double helium_space_front_part_position_y = 0. * mm;
+    static constexpr G4double helium_space_front_part_position_z = 2 *
             (target_body_rear_part_half_length + water_cooler_half_length + target_body_front_part_baffle_half_length +
-             copper_holder_baffle_half_length + copper_holder_hollow_half_length) +
-        helium_space_rear_part_half_length;
+             copper_holder_baffle_half_length + copper_holder_hollow_half_length + helium_space_rear_part_half_length + degrader_half_length) +
+        helium_space_front_part_half_length;
 
-    G4ThreeVector helium_space_position;
+    G4ThreeVector helium_space_front_part_position;
     // -------------------------------------------------------------------------------------------
 
     // Aluminium vacuum window
@@ -400,7 +408,7 @@ class MolybdenumGeometryConstruction final : public G4VUserDetectorConstruction 
     static constexpr G4double vacuum_window_radius_outer         = target_body_front_part_baffle_radius_outer;
     // static constexpr G4double vacuum_window_px                   = 30.5 * mm;
     // static constexpr G4double vacuum_window_py                   = 30.5 * mm;
-    static constexpr G4double vacuum_window_full_length = 0.025 * mm; // full length: 25. um
+    static constexpr G4double vacuum_window_full_length = 25 * um; // full length: 25. um
     static constexpr G4double vacuum_window_half_length = vacuum_window_full_length / 2.; // half length: 12.5 um
     static constexpr G4double vacuum_window_phi_start   = 0. * rad;
     static constexpr G4double vacuum_window_phi_delta   = 2. * std::numbers::pi * rad;
@@ -414,34 +422,23 @@ class MolybdenumGeometryConstruction final : public G4VUserDetectorConstruction 
 
     G4ThreeVector vacuum_window_position;
 
-    // Vacuum cubic space
-    // static constexpr G4double vacuum_space_px            = vacuum_window_;
-    // static constexpr G4double vacuum_space_py            = vacuum_window_py;
-    static constexpr G4double vacuum_space_radius_inner = vacuum_window_radius_inner;
-    static constexpr G4double vacuum_space_radius_outer = vacuum_window_radius_outer;
-    static constexpr G4double vacuum_space_z_full_length =
+    // Vacuum tube
+    static constexpr G4double vacuum_tube_radius_inner = vacuum_window_radius_inner;
+    static constexpr G4double vacuum_tube_radius_outer = vacuum_window_radius_outer;
+    static constexpr G4double vacuum_tube_z_full_length =
         world_pz - vacuum_window_position_z - vacuum_window_half_length;
-    static constexpr G4double vacuum_space_half_length = vacuum_space_z_full_length / 2.;
-    static constexpr G4double vacuum_space_phi_start   = vacuum_window_phi_start;
-    static constexpr G4double vacuum_space_phi_delta   = vacuum_window_phi_delta;
+    static constexpr G4double vacuum_tube_half_length = vacuum_tube_z_full_length / 2.;
+    static constexpr G4double vacuum_tube_phi_start   = vacuum_window_phi_start;
+    static constexpr G4double vacuum_tube_phi_delta   = vacuum_window_phi_delta;
 
-    static constexpr G4double vacuum_space_position_x = 0. * mm;
-    static constexpr G4double vacuum_space_position_y = 0. * mm;
-    static constexpr G4double vacuum_space_position_z = 2 *
+    static constexpr G4double vacuum_tube_position_x = 0. * mm;
+    static constexpr G4double vacuum_tube_position_y = 0. * mm;
+    static constexpr G4double vacuum_tube_position_z = 2 *
             (target_body_rear_part_half_length + water_cooler_half_length + target_body_front_part_baffle_half_length +
              target_body_front_part_hollow_half_length + vacuum_window_half_length) +
-        distance_target_body_vacuum_window + vacuum_space_half_length;
+        distance_target_body_vacuum_window + vacuum_tube_half_length;
 
-    G4ThreeVector vacuum_space_position;
-
-    // Tablet locker
-    static constexpr G4double tablet_locker_solid_radius_outer   = 20.91 * mm;
-    static constexpr G4double tablet_locker_solid_radius_inner   = 0. * mm;
-    static constexpr G4double tablet_locker_solid_half_length    = 5. * mm;
-    static constexpr G4double tablet_locker_padding_radius_outer = 20.91 * mm;
-    static constexpr G4double tablet_locker_padding_radius_inner = 16.46 * mm; // should be reconsidered
-    // static constexpr G4double tablet_locker_padding_half_length =
-    // molybdenum98_pellet_half_length + molybdenum100_pellet_half_length;
+    G4ThreeVector vacuum_tube_position;
 };
 
 #endif // MOLYBDENUMGEOMETRYCONSTRUCTION_HH

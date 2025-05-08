@@ -6,87 +6,89 @@ MolybdenumGeometryConstruction::MolybdenumGeometryConstruction() {
     // Solids
 
     // Solid world
-    solid_world = nullptr;
+    solid_world                         = nullptr;
     // Target body rear part
-    solid_target_body_rear_part = nullptr;
+    solid_target_body_rear_part         = nullptr;
     // Target body front part: an aluminium baffle
     solid_target_body_front_part_baffle = nullptr;
     // Target body front part: an aluminium holder with a hollow for the copper
     // target material holder
     solid_target_body_front_part_hollow = nullptr;
     // A union of the baffle and hollow
-    solid_target_body_front_part = nullptr;
+    solid_target_body_front_part        = nullptr;
 
-    solid_water_cooler_alum   = nullptr;
-    solid_water_cooler_hollow = nullptr;
-    solid_water_holder        = nullptr;
-    solid_water_flow          = nullptr;
+    solid_water_cooler_alum             = nullptr;
+    solid_water_cooler_hollow           = nullptr;
+    solid_water_holder                  = nullptr;
+    solid_water_flow                    = nullptr;
 
-    // solid_rear_part & solid_front_part should be united to solid_target_body
-    // G4VSolid* solid_target_body = nullptr;
+    solid_copper_holder_baffle          = nullptr;
+    solid_copper_holder_hollow          = nullptr;
+    solid_copper_holder                 = nullptr;
 
-    solid_copper_holder_baffle = nullptr;
-    solid_copper_holder_hollow = nullptr;
-    solid_copper_holder        = nullptr;
+    solid_molybdenum100_pellet          = nullptr;
+    solid_molybdenum98_pellet           = nullptr;
 
-    solid_molybdenum100_pellet  = nullptr;
-    solid_tablet_locker_solid   = nullptr;
-    solid_tablet_locker_padding = nullptr;
-    // solid_tablet_locker_solid & solid_tablet_locker_padding should be united
-    // to solid_tablet_locker
-    solid_tablet_locker  = nullptr;
-    solid_threaded_clamp = nullptr;
-    solid_helium_space   = nullptr;
-    solid_vacuum_window  = nullptr;
-    solid_vacuum_space   = nullptr;
+    solid_helium_space_rear_part        = nullptr;
+    solid_degrader                      = nullptr;
+    solid_helium_space_front_part       = nullptr;
+
+    solid_vacuum_window                 = nullptr;
+    solid_vacuum_tube                   = nullptr;
 
     // Logical volumes
 
     // Logical world
-    logical_world = nullptr;
+    logical_world                       = nullptr;
     // Target body rear part
-    logical_target_body_rear_part = nullptr;
+    logical_target_body_rear_part       = nullptr;
     // Target body front part (a logical for the union of the baffle and hollow)
-    logical_target_body_front_part = nullptr;
-    logical_water_cooler_alum      = nullptr;
-    logical_water_flow             = nullptr;
-    logical_copper_holder          = nullptr;
+    logical_target_body_front_part      = nullptr;
+    logical_water_cooler_alum           = nullptr;
+    logical_water_flow                  = nullptr;
+    logical_copper_holder               = nullptr;
 
-    logical_molybdenum100_pellet = nullptr;
-    logical_pellet_locker        = nullptr;
-    logical_threaded_clamp       = nullptr;
-    logical_helium_space         = nullptr;
-    logical_vacuum_window        = nullptr;
-    logical_vacuum_space         = nullptr;
+    logical_molybdenum100_pellet        = nullptr;
+    logical_molybdenum98_pellet         = nullptr;
+
+    logical_helium_space_rear_part      = nullptr;
+    logical_degrader                    = nullptr;
+    logical_helium_space_front_part     = nullptr;
+
+    logical_vacuum_window               = nullptr;
+    logical_vacuum_tube                 = nullptr;
 
     // Physical volumes
 
     // Physical world
-    physical_world = nullptr;
+    physical_world                      = nullptr;
     // Target body rear part
-    physical_target_body_rear_part = nullptr;
+    physical_target_body_rear_part      = nullptr;
     // Target body front part
-    physical_target_body_front_part = nullptr;
+    physical_target_body_front_part     = nullptr;
 
-    physical_water_cooler_alum    = nullptr;
-    physical_water_flow           = nullptr;
-    physical_copper_holder        = nullptr;
-    physical_molybdenum100_pellet = nullptr;
-    physical_molybdenum98_pellet  = nullptr;
-    physical_pellet_locker        = nullptr;
-    physical_threaded_clamp       = nullptr;
-    physical_helium_space         = nullptr;
-    physical_vacuum_window        = nullptr;
-    physical_vacuum_space         = nullptr;
+    physical_water_cooler_alum          = nullptr;
+    physical_water_flow                 = nullptr;
+    physical_copper_holder              = nullptr;
+    physical_molybdenum100_pellet       = nullptr;
+    physical_molybdenum98_pellet        = nullptr;
+
+    physical_helium_space_rear_part     = nullptr;
+    physical_degrader                   = nullptr;
+    physical_helium_space_front_part    = nullptr;
+
+    physical_vacuum_window              = nullptr;
+    physical_vacuum_tube                = nullptr;
 
     // Materials
-    air_material           = nullptr;
-    aluminium_material     = nullptr;
-    copper_material        = nullptr;
-    helium_material        = nullptr;
-    water_material         = nullptr;
-    molybdenum100_material = nullptr;
-    vacuum_material        = nullptr;
+    air_material                        = nullptr;
+    aluminium_material                  = nullptr;
+    copper_material                     = nullptr;
+    helium_material                     = nullptr;
+    water_material                      = nullptr;
+    molybdenum100_material              = nullptr;
+    molybdenum98_material               = nullptr;
+    vacuum_material                     = nullptr;
 
     // World
     world_position = G4ThreeVector(world_position_x, world_position_y, world_position_z);
@@ -130,22 +132,23 @@ MolybdenumGeometryConstruction::MolybdenumGeometryConstruction() {
     molybdenum100_pellet_position = G4ThreeVector(molybdenum100_pellet_position_x, molybdenum100_pellet_position_y,
                                                   molybdenum100_pellet_position_z);
 
+    // Helium space rear part
+    helium_space_rear_part_position =
+        G4ThreeVector(helium_space_rear_part_position_x, helium_space_rear_part_position_y, helium_space_rear_part_position_z);
 
-    // Helium space
-    helium_space_front_part_rotation = new G4RotationMatrix();
-    helium_space_front_part_translation =
-        G4ThreeVector(helium_space_front_part_translation_x, helium_space_front_part_translation_y,
-                      helium_space_front_part_translation_z);
-    helium_space_front_part_transform = nullptr;
+    // Aluminium degrader
+    degrader_position = G4ThreeVector(degrader_position_x, degrader_position_y, degrader_position_z);
 
-    helium_space_position = G4ThreeVector(helium_space_position_x, helium_space_position_y, helium_space_position_z);
+    // Helium space front part
+    helium_space_front_part_position =
+        G4ThreeVector(helium_space_front_part_position_x, helium_space_front_part_position_y, helium_space_front_part_position_z);
 
     // Aluminium vacuum window
     vacuum_window_position =
         G4ThreeVector(vacuum_window_position_x, vacuum_window_position_y, vacuum_window_position_z);
 
     // Vacuum cubic space
-    vacuum_space_position = G4ThreeVector(vacuum_space_position_x, vacuum_space_position_y, vacuum_space_position_z);
+    vacuum_tube_position = G4ThreeVector(vacuum_tube_position_x, vacuum_tube_position_y, vacuum_tube_position_z);
 }
 MolybdenumGeometryConstruction::~MolybdenumGeometryConstruction() = default;
 
@@ -153,7 +156,7 @@ G4LogicalVolume* MolybdenumGeometryConstruction::GetMolybdenumLogicalVolume() co
     return logical_molybdenum100_pellet;
 }
 
-G4LogicalVolume* MolybdenumGeometryConstruction::GetVacuumSpaceLogicalVolume() const { return logical_vacuum_space; }
+G4LogicalVolume* MolybdenumGeometryConstruction::GetVacuumSpaceLogicalVolume() const { return logical_vacuum_tube; }
 
 G4LogicalVolume* MolybdenumGeometryConstruction::GetAluminiumVacuumWindow() const { return logical_vacuum_window; }
 
@@ -405,29 +408,53 @@ void MolybdenumGeometryConstruction::BuildMolybdenum98Pellet() {
 }
 
 
-void MolybdenumGeometryConstruction::BuildHeliumSpace() {
+void MolybdenumGeometryConstruction::BuildHeliumRearSpace() {
     solid_helium_space_rear_part  = new G4Tubs("solid_helium_space_rear_part", helium_space_rear_part_radius_inner,
                                                helium_space_rear_part_radius_outer, helium_space_rear_part_half_length,
-                                               helium_space_phi_start, helium_space_phi_delta);
-    solid_helium_space_front_part = new G4Tubs(
-        "solid_helium_space_front_part", helium_space_front_part_radius_inner, helium_space_front_part_radius_outer,
-        helium_space_front_part_half_length, helium_space_phi_start, helium_space_phi_delta);
-    helium_space_front_part_rotation->rotateX(0. * deg);
-    helium_space_front_part_transform =
-        new G4Transform3D(*helium_space_front_part_rotation, helium_space_front_part_translation);
-    solid_helium_space = new G4UnionSolid("solid_helium_space", solid_helium_space_rear_part,
-                                          solid_helium_space_front_part, *helium_space_front_part_transform);
+                                               helium_space_rear_part_phi_start, helium_space_rear_part_phi_delta);
 
-    logical_helium_space        = new G4LogicalVolume(solid_helium_space, helium_material, "logical_helium_space");
+    logical_helium_space_rear_part        = new G4LogicalVolume(solid_helium_space_rear_part, helium_material, "logical_helium_space_rear_part");
     auto* helium_space_vis_attr = new G4VisAttributes(true);
     const std::vector<G4double> helium_space_colors =
         functions::convert_rgba_to_percents(std::vector{163., 197., 226., 0.3});
     helium_space_vis_attr->SetColour(helium_space_colors[0], helium_space_colors[1], helium_space_colors[2],
                                      helium_space_colors[3]);
-    logical_helium_space->SetVisAttributes(helium_space_vis_attr);
+    logical_helium_space_rear_part->SetVisAttributes(helium_space_vis_attr);
 
-    physical_helium_space = new G4PVPlacement(nullptr, helium_space_position, logical_helium_space,
-                                              "physical_helium_space", logical_world, false, 0, check_overlaps);
+    physical_helium_space_rear_part = new G4PVPlacement(nullptr, helium_space_rear_part_position, logical_helium_space_rear_part,
+                                              "physical_helium_space_rear_part", logical_world, false, 0, check_overlaps);
+}
+
+
+void MolybdenumGeometryConstruction::BuildDegrader() {
+    solid_degrader = new G4Tubs("solid_degrader", degrader_radius_inner, degrader_radius_outer, degrader_half_length,
+        degrader_phi_start, degrader_phi_delta);
+    logical_degrader = new G4LogicalVolume(solid_degrader, aluminium_material, "logical_degrader");
+    auto* degrader_vis_attr = new G4VisAttributes(true);
+    const std::vector<G4double> degrader_colors =
+        functions::convert_rgba_to_percents(std::vector{165., 169., 180., .6});
+    degrader_vis_attr->SetColour(degrader_colors[0], degrader_colors[1], degrader_colors[2], degrader_colors[3]);
+    logical_degrader->SetVisAttributes(degrader_vis_attr);
+
+    physical_degrader = new G4PVPlacement(nullptr, degrader_position, logical_degrader, "physical_degrader",
+        logical_world, false, 0, check_overlaps);
+}
+
+void MolybdenumGeometryConstruction::BuildHeliumFrontSpace() {
+    solid_helium_space_front_part  = new G4Tubs("solid_helium_space_front_part", helium_space_front_part_radius_inner,
+                                               helium_space_front_part_radius_outer, helium_space_front_part_half_length,
+                                               helium_space_front_part_phi_start, helium_space_front_part_phi_delta);
+
+    logical_helium_space_front_part        = new G4LogicalVolume(solid_helium_space_front_part, helium_material, "logical_helium_space_front_part");
+    auto* helium_space_vis_attr = new G4VisAttributes(true);
+    const std::vector<G4double> helium_space_colors =
+        functions::convert_rgba_to_percents(std::vector{163., 197., 226., 0.3});
+    helium_space_vis_attr->SetColour(helium_space_colors[0], helium_space_colors[1], helium_space_colors[2],
+                                     helium_space_colors[3]);
+    logical_helium_space_front_part->SetVisAttributes(helium_space_vis_attr);
+
+    physical_helium_space_front_part = new G4PVPlacement(nullptr, helium_space_front_part_position, logical_helium_space_front_part,
+                                              "physical_helium_space_front_part", logical_world, false, 0, check_overlaps);
 }
 
 void MolybdenumGeometryConstruction::BuildVacuumWindow() {
@@ -446,23 +473,23 @@ void MolybdenumGeometryConstruction::BuildVacuumWindow() {
                                                "physical_vacuum_window", logical_world, false, 0, check_overlaps);
 }
 
-void MolybdenumGeometryConstruction::BuildVacuumSpace() {
-    solid_vacuum_space = new G4Tubs("solid_vacuum_space", vacuum_space_radius_inner, vacuum_space_radius_outer,
-                                    vacuum_space_half_length, vacuum_space_phi_start, vacuum_space_phi_delta);
+void MolybdenumGeometryConstruction::BuildVacuumTube() {
+    solid_vacuum_tube = new G4Tubs("solid_vacuum_tube", vacuum_tube_radius_inner, vacuum_tube_radius_outer,
+                                    vacuum_tube_half_length, vacuum_tube_phi_start, vacuum_tube_phi_delta);
 
-    logical_vacuum_space        = new G4LogicalVolume(solid_vacuum_space, vacuum_material, "logical_vacuum_space");
+    logical_vacuum_tube        = new G4LogicalVolume(solid_vacuum_tube, vacuum_material, "logical_vacuum_tube");
     auto* vacuum_space_vis_attr = new G4VisAttributes(true);
     const std::vector<G4double> vacuum_space_colours =
         functions::convert_rgba_to_percents(std::vector{171., 176., 224., .1});
     vacuum_space_vis_attr->SetColour(vacuum_space_colours[0], vacuum_space_colours[1], vacuum_space_colours[2],
                                      vacuum_space_colours[3]);
-    logical_vacuum_space->SetVisAttributes(vacuum_space_vis_attr);
+    logical_vacuum_tube->SetVisAttributes(vacuum_space_vis_attr);
 
-    physical_vacuum_space = new G4PVPlacement(nullptr, vacuum_space_position, logical_vacuum_space,
-                                              "physical_vacuum_space", logical_world, false, 0, check_overlaps);
+    physical_vacuum_tube = new G4PVPlacement(nullptr, vacuum_tube_position, logical_vacuum_tube,
+                                              "physical_vacuum_tube", logical_world, false, 0, check_overlaps);
 }
 
-void MolybdenumGeometryConstruction::PrintCrossSection(G4Element* element, const G4double energy,
+void MolybdenumGeometryConstruction::PrintCrossSection(const G4Element* element, const G4double energy,
                                                        const G4Material* material = nullptr) {
     const G4ParticleDefinition* proton      = G4Proton::ProtonDefinition();
     const G4HadronInelasticProcess* process = new G4HadronInelasticProcess("protonInelastic");
@@ -486,9 +513,11 @@ G4VPhysicalVolume* MolybdenumGeometryConstruction::Construct() {
     BuildCopperHolder();
     BuildMolybdenum98Pellet();
     BuildMolybdenum100Pellet();
-    BuildHeliumSpace();
+    BuildHeliumRearSpace();
+    BuildDegrader();
+    BuildHeliumFrontSpace();
     BuildVacuumWindow();
-    BuildVacuumSpace();
+    BuildVacuumTube();
 
     return physical_world;
 }
