@@ -1,2 +1,3 @@
 /run/initialize
-/run/beamOn 10000
+/material/dumpTable
+/run/beamOn 1000000

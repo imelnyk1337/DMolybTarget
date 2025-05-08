@@ -1,8 +1,8 @@
-#include "MolybdenumDetectorConstruction.hh"
+#include "MolybdenumGeometryConstruction.hh"
 #include "G4HadronInelasticProcess.hh"
 #include "G4HadronicProcessStore.hh"
 
-MolybdenumDetectorConstruction::MolybdenumDetectorConstruction() {
+MolybdenumGeometryConstruction::MolybdenumGeometryConstruction() {
     // Solids
 
     // Solid world
@@ -29,7 +29,7 @@ MolybdenumDetectorConstruction::MolybdenumDetectorConstruction() {
     solid_copper_holder_hollow = nullptr;
     solid_copper_holder        = nullptr;
 
-    solid_molybdenum100_tablet  = nullptr;
+    solid_molybdenum100_pellet  = nullptr;
     solid_tablet_locker_solid   = nullptr;
     solid_tablet_locker_padding = nullptr;
     // solid_tablet_locker_solid & solid_tablet_locker_padding should be united
@@ -52,8 +52,8 @@ MolybdenumDetectorConstruction::MolybdenumDetectorConstruction() {
     logical_water_flow             = nullptr;
     logical_copper_holder          = nullptr;
 
-    logical_molybdenum100_tablet = nullptr;
-    logical_tablet_locker        = nullptr;
+    logical_molybdenum100_pellet = nullptr;
+    logical_pellet_locker        = nullptr;
     logical_threaded_clamp       = nullptr;
     logical_helium_space         = nullptr;
     logical_vacuum_window        = nullptr;
@@ -71,9 +71,9 @@ MolybdenumDetectorConstruction::MolybdenumDetectorConstruction() {
     physical_water_cooler_alum    = nullptr;
     physical_water_flow           = nullptr;
     physical_copper_holder        = nullptr;
-    physical_molybdenum100_tablet = nullptr;
-    physical_molybdenum98_tablet  = nullptr;
-    physical_tablet_locker        = nullptr;
+    physical_molybdenum100_pellet = nullptr;
+    physical_molybdenum98_pellet  = nullptr;
+    physical_pellet_locker        = nullptr;
     physical_threaded_clamp       = nullptr;
     physical_helium_space         = nullptr;
     physical_vacuum_window        = nullptr;
@@ -123,12 +123,12 @@ MolybdenumDetectorConstruction::MolybdenumDetectorConstruction() {
         G4ThreeVector(copper_holder_position_x, copper_holder_position_y, copper_holder_position_z);
 
     // Molybdenum98 tablet
-    molybdenum98_tablet_position =
-        G4ThreeVector(molybdenum98_tablet_position_x, molybdenum98_tablet_position_y, molybdenum98_tablet_position_z);
+    molybdenum98_pellet_position =
+        G4ThreeVector(molybdenum98_pellet_position_x, molybdenum98_pellet_position_y, molybdenum98_pellet_position_z);
 
     // Molybdenum100 target tablet
-    molybdenum100_tablet_position = G4ThreeVector(molybdenum100_tablet_position_x, molybdenum100_tablet_position_y,
-                                                  molybdenum100_tablet_position_z);
+    molybdenum100_pellet_position = G4ThreeVector(molybdenum100_pellet_position_x, molybdenum100_pellet_position_y,
+                                                  molybdenum100_pellet_position_z);
 
 
     // Helium space
@@ -147,17 +147,17 @@ MolybdenumDetectorConstruction::MolybdenumDetectorConstruction() {
     // Vacuum cubic space
     vacuum_space_position = G4ThreeVector(vacuum_space_position_x, vacuum_space_position_y, vacuum_space_position_z);
 }
-MolybdenumDetectorConstruction::~MolybdenumDetectorConstruction() = default;
+MolybdenumGeometryConstruction::~MolybdenumGeometryConstruction() = default;
 
-G4LogicalVolume* MolybdenumDetectorConstruction::GetMolybdenumLogicalVolume() const {
-    return logical_molybdenum100_tablet;
+G4LogicalVolume* MolybdenumGeometryConstruction::GetMolybdenumLogicalVolume() const {
+    return logical_molybdenum100_pellet;
 }
 
-G4LogicalVolume* MolybdenumDetectorConstruction::GetVacuumSpaceLogicalVolume() const { return logical_vacuum_space; }
+G4LogicalVolume* MolybdenumGeometryConstruction::GetVacuumSpaceLogicalVolume() const { return logical_vacuum_space; }
 
-G4LogicalVolume* MolybdenumDetectorConstruction::GetAluminiumVacuumWindow() const { return logical_vacuum_window; }
+G4LogicalVolume* MolybdenumGeometryConstruction::GetAluminiumVacuumWindow() const { return logical_vacuum_window; }
 
-void MolybdenumDetectorConstruction::DefineMaterials() {
+void MolybdenumGeometryConstruction::DefineMaterials() {
 
     G4NistManager* nist_manager = G4NistManager::Instance();
 
@@ -206,7 +206,7 @@ void MolybdenumDetectorConstruction::DefineMaterials() {
     auto* molybdenum98_element = new G4Element("98Mo", "98Mo", 1);
     molybdenum98_element->AddIsotope(molybdenum98, 100. * perCent);
 
-    molybdenum100_material = new G4Material("100Mo2C", molybdenum100_enriched_density, 1, kStateSolid);
+    molybdenum100_material = new G4Material("100Mo", molybdenum100_enriched_density, 1, kStateSolid);
     molybdenum100_material->AddElement(molybdenum100_enriched, 1);
 
     molybdenum98_material = new G4Material("98Mo", 10.28 * g / cm3, 1, kStateSolid);
@@ -216,7 +216,7 @@ void MolybdenumDetectorConstruction::DefineMaterials() {
                                      vacuum_temperature, vacuum_pressure);
 }
 
-void MolybdenumDetectorConstruction::BuildWorld() {
+void MolybdenumGeometryConstruction::BuildWorld() {
     solid_world                = new G4Box("solid_world", world_px, world_py, world_pz);
     logical_world              = new G4LogicalVolume(solid_world, air_material, "solid_world");
     const auto* world_vis_attr = new G4VisAttributes(false);
@@ -225,7 +225,7 @@ void MolybdenumDetectorConstruction::BuildWorld() {
         new G4PVPlacement(nullptr, world_position, logical_world, "physical_world", nullptr, false, 0, check_overlaps);
 }
 
-void MolybdenumDetectorConstruction::BuildTargetBodyRearPart() {
+void MolybdenumGeometryConstruction::BuildTargetBodyRearPart() {
     // Target body rear part
 
     // A solid for target body rear part
@@ -251,7 +251,7 @@ void MolybdenumDetectorConstruction::BuildTargetBodyRearPart() {
                           "physical_target_body_rear_part", logical_world, false, 0, check_overlaps);
 }
 
-void MolybdenumDetectorConstruction::BuildWaterCooler() {
+void MolybdenumGeometryConstruction::BuildWaterCooler() {
 
     // An aluminium body for the pipe of HPLC (deionized) cooling water
     solid_water_cooler_alum =
@@ -283,7 +283,7 @@ void MolybdenumDetectorConstruction::BuildWaterCooler() {
                           logical_world, false, 0, check_overlaps);
 
     // Now I have to create the water itself
-    G4RotationMatrix* solid_water_flow_rotation = new G4RotationMatrix();
+    auto* solid_water_flow_rotation = new G4RotationMatrix();
     solid_water_flow_rotation->rotateX(std::numbers::pi / 2 * rad);
     solid_water_flow =
         new G4DisplacedSolid("solid_water_flow", solid_water_cooler_hollow, solid_water_flow_rotation, G4ThreeVector());
@@ -299,7 +299,7 @@ void MolybdenumDetectorConstruction::BuildWaterCooler() {
                                             logical_world, false, 0, check_overlaps);
 }
 
-void MolybdenumDetectorConstruction::BuildTargetBodyFrontPart() {
+void MolybdenumGeometryConstruction::BuildTargetBodyFrontPart() {
     // Target body front part
 
     // A solid for target body front part: an aluminium baffle
@@ -338,7 +338,7 @@ void MolybdenumDetectorConstruction::BuildTargetBodyFrontPart() {
                           "physical_target_body_front_part", logical_world, false, 0, check_overlaps);
 }
 
-void MolybdenumDetectorConstruction::BuildCopperHolder() {
+void MolybdenumGeometryConstruction::BuildCopperHolder() {
     solid_copper_holder_baffle =
         new G4Tubs("solid_copper_holder_baffle", copper_holder_baffle_radius_inner, copper_holder_baffle_radius_outer,
                    copper_holder_baffle_half_length, copper_holder_baffle_phi_start, copper_holder_baffle_phi_delta);
@@ -368,13 +368,13 @@ void MolybdenumDetectorConstruction::BuildCopperHolder() {
                                                "physical_copper_holder", logical_world, false, 0, check_overlaps);
 }
 
-void MolybdenumDetectorConstruction::BuildMolybdenum100Tablet() {
-    solid_molybdenum100_tablet =
-        new G4Tubs("solid_molybdenum100_tablet", molybdenum100_tablet_radius_inner, molybdenum100_tablet_radius_outer,
-                   molybdenum100_tablet_half_length, molybdenum100_tablet_phi_start, molybdenum100_tablet_phi_delta);
+void MolybdenumGeometryConstruction::BuildMolybdenum100Pellet() {
+    solid_molybdenum100_pellet =
+        new G4Tubs("solid_molybdenum100_pellet", molybdenum100_pellet_radius_inner, molybdenum100_pellet_radius_outer,
+                   molybdenum100_pellet_half_length, molybdenum100_pellet_phi_start, molybdenum100_pellet_phi_delta);
 
-    logical_molybdenum100_tablet =
-        new G4LogicalVolume(solid_molybdenum100_tablet, molybdenum100_material, "logical_molybdenum100_tablet");
+    logical_molybdenum100_pellet =
+        new G4LogicalVolume(solid_molybdenum100_pellet, molybdenum100_material, "logical_molybdenum100_pellet");
 
     auto* molybdenum100_vis_attr = new G4VisAttributes(true);
     const std::vector<G4double> molybdenum100_colours =
@@ -382,30 +382,30 @@ void MolybdenumDetectorConstruction::BuildMolybdenum100Tablet() {
     molybdenum100_vis_attr->SetColour(molybdenum100_colours[0], molybdenum100_colours[1], molybdenum100_colours[2],
                                       molybdenum100_colours[3]);
 
-    logical_molybdenum100_tablet->SetVisAttributes(molybdenum100_vis_attr);
+    logical_molybdenum100_pellet->SetVisAttributes(molybdenum100_vis_attr);
 
-    physical_molybdenum100_tablet =
-        new G4PVPlacement(nullptr, molybdenum100_tablet_position, logical_molybdenum100_tablet,
-                          "physical_molybdenum100_tablet", logical_world, false, 0, check_overlaps);
+    physical_molybdenum100_pellet =
+        new G4PVPlacement(nullptr, molybdenum100_pellet_position, logical_molybdenum100_pellet,
+                          "physical_molybdenum100_pellet", logical_world, false, 0, check_overlaps);
 }
 
-void MolybdenumDetectorConstruction::BuildMolybdenum98Tablet() {
-    solid_molybdenum98_tablet =
-        new G4Tubs("solid_molybdenum98_tablet", molybdenum98_tablet_radius_inner, molybdenum98_tablet_radius_outer,
-                   molybdenum98_tablet_half_length, molybdenum98_tablet_phi_start, molybdenum98_tablet_phi_delta);
+void MolybdenumGeometryConstruction::BuildMolybdenum98Pellet() {
+    solid_molybdenum98_pellet =
+        new G4Tubs("solid_molybdenum98_pellet", molybdenum98_pellet_radius_inner, molybdenum98_pellet_radius_outer,
+                   molybdenum98_pellet_half_length, molybdenum98_pellet_phi_start, molybdenum98_pellet_phi_delta);
 
-    logical_molybdenum98_tablet =
-        new G4LogicalVolume(solid_molybdenum98_tablet, molybdenum98_material, "logical_molybdenum98_tablet");
+    logical_molybdenum98_pellet =
+        new G4LogicalVolume(solid_molybdenum98_pellet, molybdenum98_material, "logical_molybdenum98_pellet");
     const G4VisAttributes molybdenum98_vis_attr(true, G4Color::Green());
-    logical_molybdenum98_tablet->SetVisAttributes(molybdenum98_vis_attr);
+    logical_molybdenum98_pellet->SetVisAttributes(molybdenum98_vis_attr);
 
-    physical_molybdenum98_tablet =
-        new G4PVPlacement(nullptr, molybdenum98_tablet_position, logical_molybdenum98_tablet,
-                          "physical_molybdenum98_tablet", logical_world, false, 0, check_overlaps);
+    physical_molybdenum98_pellet =
+        new G4PVPlacement(nullptr, molybdenum98_pellet_position, logical_molybdenum98_pellet,
+                          "physical_molybdenum98_pellet", logical_world, false, 0, check_overlaps);
 }
 
 
-void MolybdenumDetectorConstruction::BuildHeliumSpace() {
+void MolybdenumGeometryConstruction::BuildHeliumSpace() {
     solid_helium_space_rear_part  = new G4Tubs("solid_helium_space_rear_part", helium_space_rear_part_radius_inner,
                                                helium_space_rear_part_radius_outer, helium_space_rear_part_half_length,
                                                helium_space_phi_start, helium_space_phi_delta);
@@ -430,7 +430,7 @@ void MolybdenumDetectorConstruction::BuildHeliumSpace() {
                                               "physical_helium_space", logical_world, false, 0, check_overlaps);
 }
 
-void MolybdenumDetectorConstruction::BuildVacuumWindow() {
+void MolybdenumGeometryConstruction::BuildVacuumWindow() {
     solid_vacuum_window = new G4Tubs("solid_vacuum_window", vacuum_window_radius_inner, vacuum_window_radius_outer,
                                      vacuum_window_half_length, vacuum_window_phi_start, vacuum_window_phi_delta);
 
@@ -446,7 +446,7 @@ void MolybdenumDetectorConstruction::BuildVacuumWindow() {
                                                "physical_vacuum_window", logical_world, false, 0, check_overlaps);
 }
 
-void MolybdenumDetectorConstruction::BuildVacuumSpace() {
+void MolybdenumGeometryConstruction::BuildVacuumSpace() {
     solid_vacuum_space = new G4Tubs("solid_vacuum_space", vacuum_space_radius_inner, vacuum_space_radius_outer,
                                     vacuum_space_half_length, vacuum_space_phi_start, vacuum_space_phi_delta);
 
@@ -462,7 +462,7 @@ void MolybdenumDetectorConstruction::BuildVacuumSpace() {
                                               "physical_vacuum_space", logical_world, false, 0, check_overlaps);
 }
 
-void MolybdenumDetectorConstruction::PrintCrossSection(G4Element* element, const G4double energy,
+void MolybdenumGeometryConstruction::PrintCrossSection(G4Element* element, const G4double energy,
                                                        const G4Material* material = nullptr) {
     const G4ParticleDefinition* proton      = G4Proton::ProtonDefinition();
     const G4HadronInelasticProcess* process = new G4HadronInelasticProcess("protonInelastic");
@@ -477,15 +477,15 @@ void MolybdenumDetectorConstruction::PrintCrossSection(G4Element* element, const
 }
 
 
-G4VPhysicalVolume* MolybdenumDetectorConstruction::Construct() {
+G4VPhysicalVolume* MolybdenumGeometryConstruction::Construct() {
     DefineMaterials();
     BuildWorld();
     BuildTargetBodyRearPart();
     BuildWaterCooler();
     BuildTargetBodyFrontPart();
     BuildCopperHolder();
-    // BuildMolybdenum98Tablet();
-    BuildMolybdenum100Tablet();
+    BuildMolybdenum98Pellet();
+    BuildMolybdenum100Pellet();
     BuildHeliumSpace();
     BuildVacuumWindow();
     BuildVacuumSpace();
@@ -493,7 +493,7 @@ G4VPhysicalVolume* MolybdenumDetectorConstruction::Construct() {
     return physical_world;
 }
 
-void MolybdenumDetectorConstruction::ConstructSDandField() {
+void MolybdenumGeometryConstruction::ConstructSDandField() {
     G4SDManager* sensitive_detectors_manager = G4SDManager::GetSDMpointer();
 
     const std::string proton_sd_vw_name = "proton_sd_vw";
@@ -505,5 +505,5 @@ void MolybdenumDetectorConstruction::ConstructSDandField() {
     const std::string sd_tt_name = "sd_tt";
     auto* sensitive_target_table = new MolybdenumTargetTabletSD(sd_tt_name);
     sensitive_detectors_manager->AddNewDetector(sensitive_target_table);
-    SetSensitiveDetector("logical_molybdenum100_tablet", sensitive_target_table);
+    SetSensitiveDetector("logical_molybdenum100_pellet", sensitive_target_table);
 }

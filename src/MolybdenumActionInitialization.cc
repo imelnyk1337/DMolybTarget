@@ -12,8 +12,8 @@ void MolybdenumActionInitialization::Build() const {
     auto* run_action = new MolybdenumRunAction();
     SetUserAction(run_action);
 
-    // auto* event_action = new MolybdenumEventAction(run_action);
-    // SetUserAction(event_action);
+    auto* event_action = new MolybdenumEventAction(run_action);
+    SetUserAction(event_action);
 
     auto* stepping_action = new MolybdenumSteppingAction();
     SetUserAction(stepping_action);

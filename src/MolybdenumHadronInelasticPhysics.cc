@@ -1,11 +1,14 @@
 #include "MolybdenumHadronInelasticPhysics.hh"
 
+#include <G4NuclearLevelData.hh>
+
 #include "G4AblaInterface.hh"
 #include "G4BertiniProtonBuilder.hh"
 #include "G4BinaryCascade.hh"
 #include "G4CascadeInterface.hh"
 #include "G4ChipsNeutronInelasticXS.hh"
 #include "G4ChipsProtonInelasticXS.hh"
+#include "G4DeexPrecoParameters.hh"
 #include "G4Evaporation.hh"
 #include "G4ExcitationHandler.hh"
 #include "G4HadronInelasticProcess.hh"
@@ -14,6 +17,7 @@
 #include "G4Neutron.hh"
 #include "G4NeutronHPInelastic.hh"
 #include "G4NeutronInelasticXS.hh"
+#include "G4NuclearLevelData.hh"
 #include "G4ParticleHPInelasticXS.hh"
 #include "G4ParticleInelasticXS.hh"
 #include "G4PreCompoundModel.hh"
@@ -21,27 +25,36 @@
 #include "G4Proton.hh"
 #include "G4QMDReaction.hh"
 #include "G4SystemOfUnits.hh"
-#include "G4Evaporation.hh"
 
 
 MolybdenumHadronInelasticPhysics::MolybdenumHadronInelasticPhysics(const G4String& name = "hadronInelastic") :
-    G4VPhysicsConstructor(name), verbose_level_(0){};
+    G4VPhysicsConstructor(name), verbose_level_(2){};
 
 void MolybdenumHadronInelasticPhysics::ConstructProcess() {
+
+    G4DeexPrecoParameters* deex = G4NuclearLevelData::GetInstance()->GetParameters();
+    deex->SetCorrelatedGamma(false);
+    deex->SetStoreAllLevels(true);
+    deex->SetStoreICLevelData(true);
+    deex->SetIsomerProduction(true);
+    deex->SetInternalConversionFlag(true);
+    deex->SetDiscreteExcitationFlag(true);
+    deex->SetMaxLifeTime(1. * CLHEP::second);
+    deex->SetDeexChannelsType(fEvaporation); // not the Hauser-Feshbach model, extended Weisskopf-Ewing model
+    deex->SetVerbose(2);
 
     // Proton inelastic process
     auto* proton_inelastic = new G4HadronInelasticProcess("protonInelastic", G4Proton::ProtonDefinition());
 
-    // Pre-Compound model for de-excitation
-    G4VPreCompoundModel* proton_pre_compound = new G4PreCompoundModel();
-
-    // Evaporation model for de-excitation
-    auto* evaporation_model = new G4Evaporation();
-    evaporation_model->SetGEMChannel();
-
     // Excitation handler
     auto* excitation_handler = new G4ExcitationHandler();
-    excitation_handler->SetDeexChannelsType(fGEM);
+    excitation_handler->SetEvaporation(new G4Evaporation(), true);
+    excitation_handler->SetPhotonEvaporation(nullptr);
+    excitation_handler->SetDeexChannelsType(fEvaporation);
+
+    // Pre-Compound model for de-excitation
+    G4VPreCompoundModel* proton_pre_compound = new G4PreCompoundModel(excitation_handler);
+
     proton_pre_compound->SetExcitationHandler(excitation_handler);
     proton_pre_compound->SetVerboseLevel(verbose_level_);
     // Binary cascade model with attached pre-compound model
@@ -99,7 +112,7 @@ void MolybdenumHadronInelasticPhysics::ConstructProcess() {
     neutron_hp_model->SetMaxEnergy(20. * MeV);
 
     // Pre-Compound model for de-excitation
-    G4VPreCompoundModel* neutron_pre_compound = new G4PreCompoundModel();
+    G4VPreCompoundModel* neutron_pre_compound = new G4PreCompoundModel(excitation_handler);
 
     // Cascade model for neutrons above 20 MeV, using Pre-Compound for de-excitation
     G4VIntraNuclearTransportModel* neutron_binary_cascade = new G4BinaryCascade(neutron_pre_compound);

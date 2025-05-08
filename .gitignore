@@ -12,3 +12,5 @@ analysis/.ipynb_checkpoints
 analysis/.idea
 analysis
 auxilary_files
+datafiles
+datafiles/*

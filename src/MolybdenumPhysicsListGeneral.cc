@@ -20,10 +20,14 @@
 #include "G4ShortLivedConstructor.hh"
 // #include "G4StoppingPhysics.hh"
 // #include "MolybdenumGammaNuclearPhysics.hh"
+#include "G4Evaporation.hh"
+#include "G4ExcitationHandler.hh"
 #include "G4NeutronCaptureProcess.hh"
 #include "G4NeutronHPCapture.hh"
 #include "G4ProcessManager.hh"
-
+#include "MolybdenumHadronInelasticPhysics.hh"
+#include "G4HadronInelasticQBBC_ABLA.hh"
+// #include "HadronPhysicsQGSP_INCL_ABLA.hh"
 
 MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysicsList() {
 
@@ -51,7 +55,7 @@ MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysics
     deex->SetStoreICLevelData(true);
     deex->SetIsomerProduction(true);
     deex->SetInternalConversionFlag(true);
-    deex->SetDiscreteExcitationFlag(true);
+    deex->SetDiscreteExcitationFlag(false);
     deex->SetMaxLifeTime(mean_life);
     deex->SetDeexChannelsType(fGEM); // not the Hauser-Feshbach model, extended Weisskopf-Ewing model
     deex->SetVerbose(1);
@@ -62,7 +66,7 @@ MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysics
     RegisterPhysics(new G4EmStandardPhysics_option4(0));
     //
     // hadron elastic physics
-    RegisterPhysics(new G4HadronElasticPhysicsHP(1));
+    RegisterPhysics(new G4HadronElasticPhysicsHP(0));
     // RegisterPhysics(new G4HadronElasticPhysicsXS(2));
     //
     // hadron inelastic physics
@@ -78,6 +82,7 @@ MolybdenumPhysicsListGeneral::MolybdenumPhysicsListGeneral() : G4VModularPhysics
     // G4VPhysicsConstructor* custom_hadronic_physics = new MolybdenumHadronInelasticPhysics("hadronInelastic");
     // custom_hadronic_physics->SetVerboseLevel(2);
     // RegisterPhysics(custom_hadronic_physics);
+    // RegisterPhysics(HadronPhysicsQGSP_INCL_ABLA(2));
     //
     //
     // // ion elastic physics
@@ -117,22 +122,22 @@ MolybdenumPhysicsListGeneral::~MolybdenumPhysicsListGeneral() = default;
 void MolybdenumPhysicsListGeneral::ConstructParticle() {
     // G4VModularPhysicsList::ConstructParticle();
 
-    G4BosonConstructor pBosonConstructor;
+    G4BosonConstructor boson_constructor;
     G4BosonConstructor::ConstructParticle();
 
-    G4LeptonConstructor pLeptonConstructor;
+    G4LeptonConstructor lepton_constructor;
     G4LeptonConstructor::ConstructParticle();
 
-    G4MesonConstructor pMesonConstructor;
+    G4MesonConstructor meson_constructor;
     G4MesonConstructor::ConstructParticle();
 
-    G4BaryonConstructor pBaryonConstructor;
+    G4BaryonConstructor baryon_constructor;
     G4BaryonConstructor::ConstructParticle();
 
-    G4IonConstructor pIonConstructor;
+    G4IonConstructor ion_constructor;
     G4IonConstructor::ConstructParticle();
 
-    G4ShortLivedConstructor pShortLivedConstructor;
+    G4ShortLivedConstructor short_lived_constructor;
     G4ShortLivedConstructor::ConstructParticle();
 }
 

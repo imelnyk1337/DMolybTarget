@@ -167,7 +167,7 @@ void MolybdenumRunAction::BeginOfRunAction(const G4Run*) {
     analysis_manager->FillNtupleIColumn(0, 0, run_id);
 }
 void MolybdenumRunAction::EndOfRunAction(const G4Run*) {
-    G4int run_number = run_->GetRunID();
+    const G4int run_number = run_->GetRunID();
     if (isMaster) {
         run_->EndOfRun(run_number);
     }

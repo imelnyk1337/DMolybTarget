@@ -1,6 +1,6 @@
 #include "MolybdenumParallelWorld.hh"
 
-#include "MolybdenumDetectorConstruction.hh"
+#include "MolybdenumGeometryConstruction.hh"
 
 MolybdenumParallelWorld::MolybdenumParallelWorld(const G4String& parallel_world_name) :
     G4VUserParallelWorld(parallel_world_name) {
@@ -21,7 +21,7 @@ void MolybdenumParallelWorld::BuildNeutronDetectionVolume(const G4bool visibilit
     logical_surface_ghost_world_vis_attr->SetForceSolid(true);
     logical_surface_ghost_world->SetVisAttributes(logical_surface_ghost_world_vis_attr);
 
-    constexpr G4double z_position = MolybdenumDetectorConstruction::molybdenum100_tablet_position_z;
+    constexpr G4double z_position = MolybdenumGeometryConstruction::molybdenum100_pellet_position_z;
     physical_surface_ghost_world =
         new G4PVPlacement(nullptr, G4ThreeVector(0., 0., z_position), logical_surface_ghost_world,
                           "physical_ghost_surface", logical_ghost_world, false, 0, false);
@@ -68,10 +68,10 @@ void MolybdenumParallelWorld::Construct() {
     logical_ghost_world->SetVisAttributes(logical_ghost_world_vis_attr);
 
     BuildNeutronDetectionVolume(true);
-    constexpr G4double proton_sd0_position = MolybdenumDetectorConstruction::molybdenum100_tablet_position_z +
-        MolybdenumDetectorConstruction::molybdenum100_tablet_half_length;
-    constexpr G4double proton_sd1_position = MolybdenumDetectorConstruction::vacuum_window_position_z -
-        MolybdenumDetectorConstruction::vacuum_window_half_length;
+    constexpr G4double proton_sd0_position = MolybdenumGeometryConstruction::molybdenum100_pellet_position_z +
+        MolybdenumGeometryConstruction::molybdenum100_pellet_half_length;
+    constexpr G4double proton_sd1_position = MolybdenumGeometryConstruction::vacuum_window_position_z -
+        MolybdenumGeometryConstruction::vacuum_window_half_length;
     BuildProtonLayeredDetectionVolume("0", proton_sd0_position, false);
     BuildProtonLayeredDetectionVolume("1", proton_sd1_position, false);
     // BuildProtonLayeredDetectionVolume("2", 400. * mm);

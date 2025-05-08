@@ -1,4 +1,8 @@
 #include "MolybdenumRun.hh"
+
+#include <G4HadronicProcess.hh>
+#include <G4Proton.hh>
+
 #include "nlohmann/json.hpp"
 #include "ranges"
 
@@ -106,4 +110,10 @@ void MolybdenumRun::EndOfRun(G4int run_number) {
     isotopes_count_map_.clear();
     isotopes_id_.clear();
     isotopes_production_processes_.clear();
+
+    // const G4ProcessManager* proton_process_manager = G4Proton::Proton()->GetProcessManager();
+    // G4VProcess* proton_inelastic = proton_process_manager->GetProcess("protonInelastic");
+    // G4HadronicProcess* proton_hadronic_inelastic = dynamic_cast<G4HadronicProcess*>(proton_inelastic);
+    // // proton_hadronic_inelastic->GetMicroscopicCrossSection()
+
 }

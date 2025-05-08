@@ -11,17 +11,18 @@
 #include "G4VisExecutive.hh"
 #include "G4VisManager.hh"
 #include "MolybdenumActionInitialization.hh"
-#include "MolybdenumDetectorConstruction.hh"
+#include "MolybdenumGeometryConstruction.hh"
 #include "MolybdenumPhysicsListGeneral.hh"
 
 int main(const int argc, char** argv) {
 #ifdef G4MULTITHREADED
     auto* run_manager = new G4MTRunManager();
 #endif
-    constexpr G4int n_threads = 8;
+    constexpr G4int n_threads = 10;
     run_manager->SetNumberOfThreads(n_threads);
 
-    G4VUserDetectorConstruction* world_construction = new MolybdenumDetectorConstruction();
+    constexpr G4bool molybdenum98_pellet_used = false;
+    G4VUserDetectorConstruction* world_construction = new MolybdenumGeometryConstruction();
     const std::string parallel_world_name           = "NeutronScoringWorld";
     G4VUserParallelWorld* parallel_world            = new MolybdenumParallelWorld(parallel_world_name);
     world_construction->RegisterParallelWorld(parallel_world);

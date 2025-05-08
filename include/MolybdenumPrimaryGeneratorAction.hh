@@ -8,11 +8,11 @@
 #include "G4SingleParticleSource.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4VUserPrimaryGeneratorAction.hh"
-#include "MolybdenumDetectorConstruction.hh"
+#include "MolybdenumGeometryConstruction.hh"
 
 
 class MolybdenumPrimaryGeneratorAction final : public G4VUserPrimaryGeneratorAction {
-    friend class MolybdenumDetectorConstruction;
+    friend class MolybdenumGeometryConstruction;
 
     public:
     MolybdenumPrimaryGeneratorAction();

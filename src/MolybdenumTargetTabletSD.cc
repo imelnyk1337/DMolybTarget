@@ -13,6 +13,7 @@ G4bool MolybdenumTargetTabletSD::ProcessHits(G4Step* step, G4TouchableHistory* h
     const auto* run_manager  = G4RunManager::GetRunManager();
     const G4Track* track     = step->GetTrack();
     const auto particle_name = track->GetDefinition()->GetParticleName();
+    const auto particle_type = track->GetDefinition()->GetParticleType();
 
     if (particle_name == "proton") {
 
@@ -31,6 +32,18 @@ G4bool MolybdenumTargetTabletSD::ProcessHits(G4Step* step, G4TouchableHistory* h
 
 
             // G4cout << "Proton with K.E.: " << track->GetKineticEnergy() << G4endl;
+        }
+    }
+
+    if (false && particle_type == "nucleus") {
+        const std::size_t n_secondaries = step->GetNumberOfSecondariesInCurrentStep();
+        const std::vector<const G4Track*>* secondaries = step->GetSecondaryInCurrentStep();
+        G4cout << "     " << "Number of secondaries: " << n_secondaries << G4endl;
+        for (const auto secondary : *secondaries) {
+            const G4ParticleDefinition* secondary_definition = secondary->GetParticleDefinition();
+
+            G4cout << "          Secondary: " << secondary_definition->GetParticleName() << G4endl;
+
         }
     }
     return true;

@@ -19,7 +19,7 @@
 #include "MolybdenumGhostProtonSD1.hh"
 
 class MolybdenumParallelWorld final : public G4VUserParallelWorld {
-    friend class MolybdenumDetectorConstruction;
+    friend class MolybdenumGeometryConstruction;
 
     public:
     explicit MolybdenumParallelWorld(const G4String&);

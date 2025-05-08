@@ -1,5 +1,5 @@
 #include "MolybdenumStackingAction.hh"
-#include "MolybdenumDetectorConstruction.hh"
+#include "MolybdenumGeometryConstruction.hh"
 
 MolybdenumStackingAction::MolybdenumStackingAction()  = default;
 MolybdenumStackingAction::~MolybdenumStackingAction() = default;
@@ -7,7 +7,7 @@ MolybdenumStackingAction::~MolybdenumStackingAction() = default;
 G4ClassificationOfNewTrack MolybdenumStackingAction::ClassifyNewTrack(const G4Track* track) {
     // check if the track is a neutron
     if (track->GetDefinition() == G4Neutron::NeutronDefinition()) {
-        const auto* detector_construction = dynamic_cast<const MolybdenumDetectorConstruction*>(
+        const auto* detector_construction = dynamic_cast<const MolybdenumGeometryConstruction*>(
             G4RunManager::GetRunManager()->GetUserDetectorConstruction());
         if (const G4LogicalVolume* logical_molybdenum_tablet = detector_construction->GetMolybdenumLogicalVolume();
             track->GetVolume()->GetLogicalVolume() == logical_molybdenum_tablet) {
@@ -35,7 +35,7 @@ G4ClassificationOfNewTrack MolybdenumStackingAction::ClassifyNewTrack(const G4Tr
         }
     }
     else if (track->GetDefinition() == G4Proton::ProtonDefinition() && track->GetCreatorModelName() == "Undefined") {
-        const auto* detector_construction = dynamic_cast<const MolybdenumDetectorConstruction*>(
+        const auto* detector_construction = dynamic_cast<const MolybdenumGeometryConstruction*>(
             G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
         // const std::string current_logical_volume_name = track->GetVolume()->GetLogicalVolume()->GetName();

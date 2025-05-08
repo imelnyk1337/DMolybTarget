@@ -1,5 +1,5 @@
 #include "MolybdenumPrimaryGeneratorAction.hh"
-#include "MolybdenumDetectorConstruction.hh"
+#include "MolybdenumGeometryConstruction.hh"
 
 MolybdenumPrimaryGeneratorAction::MolybdenumPrimaryGeneratorAction() :
     particle_energy_(0), beam_radius_(0), beam_current_(0), beam_max_theta_(0) {
@@ -15,14 +15,14 @@ MolybdenumPrimaryGeneratorAction::MolybdenumPrimaryGeneratorAction() :
     // set proton energy
     G4SPSEneDistribution* current_source_energy_distribution = current_source->GetEneDist();
     current_source_energy_distribution->SetEnergyDisType("Mono");
-    current_source_energy_distribution->SetMonoEnergy(10.85 * MeV);
-    current_source_energy_distribution->SetVerbosity(0);
+    current_source_energy_distribution->SetMonoEnergy(11. * MeV);
+    current_source_energy_distribution->SetVerbosity(2);
     // set beam position
     G4SPSPosDistribution* current_source_position_distribution = current_source->GetPosDist();
     current_source_position_distribution->SetPosDisType("Beam");
     current_source_position_distribution->SetPosDisShape("Circle");
-    constexpr G4double beam_position_z = MolybdenumDetectorConstruction::vacuum_window_position_z -
-        MolybdenumDetectorConstruction::vacuum_window_half_length + 10. * mm;
+    constexpr G4double beam_position_z = MolybdenumGeometryConstruction::vacuum_window_position_z -
+        MolybdenumGeometryConstruction::vacuum_window_half_length + 10. * mm;
     SetBeamStartPositionZ(beam_position_z);
     // G4cout << "Beam starting z position: " << GetBeamStartPositionZ() << G4endl;
     current_source_position_distribution->SetCentreCoords(G4ThreeVector(0., 0., GetBeamStartPositionZ()));
@@ -32,7 +32,7 @@ MolybdenumPrimaryGeneratorAction::MolybdenumPrimaryGeneratorAction() :
     G4SPSAngDistribution* current_source_angular_distribution = current_source->GetAngDist();
     current_source_angular_distribution->SetAngDistType("beam2d");
     current_source_angular_distribution->SetMaxTheta(0. * deg);
-    current_source_angular_distribution->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
+    current_source_angular_distribution->SetParticleMomentumDirection(G4ThreeVector(0., 0., -1.));
 }
 
 MolybdenumPrimaryGeneratorAction::~MolybdenumPrimaryGeneratorAction() {
@@ -49,7 +49,7 @@ G4double MolybdenumPrimaryGeneratorAction::GetBeamStartPositionZ() const { retur
 
 
 void MolybdenumPrimaryGeneratorAction::GeneratePrimaries(G4Event* event) {
-    constexpr auto number_of_protons = 100'000;
+    // constexpr auto number_of_protons = 100'000;
     particle_source_->SetCurrentSourceIntensity(1);
     particle_source_->SetNumberOfParticles(1);
     particle_source_->GeneratePrimaryVertex(event);
